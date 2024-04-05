@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
+      <ProjectReference Include="..\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
+    </ItemGroup>
+
+</Project>
