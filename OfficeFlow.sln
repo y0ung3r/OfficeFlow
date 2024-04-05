@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{0154
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{57851044-5244-4BE5-ABD5-8F1D618E0FEE}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\master.yaml = .github\workflows\master.yaml
+		.github\workflows\main.yaml = .github\workflows\main.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BD310E9-73BE-4F3D-8349-2374AA2CC8B6}"
