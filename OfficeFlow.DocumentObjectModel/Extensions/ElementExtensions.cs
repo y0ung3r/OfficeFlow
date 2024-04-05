@@ -15,13 +15,6 @@ namespace OfficeFlow.DocumentObjectModel.Extensions
                 .InsertBefore(self, target);
 
         private static CompositeElement GetParentOrThrow(this Element self)
-        {
-            if (self.Parent is null)
-            {
-                throw new ElementHasNoParentException();
-            }
-
-            return self.Parent;
-        }
+            => self.Parent ?? throw new ElementHasNoParentException();
     }
 }
