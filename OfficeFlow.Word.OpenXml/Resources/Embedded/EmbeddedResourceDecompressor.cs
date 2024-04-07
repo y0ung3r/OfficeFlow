@@ -13,12 +13,6 @@ namespace OfficeFlow.Word.OpenXml.Resources.Embedded
     {
         private readonly Assembly _assembly;
 
-        private static readonly Lazy<EmbeddedResourceDecompressor> InstanceFactory = 
-            new Lazy<EmbeddedResourceDecompressor>(() => new EmbeddedResourceDecompressor());
-
-        public static EmbeddedResourceDecompressor Instance 
-            => InstanceFactory.Value;
-        
         public EmbeddedResourceDecompressor()
             : this(Assembly.GetCallingAssembly())
         { }
@@ -39,7 +33,7 @@ namespace OfficeFlow.Word.OpenXml.Resources.Embedded
 
         public XDocument Decompress(string resourceName)
         {
-            var stream = GetResourceStream(resourceName);
+            using var stream = GetResourceStream(resourceName);
             using var zip = new GZipStream(stream, CompressionMode.Decompress);
             using var reader = new StreamReader(zip);
 		
