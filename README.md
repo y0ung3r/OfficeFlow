@@ -7,4 +7,4 @@ OfficeFlow is a completely free and open source library for reading, creating an
 [badges.status.umbra]: https://img.shields.io/badge/status-umbra-red.svg
 [badges.build]: https://img.shields.io/github/actions/workflow/status/y0ung3r/OfficeFlow/main.yaml
 [link.office]: https://en.wikipedia.org/wiki/Microsoft_Office
-[link.andivionian-status-classifier]: https://github.com/ForNeVeR/andivionian-status-classifier#status-zero-
+[link.andivionian-status-classifier]: https://andivionian.fornever.me/v1/#status-umbra-
