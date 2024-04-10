@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO.Packaging;
 using System.Xml.Linq;
-using OfficeFlow.Word.OpenXml.Packaging;
+using OfficeFlow.OpenXml.Packaging;
 
-namespace OfficeFlow.Word.OpenXml.Tests.Packaging
+namespace OfficeFlow.OpenXml.Tests.Packaging
 {
     public static class TestOpenXmlPackagePartFactory
     {

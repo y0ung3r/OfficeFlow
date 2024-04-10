@@ -1,10 +1,10 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
-using OfficeFlow.Word.OpenXml.Resources.Embedded;
-using OfficeFlow.Word.OpenXml.Resources.Exceptions;
+using OfficeFlow.OpenXml.Resources;
+using OfficeFlow.OpenXml.Resources.Exceptions;
 using Xunit;
 
-namespace OfficeFlow.Word.OpenXml.Tests.Resources.Embedded
+namespace OfficeFlow.OpenXml.Tests.Resources
 {
     public sealed class EmbeddedResourceDecompressorTests
     {

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
-using OfficeFlow.Word.OpenXml.Packaging.Interfaces;
+using OfficeFlow.OpenXml.Packaging.Interfaces;
 
-namespace OfficeFlow.Word.OpenXml.Packaging
+namespace OfficeFlow.OpenXml.Packaging
 {
     public sealed class OpenXmlPackage : IDisposable
     {
@@ -73,14 +73,7 @@ namespace OfficeFlow.Word.OpenXml.Packaging
 
             return _source
                 .GetParts()
-                .Select(partSource =>
-                {
-                    using var contentStream =
-                        partSource.GetStream(FileMode.Open, FileAccess.Read);
-
-                    return _pendingParts.FirstOrDefault(part => part.Uri == partSource.Uri)
-                        ?? OpenXmlPackagePart.Open(partSource.Uri, partSource.ContentType, partSource.CompressionOption, contentStream);
-                });
+                .Select(OpenPart);
         }
 
         public void AddPart(OpenXmlPackagePart packagePart)
@@ -200,6 +193,15 @@ namespace OfficeFlow.Word.OpenXml.Packaging
                 packagePart.Uri, 
                 TargetMode.Internal, 
                 relationshipType);
+        }
+        
+        private OpenXmlPackagePart OpenPart(PackagePart source)
+        {
+            using var contentStream =
+                source.GetStream(FileMode.Open, FileAccess.Read);
+            
+            return _pendingParts.FirstOrDefault(part => part.Uri == source.Uri)
+                ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption, contentStream);
         }
 
         /// <remarks>https://github.com/dotnet/runtime/issues/24149</remarks>

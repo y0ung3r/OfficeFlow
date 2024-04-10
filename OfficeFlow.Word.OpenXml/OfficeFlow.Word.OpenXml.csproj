@@ -6,16 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.IO.Packaging" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="Resources\Embedded\Default\bulletNumbering.xml.gz" />
-        <EmbeddedResource Include="Resources\Embedded\Default\decimalNumbering.xml.gz" />
-        <EmbeddedResource Include="Resources\Embedded\Default\numbering.xml.gz" />
-        <EmbeddedResource Include="Resources\Embedded\Default\styles.xml.gz" />
-        <EmbeddedResource Include="Resources\Embedded\Default\wordDocument.xml.gz" />
-        <EmbeddedResource Include="Resources\Embedded\Default\wordStyles.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\bulletNumbering.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\decimalNumbering.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\numbering.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\styles.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\wordDocument.xml.gz" />
+      <EmbeddedResource Include="Resources\Embedded\wordStyles.xml.gz" />
     </ItemGroup>
     
 </Project>

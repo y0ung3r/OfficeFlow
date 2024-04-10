@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace OfficeFlow.Word.OpenXml.Resources.Interfaces
+namespace OfficeFlow.OpenXml.Resources.Interfaces
 {
     public interface IResourceDecompressor
     {

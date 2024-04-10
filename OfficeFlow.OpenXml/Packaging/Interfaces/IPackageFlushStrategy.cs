@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace OfficeFlow.Word.OpenXml.Packaging.Interfaces
+namespace OfficeFlow.OpenXml.Packaging.Interfaces
 {
     internal interface IPackageFlushStrategy
     {

@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using FluentAssertions;
 using Xunit;
 
-namespace OfficeFlow.Word.OpenXml.Tests.Packaging
+namespace OfficeFlow.OpenXml.Tests.Packaging
 {
     public sealed class OpenXmlPackagePartTests
     {

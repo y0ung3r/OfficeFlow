@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Packaging;
 using System.Xml.Linq;
 
-namespace OfficeFlow.Word.OpenXml.Packaging
+namespace OfficeFlow.OpenXml.Packaging
 {
     public sealed class OpenXmlPackagePart
     {

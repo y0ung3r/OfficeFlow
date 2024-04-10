@@ -2,10 +2,10 @@
 using System.IO;
 using System.IO.Packaging;
 using FluentAssertions;
-using OfficeFlow.Word.OpenXml.Packaging;
+using OfficeFlow.OpenXml.Packaging;
 using Xunit;
 
-namespace OfficeFlow.Word.OpenXml.Tests.Packaging
+namespace OfficeFlow.OpenXml.Tests.Packaging
 {
     public sealed class OpenXmlPackageTests : IClassFixture<TempFilePool>
     {

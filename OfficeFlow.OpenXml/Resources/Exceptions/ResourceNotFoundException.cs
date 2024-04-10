@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OfficeFlow.Word.OpenXml.Resources.Exceptions
+namespace OfficeFlow.OpenXml.Resources.Exceptions
 {
     public sealed class ResourceNotFoundException : Exception
     {

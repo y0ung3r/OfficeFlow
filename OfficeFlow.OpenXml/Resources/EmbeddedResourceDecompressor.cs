@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using OfficeFlow.Word.OpenXml.Resources.Exceptions;
-using OfficeFlow.Word.OpenXml.Resources.Interfaces;
+using OfficeFlow.OpenXml.Resources.Exceptions;
+using OfficeFlow.OpenXml.Resources.Interfaces;
 
-namespace OfficeFlow.Word.OpenXml.Resources.Embedded
+namespace OfficeFlow.OpenXml.Resources
 {
     public sealed class EmbeddedResourceDecompressor : IResourceDecompressor
     {

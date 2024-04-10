@@ -1,7 +1,7 @@
 using System.IO;
-using OfficeFlow.Word.OpenXml.Packaging.Interfaces;
+using OfficeFlow.OpenXml.Packaging.Interfaces;
 
-namespace OfficeFlow.Word.OpenXml.Packaging
+namespace OfficeFlow.OpenXml.Packaging
 {
     internal sealed class PreserveFlush : IPackageFlushStrategy
     {

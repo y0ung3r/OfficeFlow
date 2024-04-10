@@ -21,7 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj" />
+        <ProjectReference Include="..\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Embedded\TestEmbeddedResource.xml.gz" />
     </ItemGroup>
 
 </Project>
