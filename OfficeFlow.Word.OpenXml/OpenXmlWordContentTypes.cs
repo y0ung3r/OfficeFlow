@@ -3,7 +3,7 @@ using OfficeFlow.Word.OpenXml.Enums;
 
 namespace OfficeFlow.Word.OpenXml
 {
-    internal static class OpenXmlContentTypes
+    internal static class OpenXmlWordContentTypes
     {
         /// <summary>
         /// Word Document (*.docx)

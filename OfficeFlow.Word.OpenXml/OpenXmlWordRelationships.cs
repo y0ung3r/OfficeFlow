@@ -1,6 +1,6 @@
 ﻿namespace OfficeFlow.Word.OpenXml
 {
-    internal static class OpenXmlRelationships
+    internal static class OpenXmlWordRelationships
     {
         /// <summary>
         /// /word/document.xml

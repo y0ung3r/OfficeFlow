@@ -4,7 +4,7 @@ using OfficeFlow.Word.Elements.Paragraphs.Text;
 
 namespace OfficeFlow.Word.Interfaces
 {
-    public interface IElementVisitor
+    public interface IWordVisitor
     {
         /// <summary>
         /// Visit <see cref="WordDocument"/>

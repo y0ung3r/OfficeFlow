@@ -1,11 +1,11 @@
 ﻿namespace OfficeFlow.Word.Interfaces
 {
-    public interface IVisitable
+    internal interface IVisitable
     {
         /// <summary>
-        /// Accept <see cref="IElementVisitor"/>
+        /// Accept <see cref="IWordVisitor"/>
         /// </summary>
-        /// <param name="visitor">Instance of <see cref="IElementVisitor"/></param>
-        void Accept(IElementVisitor visitor);
+        /// <param name="visitor">Instance of <see cref="IWordVisitor"/></param>
+        void Accept(IWordVisitor visitor);
     }
 }

@@ -58,7 +58,7 @@ namespace OfficeFlow.Word
             => Dispose();
         
         /// <inheritdoc />
-        public void Accept(IElementVisitor visitor)
+        public void Accept(IWordVisitor visitor)
             => visitor.Visit(this);
 
         /// <inheritdoc />

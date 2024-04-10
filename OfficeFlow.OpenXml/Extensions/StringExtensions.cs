@@ -1,4 +1,4 @@
-﻿namespace OfficeFlow.Word.OpenXml.Extensions
+﻿namespace OfficeFlow.OpenXml.Extensions
 {
     internal static class StringExtensions
     {
