@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Packaging;
 using System.Linq;
 using OfficeFlow.Word.OpenXml.Packaging.Interfaces;
-using OfficeFlow.Word.OpenXml.Packaging.Parts;
 
 namespace OfficeFlow.Word.OpenXml.Packaging
 {
@@ -55,6 +54,7 @@ namespace OfficeFlow.Word.OpenXml.Packaging
         private Package _source;
         private IPackageFlushStrategy _flushStrategy;
         private readonly MemoryStream _internalStream;
+        private readonly List<OpenXmlPackagePart> _pendingParts;
 
         private OpenXmlPackage(
             Package source, 
@@ -64,6 +64,7 @@ namespace OfficeFlow.Word.OpenXml.Packaging
             _source = source;
             _flushStrategy = flushStrategy;
             _internalStream = internalStream;
+            _pendingParts = new List<OpenXmlPackagePart>();
         }
 
         public IEnumerable<OpenXmlPackagePart> EnumerateParts()
@@ -72,7 +73,39 @@ namespace OfficeFlow.Word.OpenXml.Packaging
 
             return _source
                 .GetParts()
-                .Select(OpenXmlPackagePart.Load);
+                .Select(partSource =>
+                {
+                    using var contentStream =
+                        partSource.GetStream(FileMode.Open, FileAccess.Read);
+
+                    return _pendingParts.FirstOrDefault(part => part.Uri == partSource.Uri)
+                        ?? OpenXmlPackagePart.Open(partSource.Uri, partSource.ContentType, partSource.CompressionOption, contentStream);
+                });
+        }
+
+        public void AddPart(OpenXmlPackagePart packagePart)
+        {
+            if (_source.PartExists(packagePart.Uri))
+            {
+                return;
+            }
+            
+            if (packagePart.RelationshipType is null)
+            {
+                throw new InvalidOperationException(
+                    "Relationship type should be specified");
+            }
+
+            if (packagePart.Parent is null)
+            {
+                AddPartAsChildOfPackage(packagePart, packagePart.RelationshipType);
+            }
+            else
+            {
+                AddPartAsChildOfAnotherPart(packagePart, packagePart.RelationshipType);
+            }
+            
+            _pendingParts.Add(packagePart);
         }
 
         public void Save()
@@ -85,7 +118,12 @@ namespace OfficeFlow.Word.OpenXml.Packaging
 
             foreach (var packagePart in EnumerateParts())
             {
-                packagePart.Flush();
+                var packageSource = _source.GetPart(packagePart.Uri);
+                
+                using var contentStream = 
+                    packageSource.GetStream(FileMode.Create, FileAccess.Write);
+                
+                packagePart.FlushTo(contentStream);
             }
 
             Flush();
@@ -129,10 +167,46 @@ namespace OfficeFlow.Word.OpenXml.Packaging
 
             _isDisposed = true;
         }
+        
+        private void AddPartAsChildOfAnotherPart(OpenXmlPackagePart packagePart, string relationshipType)
+        {
+            if (packagePart.Parent is null || !_source.PartExists(packagePart.Parent.Uri))
+            {
+                throw new InvalidOperationException(
+                    "Parent part should be added to package");
+            }
+            
+            _source.CreatePart(
+                packagePart.Uri, 
+                packagePart.ContentType, 
+                packagePart.CompressionMode);
+            
+            var parentSource = _source.GetPart(packagePart.Parent.Uri);
+
+            parentSource.CreateRelationship(
+                packagePart.Uri,
+                TargetMode.Internal, 
+                relationshipType);
+        }
+
+        private void AddPartAsChildOfPackage(OpenXmlPackagePart packagePart, string relationshipType)
+        {
+            _source.CreatePart(
+                packagePart.Uri, 
+                packagePart.ContentType, 
+                packagePart.CompressionMode);
+            
+            _source.CreateRelationship(
+                packagePart.Uri, 
+                TargetMode.Internal, 
+                relationshipType);
+        }
 
         /// <remarks>https://github.com/dotnet/runtime/issues/24149</remarks>
         private void Flush()
         {
+            _pendingParts.Clear();
+            
             _source.Close(); // Fill _internalStream & close package
 
             _flushStrategy.Flush(_internalStream); // Save to an external data source (remoteStream or filePath)

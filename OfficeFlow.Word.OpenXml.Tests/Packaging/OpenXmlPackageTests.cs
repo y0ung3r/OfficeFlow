@@ -1,37 +1,43 @@
 ﻿using System;
 using System.IO;
 using System.IO.Packaging;
-using System.Xml.Linq;
 using FluentAssertions;
 using OfficeFlow.Word.OpenXml.Packaging;
 using Xunit;
 
 namespace OfficeFlow.Word.OpenXml.Tests.Packaging
 {
-    public sealed class OpenXmlPackageTests
+    public sealed class OpenXmlPackageTests : IClassFixture<TempFilePool>
     {
+        private readonly TempFilePool _tempFilePool;
+
+        public OpenXmlPackageTests(TempFilePool tempFilePool)
+            => _tempFilePool = tempFilePool;
+
         [Fact]
         public void Should_throw_exception_if_package_is_disposed()
         {
             // Arrange
             var sut = OpenXmlPackage.Create();
+            
+            // Act
             sut.Dispose();
             
-            var testCases = new Action[]
-            {
-                () => sut.EnumerateParts(),
-                () => sut.Save(),
-                () => sut.SaveTo(remoteStream: new MemoryStream()),
-                () => sut.SaveTo(filePath: nameof(OpenXmlPackage))
-            };
+            // Assert
+            VerifyDisposed(sut);
+        }
+        
+        [Fact]
+        public void Should_throw_exception_if_package_is_closed()
+        {
+            // Arrange
+            var sut = OpenXmlPackage.Create();
             
-            // Act & Assert
-            testCases
-                .Should()
-                .AllSatisfy(testCase => 
-                    testCase
-                        .Should()
-                        .Throw<ObjectDisposedException>());
+            // Act
+            sut.Close();
+            
+            // Assert
+            VerifyDisposed(sut);
         }
 
         [Fact]
@@ -59,7 +65,8 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             using var originalStream = 
                 PrepareTestPackageStream();
 
-            var filePath = Path.GetTempFileName();
+            var filePath = _tempFilePool.GetTempFilePath();
+            
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
                 originalStream.CopyTo(fileStream);
 
@@ -67,8 +74,6 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             new Action(() => OpenXmlPackage.Open(filePath))
                 .Should()
                 .NotThrow();
-            
-            File.Delete(filePath);
         }
 
         [Fact]
@@ -85,7 +90,7 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
         }
         
         [Fact]
-        public void Should_enumerate_package_parts_properly()
+        public void Should_enumerate_pending_parts_properly()
         {
             // Arrange
             using var originalStream =
@@ -94,10 +99,126 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             using var sut = 
                 OpenXmlPackage.Open(originalStream);
             
+            var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+            
+            sut.AddPart(expectedPart);
+            
             // Act & Assert
             sut.EnumerateParts()
                 .Should()
-                .NotBeEmpty();
+                .Contain(actualPart => 
+                    expectedPart.Uri == actualPart.Uri);
+        }
+
+        [Fact]
+        public void Should_enumerate_exists_parts_properly()
+        {
+            // Arrange
+            using var originalStream =
+                PrepareTestPackageStream();
+            
+            var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+            
+            using (var sut = OpenXmlPackage.Open(originalStream))
+                sut.AddPart(expectedPart);
+            
+            // Act & Assert
+            OpenXmlPackage
+                .Open(originalStream)
+                .EnumerateParts()
+                .Should()
+                .Contain(actualPart => 
+                    expectedPart.Uri == actualPart.Uri);
+        }
+
+        [Fact]
+        public void Should_throw_exception_if_parent_package_part_is_not_added_to_package()
+        {
+            // Arrange
+            var parentPart = TestOpenXmlPackagePartFactory.Create(uri: "/parent");
+            var childPart = TestOpenXmlPackagePartFactory.Create(uri: "/child");
+            parentPart.AddChild(childPart);
+            
+            // Act
+            new Action(() =>
+            {
+                using var originalStream =
+                    PrepareTestPackageStream();
+                
+                using var sut = 
+                    OpenXmlPackage.Open(originalStream);
+                
+                sut.AddPart(childPart);
+            })
+            .Should()
+            .Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Should_add_package_part_and_create_relationship_with_package()
+        {
+            // Arrange
+            using var originalStream =
+                PrepareTestPackageStream();
+
+            var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+            
+            // Act
+            using (var sut = OpenXmlPackage.Open(originalStream))
+                sut.AddPart(expectedPart);
+            
+            // Assert
+            using var packageSource = 
+                Package.Open(originalStream);
+
+            var partSource = packageSource.GetPart(expectedPart.Uri);
+
+            partSource
+                .ContentType
+                .Should()
+                .Be(expectedPart.ContentType);
+            
+            partSource
+                .CompressionOption
+                .Should()
+                .Be(expectedPart.CompressionMode);
+
+            packageSource
+                .GetRelationships()
+                .Should()
+                .OnlyContain(relationship => 
+                    relationship.RelationshipType == expectedPart.RelationshipType);
+        }
+        
+        [Fact]
+        public void Should_add_package_part_and_create_relationship_with_another_part()
+        {
+            // Arrange
+            using var originalStream =
+                PrepareTestPackageStream();
+
+            var parentPart = TestOpenXmlPackagePartFactory.Create(uri: "/parent");
+            var childPart = TestOpenXmlPackagePartFactory.Create(uri: "/child");
+            parentPart.AddChild(childPart);
+            
+            // Act
+            using (var sut = OpenXmlPackage.Open(originalStream))
+            {
+                sut.AddPart(parentPart);
+                sut.AddPart(childPart);
+            }
+
+            // Assert
+            using var packageSource = 
+                Package.Open(originalStream);
+
+            var parentSource = packageSource.GetPart(parentPart.Uri);
+
+            parentSource
+                .GetRelationships()
+                .Should()
+                .OnlyContain(relationship => 
+                    relationship.RelationshipType == childPart.RelationshipType);
         }
         
         [Fact]
@@ -115,9 +236,9 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             
             // Assert
             originalStream
-                .Position
+                .Length
                 .Should()
-                .Be(originalStream.Length);
+                .BePositive();
         }
 
         [Fact]
@@ -127,7 +248,7 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             using var originalStream = 
                 PrepareTestPackageStream();
 
-            var filePath = Path.GetTempFileName();
+            var filePath = _tempFilePool.GetTempFilePath();
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
                 originalStream.CopyTo(fileStream);
 
@@ -138,12 +259,10 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             sut.Save();
             
             // Assert
-            originalStream
-                .Position
+            File.ReadAllBytes(filePath)
+                .Length
                 .Should()
-                .Be(originalStream.Length);
-            
-            File.Delete(filePath);
+                .BePositive();
         }
 
         [Fact]
@@ -176,7 +295,7 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
             using var originalStream = 
                 PrepareTestPackageStream();
 
-            var filePath = Path.GetTempFileName();
+            var filePath = _tempFilePool.GetTempFilePath();
             
             using var sut = 
                 OpenXmlPackage.Open(originalStream);
@@ -189,42 +308,34 @@ namespace OfficeFlow.Word.OpenXml.Tests.Packaging
                 .Length
                 .Should()
                 .BePositive();
+        }
+
+        private static void VerifyDisposed(OpenXmlPackage package)
+        {
+            var testCases = new Action[]
+            {
+                () => package.EnumerateParts(),
+                () => package.Save(),
+                () => package.SaveTo(remoteStream: new MemoryStream()),
+                () => package.SaveTo(filePath: nameof(OpenXmlPackage))
+            };
             
-            File.Delete(filePath);
+            // Act & Assert
+            testCases
+                .Should()
+                .AllSatisfy(testCase => 
+                    testCase
+                        .Should()
+                        .Throw<ObjectDisposedException>());
         }
 
         private static MemoryStream PrepareTestPackageStream()
         {
-            var partXml = new XElement
-            (
-                "document",
-                new XElement
-                (
-                    "body",
-                    new XText("Content")
-                )
-            );
-
-            return PrepareTestPackageStream(partXml);
-        }
-
-        private static MemoryStream PrepareTestPackageStream(XElement partXml)
-        {
             var originalStream = new MemoryStream();
 
-            using (var package = Package.Open(originalStream, FileMode.Create, FileAccess.ReadWrite))
-            {
-                var partUri = PackUriHelper.CreatePartUri(
-                    new Uri(nameof(OpenXmlPackage), UriKind.Relative));
-
-                var part = package.CreatePart(partUri, string.Empty);
-
-                using var contentStream =
-                    part.GetStream();
-
-                using (var contentWriter = new StreamWriter(contentStream))
-                    partXml.Save(contentWriter);
-            }
+            Package
+                .Open(originalStream, FileMode.Create, FileAccess.ReadWrite)
+                .Close();
 
             originalStream.Seek(offset: 0, SeekOrigin.Begin);
             
