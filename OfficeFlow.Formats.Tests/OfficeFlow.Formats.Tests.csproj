@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj" />
+      <ProjectReference Include="..\OfficeFlow.Formats\OfficeFlow.Formats.csproj" />
+    </ItemGroup>
+
+</Project>
