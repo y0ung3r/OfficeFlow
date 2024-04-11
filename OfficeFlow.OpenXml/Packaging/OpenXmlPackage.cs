@@ -76,6 +76,21 @@ namespace OfficeFlow.OpenXml.Packaging
                 .Select(OpenPart);
         }
 
+        public bool TryGetPart(Uri uri, out OpenXmlPackagePart packagePart)
+        {
+            packagePart = null!;
+            
+            if (!_source.PartExists(uri))
+            {
+                return false;
+            }
+            
+            packagePart = OpenPart(
+                _source.GetPart(uri));
+
+            return true;
+        }
+
         public void AddPart(OpenXmlPackagePart packagePart)
         {
             if (_source.PartExists(packagePart.Uri))

@@ -155,6 +155,61 @@ namespace OfficeFlow.OpenXml.Tests.Packaging
         }
 
         [Fact]
+        public void Should_return_package_part_properly()
+        {
+            // Arrange
+            using var originalStream =
+                PrepareTestPackageStream();
+
+            var expectedPart = 
+                TestOpenXmlPackagePartFactory.Create(uri: "/part");
+
+            using var sut = 
+                OpenXmlPackage.Open(originalStream);
+            
+            sut.AddPart(expectedPart);
+            
+            // Act
+            var isExists = sut.TryGetPart(expectedPart.Uri, out var actualPart);
+            
+            // Assert
+            isExists
+                .Should()
+                .BeTrue();
+            
+            actualPart
+                .ContentType
+                .Should()
+                .Be(expectedPart.ContentType);
+            
+            actualPart
+                .CompressionMode
+                .Should()
+                .Be(expectedPart.CompressionMode);
+        }
+
+        [Fact]
+        public void Should_not_return_package_part()
+        {
+            // Arrange
+            using var originalStream =
+                PrepareTestPackageStream();
+
+            var uri = new Uri("/part", UriKind.Relative);
+            
+            using var sut = 
+                OpenXmlPackage.Open(originalStream);
+            
+            // Act
+            var isExists = sut.TryGetPart(uri, out _);
+            
+            // Assert
+            isExists
+                .Should()
+                .BeFalse();
+        }
+
+        [Fact]
         public void Should_add_package_part_and_create_relationship_with_package()
         {
             // Arrange
