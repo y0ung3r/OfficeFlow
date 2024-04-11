@@ -24,20 +24,20 @@ namespace OfficeFlow.OpenXml.Tests.Packaging
             sut.Dispose();
             
             // Assert
-            VerifyDisposed(sut);
-        }
-        
-        [Fact]
-        public void Should_throw_exception_if_package_is_closed()
-        {
-            // Arrange
-            var sut = OpenXmlPackage.Create();
+            var testCases = new Action[]
+            {
+                () => sut.EnumerateParts(),
+                () => sut.Save(),
+                () => sut.SaveTo(remoteStream: new MemoryStream()),
+                () => sut.SaveTo(filePath: nameof(OpenXmlPackage))
+            };
             
-            // Act
-            sut.Close();
-            
-            // Assert
-            VerifyDisposed(sut);
+            testCases
+                .Should()
+                .AllSatisfy(testCase => 
+                    testCase
+                        .Should()
+                        .Throw<ObjectDisposedException>());
         }
 
         [Fact]
@@ -363,25 +363,6 @@ namespace OfficeFlow.OpenXml.Tests.Packaging
                 .Length
                 .Should()
                 .BePositive();
-        }
-
-        private static void VerifyDisposed(OpenXmlPackage package)
-        {
-            var testCases = new Action[]
-            {
-                () => package.EnumerateParts(),
-                () => package.Save(),
-                () => package.SaveTo(remoteStream: new MemoryStream()),
-                () => package.SaveTo(filePath: nameof(OpenXmlPackage))
-            };
-            
-            // Act & Assert
-            testCases
-                .Should()
-                .AllSatisfy(testCase => 
-                    testCase
-                        .Should()
-                        .Throw<ObjectDisposedException>());
         }
 
         private static MemoryStream PrepareTestPackageStream()

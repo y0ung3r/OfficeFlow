@@ -76,12 +76,12 @@ namespace OfficeFlow.Word.OpenXml
         public void SaveTo(string filePath)
             => Save(() => _package.SaveTo(filePath));
 
-        public void Save(Action save)
+        private void Save(Action saveStrategy)
         {
             new OpenXmlElementWriter(MainDocumentPart.Root)
                 .Visit(Body);
             
-            save.Invoke();
+            saveStrategy.Invoke();
         }
         
         /// <inheritdoc />

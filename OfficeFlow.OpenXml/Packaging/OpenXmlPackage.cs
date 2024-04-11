@@ -157,9 +157,6 @@ namespace OfficeFlow.OpenXml.Packaging
             Save();
         }
 
-        public void Close() 
-            => Dispose();
-
         /// <inheritdoc />
         public void Dispose()
         {
