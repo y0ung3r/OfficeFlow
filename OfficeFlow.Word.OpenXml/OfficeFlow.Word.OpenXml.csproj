@@ -13,5 +13,14 @@
       <EmbeddedResource Include="Resources\Embedded\wordDocument.xml.gz" />
       <EmbeddedResource Include="Resources\Embedded\wordStyles.xml.gz" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj" />
+      <ProjectReference Include="..\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Word.OpenXml.Tests" />
+    </ItemGroup>
     
 </Project>
