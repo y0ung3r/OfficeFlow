@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace OfficeFlow.OpenXml.Tests
+namespace OfficeFlow.TestFramework
 {
     /// <summary>
     /// Clearing temporary files when tests are failed or passed

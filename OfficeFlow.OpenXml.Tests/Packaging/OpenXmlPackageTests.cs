@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Packaging;
 using FluentAssertions;
 using OfficeFlow.OpenXml.Packaging;
+using OfficeFlow.TestFramework;
 using Xunit;
 
 namespace OfficeFlow.OpenXml.Tests.Packaging
