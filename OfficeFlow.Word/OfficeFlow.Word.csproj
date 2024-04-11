@@ -6,8 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
-      <ProjectReference Include="..\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
+      <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj" />
       <ProjectReference Include="..\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj" />
       <ProjectReference Include="..\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj" />
     </ItemGroup>

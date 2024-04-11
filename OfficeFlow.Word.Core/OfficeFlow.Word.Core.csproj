@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\OfficeFlow.Formats\OfficeFlow.Formats.csproj" />
+      <ProjectReference Include="..\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
+      <ProjectReference Include="..\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Word.Core.Tests" />
+    </ItemGroup>
+    
+</Project>

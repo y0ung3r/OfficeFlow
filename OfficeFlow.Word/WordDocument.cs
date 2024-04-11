@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 using OfficeFlow.DocumentObjectModel;
-using OfficeFlow.Word.Elements;
-using OfficeFlow.Word.Enums;
-using OfficeFlow.Word.Interfaces;
+using OfficeFlow.Word.Core.Elements;
+using OfficeFlow.Word.Core.Enums;
+using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word
 {
-    public sealed class WordDocument : CompositeElement, IVisitable, IDisposable
+    public sealed class WordDocument : CompositeElement, IDisposable
     {
         private bool _isDisposed;
 
@@ -56,10 +56,6 @@ namespace OfficeFlow.Word
 
         public void Close()
             => Dispose();
-        
-        /// <inheritdoc />
-        public void Accept(IWordVisitor visitor)
-            => visitor.Visit(this);
 
         /// <inheritdoc />
         public void Dispose()
