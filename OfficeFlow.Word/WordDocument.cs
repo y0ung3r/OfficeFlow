@@ -10,12 +10,15 @@ namespace OfficeFlow.Word
     public sealed class WordDocument : CompositeElement, IDisposable
     {
         private bool _isDisposed;
-
+        private readonly IWordProcessor _processor;
+        private readonly DocumentSettings _settings;
+     
         public WordDocument(WordDocumentType documentType)
             : this(documentType, DocumentSettings.Default)
         { }
         
         public WordDocument(WordDocumentType documentType, DocumentSettings settings)
+            : this(WordProcessorFactory.Instance.Create(documentType, settings), settings)
         { }
         
         public WordDocument(Stream stream)
@@ -23,6 +26,7 @@ namespace OfficeFlow.Word
         { }
 
         public WordDocument(Stream stream, DocumentSettings settings)
+            : this(WordProcessorFactory.Instance.Open(stream, settings), settings)
         { }
 
         public WordDocument(string filePath)
@@ -30,7 +34,14 @@ namespace OfficeFlow.Word
         { }
 
         public WordDocument(string filePath, DocumentSettings settings)
+            : this(WordProcessorFactory.Instance.Open(filePath, settings), settings)
         { }
+        
+        private WordDocument(IWordProcessor processor, DocumentSettings settings)
+        {
+            _processor = processor;
+            _settings = settings;
+        }
 
         public Section LastSection
         {
@@ -44,15 +55,15 @@ namespace OfficeFlow.Word
         {
             throw new NotImplementedException();
         }
-        
+
         public void Save()
-            => throw new NotImplementedException();
+            => _processor.Save();
 
         public void SaveTo(Stream stream)
-            => throw new NotImplementedException();
+            => _processor.SaveTo(stream);
 
         public void SaveTo(string filePath)
-            => throw new NotImplementedException();
+            => _processor.SaveTo(filePath);
 
         public void Close()
             => Dispose();
@@ -65,7 +76,7 @@ namespace OfficeFlow.Word
                 return;
             }
             
-            throw new NotImplementedException();
+            _processor.Dispose();
 
             _isDisposed = true;
         }
