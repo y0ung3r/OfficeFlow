@@ -16,7 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj" />
-      <ProjectReference Include="..\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
+      <ProjectReference Include="..\..\Common\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
     </ItemGroup>
 
     <ItemGroup>
