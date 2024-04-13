@@ -5,4 +5,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\OfficeFlow.PowerPoint.Core\OfficeFlow.PowerPoint.Core.csproj" />
+        <ProjectReference Include="..\OfficeFlow.PowerPoint.OpenXml\OfficeFlow.PowerPoint.OpenXml.csproj" />
+        <ProjectReference Include="..\OfficeFlow.PowerPoint.Binary\OfficeFlow.PowerPoint.Binary.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.PowerPoint.Tests" />
+    </ItemGroup>
+
 </Project>

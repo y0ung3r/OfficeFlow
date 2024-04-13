@@ -5,4 +5,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\OfficeFlow.Excel.Core\OfficeFlow.Excel.Core.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Excel.OpenXml.Tests" />
+    </ItemGroup>
+
 </Project>

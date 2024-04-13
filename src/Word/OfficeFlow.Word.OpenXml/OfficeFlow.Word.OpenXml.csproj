@@ -6,21 +6,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\Embedded\bulletNumbering.xml.gz" />
-      <EmbeddedResource Include="Resources\Embedded\decimalNumbering.xml.gz" />
-      <EmbeddedResource Include="Resources\Embedded\numbering.xml.gz" />
-      <EmbeddedResource Include="Resources\Embedded\styles.xml.gz" />
-      <EmbeddedResource Include="Resources\Embedded\wordDocument.xml.gz" />
-      <EmbeddedResource Include="Resources\Embedded\wordStyles.xml.gz" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj" />
       <ProjectReference Include="..\..\Common\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <InternalsVisibleTo Include="OfficeFlow.Word.OpenXml.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Embedded\bulletNumbering.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\decimalNumbering.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\numbering.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\styles.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\wordDocument.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\wordStyles.xml.gz" />
     </ItemGroup>
     
 </Project>

@@ -11,4 +11,8 @@
         <ProjectReference Include="..\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Excel.Tests" />
+    </ItemGroup>
+
 </Project>

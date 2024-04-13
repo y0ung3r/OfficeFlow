@@ -9,4 +9,8 @@
         <PackageReference Include="System.IO.Packaging" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.OpenXml.Tests" />
+    </ItemGroup>
+
 </Project>

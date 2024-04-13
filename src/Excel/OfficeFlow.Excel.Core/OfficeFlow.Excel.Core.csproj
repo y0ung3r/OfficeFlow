@@ -5,4 +5,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Common\OfficeFlow.Formats\OfficeFlow.Formats.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Excel.Core.Tests" />
+    </ItemGroup>
+
 </Project>

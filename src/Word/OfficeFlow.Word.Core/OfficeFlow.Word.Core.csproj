@@ -6,8 +6,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Common\OfficeFlow.Formats\OfficeFlow.Formats.csproj" />
-      <ProjectReference Include="..\..\Common\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
-      <ProjectReference Include="..\..\Common\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj" />
     </ItemGroup>
 
     <ItemGroup>

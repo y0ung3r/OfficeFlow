@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Common\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj" />
+        <ProjectReference Include="..\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj" />
     </ItemGroup>
 
 </Project>

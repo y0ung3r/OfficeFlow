@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Common\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj" />
+        <ProjectReference Include="..\OfficeFlow.Excel.OpenXml\OfficeFlow.Excel.OpenXml.csproj" />
     </ItemGroup>
 
 </Project>
