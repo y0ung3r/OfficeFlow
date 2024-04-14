@@ -3,7 +3,6 @@
     internal sealed class FakeElement : Element
     {
         public FakeElement(CompositeElement? parent = null)
-            : base(parent)
-        { }
+            => parent?.AppendChild(this);
     }
 }

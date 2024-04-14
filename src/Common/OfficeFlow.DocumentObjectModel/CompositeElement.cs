@@ -16,8 +16,7 @@ namespace OfficeFlow.DocumentObjectModel
         public Element? LastChild
             => _children.Tail;
 
-        protected CompositeElement(CompositeElement? parent = null)
-            : base(parent)
+        protected CompositeElement()
             => _children = new ElementCollection(this);
         
         public void AppendChild(Element element)

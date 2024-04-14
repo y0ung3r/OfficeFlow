@@ -9,9 +9,6 @@ namespace OfficeFlow.DocumentObjectModel
         public Element? NextSibling { get; internal set; }
         
         public CompositeElement? Parent { get; internal set; }
-        
-        protected Element(CompositeElement? parent = null)
-            => parent?.AppendChild(this);
 
         public IEnumerable<Element> GetAncestors()
             => GetAncestors<Element>();
