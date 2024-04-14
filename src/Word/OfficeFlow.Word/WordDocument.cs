@@ -1,24 +1,27 @@
 ﻿using System;
 using System.IO;
 using OfficeFlow.DocumentObjectModel;
+using OfficeFlow.Formats;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Enums;
 using OfficeFlow.Word.Core.Interfaces;
+using OfficeFlow.Word.Extensions;
+using OfficeFlow.Word.OpenXml;
 
 namespace OfficeFlow.Word
 {
     public sealed class WordDocument : CompositeElement, IDisposable
     {
         private bool _isDisposed;
-        private readonly IWordProcessor _processor;
         private readonly DocumentSettings _settings;
+        private readonly IWordProcessor _processor;
      
         public WordDocument(WordDocumentType documentType)
             : this(documentType, DocumentSettings.Default)
         { }
         
         public WordDocument(WordDocumentType documentType, DocumentSettings settings)
-            : this(WordProcessorFactory.Instance.Create(documentType, settings), settings)
+            : this(settings, CreateProcessor(documentType))
         { }
         
         public WordDocument(Stream stream)
@@ -26,7 +29,7 @@ namespace OfficeFlow.Word
         { }
 
         public WordDocument(Stream stream, DocumentSettings settings)
-            : this(WordProcessorFactory.Instance.Open(stream, settings), settings)
+            : this(settings, OpenProcessor(stream))
         { }
 
         public WordDocument(string filePath)
@@ -34,10 +37,10 @@ namespace OfficeFlow.Word
         { }
 
         public WordDocument(string filePath, DocumentSettings settings)
-            : this(WordProcessorFactory.Instance.Open(filePath, settings), settings)
+            : this(settings, OpenProcessor(filePath))
         { }
         
-        private WordDocument(IWordProcessor processor, DocumentSettings settings)
+        private WordDocument(DocumentSettings settings, IWordProcessor processor)
         {
             _processor = processor;
             _settings = settings;
@@ -79,6 +82,46 @@ namespace OfficeFlow.Word
             _processor.Dispose();
 
             _isDisposed = true;
+        }
+
+        private static IWordProcessor CreateProcessor(WordDocumentType documentType)
+        {
+            var format = documentType.ToOfficeFormat();
+
+            if (format is OpenXmlFormat)
+                return OpenXmlWordProcessor.Create(
+                    documentType.ToOpenXmlType());
+            
+            if (format is BinaryFormat)
+                throw new NotSupportedException();
+            
+            throw new NotSupportedException();
+        }
+
+        private static IWordProcessor OpenProcessor(Stream stream)
+        {
+            var format = OfficeFormatDetector.Detect(stream);
+
+            if (format is OpenXmlFormat)
+                return OpenXmlWordProcessor.Open(stream);
+
+            if (format is BinaryFormat)
+                throw new NotSupportedException();
+
+            throw new NotSupportedException();
+        }
+
+        private static IWordProcessor OpenProcessor(string filePath)
+        {
+            var format = OfficeFormatDetector.Detect(filePath);
+            
+            if (format is OpenXmlFormat)
+                return OpenXmlWordProcessor.Open(filePath);
+
+            if (format is BinaryFormat)
+                throw new NotSupportedException();
+            
+            throw new NotSupportedException();
         }
     }
 }

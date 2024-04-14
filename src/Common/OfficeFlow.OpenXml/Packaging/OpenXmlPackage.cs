@@ -209,8 +209,7 @@ namespace OfficeFlow.OpenXml.Packaging
         {
             using (var contentStream = source.GetStream(FileMode.Open, FileAccess.Read))
                 return _pendingParts.FirstOrDefault(part => part.Uri == source.Uri)
-                    ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption,
-                        contentStream);
+                    ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption, contentStream);
         }
 
         /// <remarks>https://github.com/dotnet/runtime/issues/24149</remarks>

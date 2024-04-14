@@ -4,7 +4,6 @@ using System.IO.Packaging;
 using JetBrains.Annotations;
 using OfficeFlow.OpenXml.Packaging;
 using OfficeFlow.OpenXml.Resources;
-using OfficeFlow.OpenXml.Resources.Interfaces;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Interfaces;
 using OfficeFlow.Word.OpenXml.Enums;
@@ -13,22 +12,40 @@ namespace OfficeFlow.Word.OpenXml
 {
     public sealed class OpenXmlWordProcessor : IWordProcessor
     {
+        public static OpenXmlWordProcessor Create(OpenXmlWordDocumentType documentType)
+        {
+            var package = OpenXmlPackage.Create();
+
+            var content = new EmbeddedResourceDecompressor()
+                .Decompress("wordDocument.xml.gz");
+            
+            package.AddPart(
+                OpenXmlPackagePart.Create(
+                    uri: new Uri("/word/document.xml", UriKind.Relative),
+                    OpenXmlWordContentTypes.GetContentType(documentType),
+                    CompressionOption.Normal,
+                    OpenXmlWordRelationships.Document,
+                    content));
+
+            return new OpenXmlWordProcessor(package);
+        }
+
+        public static OpenXmlWordProcessor Open(Stream stream)
+            => new OpenXmlWordProcessor(
+                OpenXmlPackage.Open(stream));
+
+        public static OpenXmlWordProcessor Open(string filePath)
+            => new OpenXmlWordProcessor(
+                OpenXmlPackage.Open(filePath));
+        
         private bool _isDisposed;
         private readonly OpenXmlPackage _package;
-        private readonly OpenXmlWordDocumentType _documentType;
-        private readonly IResourceDecompressor _resourceDecompressor;
         
         [CanBeNull] 
         private Body _body;
 
-        public OpenXmlWordProcessor(
-            OpenXmlPackage package,
-            OpenXmlWordDocumentType documentType = OpenXmlWordDocumentType.Document)
-        {
-            _package = package;
-            _documentType = documentType;
-            _resourceDecompressor = new EmbeddedResourceDecompressor();
-        }
+        private OpenXmlWordProcessor(OpenXmlPackage package)
+            => _package = package;
 
         private OpenXmlPackagePart MainDocumentPart
         {
@@ -39,16 +56,14 @@ namespace OfficeFlow.Word.OpenXml
                 if (_package.TryGetPart(uri, out var packagePart))
                     return packagePart;
 
-                var content = _resourceDecompressor.Decompress("wordDocument.xml.gz");
-                
-                return OpenXmlPackagePart.Create(
-                    uri,
-                    OpenXmlWordContentTypes.GetContentType(_documentType),
-                    CompressionOption.Normal,
-                    OpenXmlWordRelationships.Document,
-                    content);
+                throw new InvalidOperationException(
+                    "Main document part should be added to package");
             }
         }
+
+        public OpenXmlWordDocumentType DocumentType
+            => OpenXmlWordContentTypes
+                .GetDocumentType(MainDocumentPart.ContentType);
         
         /// <inheritdoc />
         public Body Body
@@ -69,17 +84,17 @@ namespace OfficeFlow.Word.OpenXml
 
         /// <inheritdoc />
         public void Save()
-            => Save(() => _package.Save());
+            => ExecuteSave(() => _package.Save());
 
         /// <inheritdoc />
         public void SaveTo(Stream stream)
-            => Save(() => _package.SaveTo(stream));
+            => ExecuteSave(() => _package.SaveTo(stream));
 
         /// <inheritdoc />
         public void SaveTo(string filePath)
-            => Save(() => _package.SaveTo(filePath));
+            => ExecuteSave(() => _package.SaveTo(filePath));
 
-        private void Save(Action saveStrategy)
+        private void ExecuteSave(Action saveStrategy)
         {
             new OpenXmlElementWriter(MainDocumentPart.Root)
                 .Visit(Body);
