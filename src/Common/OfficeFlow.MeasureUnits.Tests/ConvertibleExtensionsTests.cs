@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
 using OfficeFlow.MeasureUnits.Extensions;
@@ -11,7 +10,7 @@ namespace OfficeFlow.MeasureUnits.Tests;
 public sealed class ConvertibleExtensionsTests
 {
     [Theory]
-    [MemberData(nameof(GetValidTestCases))]
+    [MemberData(nameof(ValidTestCases))]
     public void Should_convert_properly(IConvertible convertible)
     {
         // Arrange
@@ -38,32 +37,32 @@ public sealed class ConvertibleExtensionsTests
             .Throw<FormatException>();
 
     [Theory]
-    [MemberData(nameof(GetInvalidTestCases))]
+    [MemberData(nameof(InvalidTestCases))]
     public void Should_throws_exception_while_converting_from_not_via_number(IConvertible convertible)
         => convertible
             .Invoking(sut => sut.As<FakeAbsoluteUnits>())
             .Should()
             .Throw<InvalidCastException>();
 
-    public static IEnumerable<object[]> GetValidTestCases()
+    public static readonly TheoryData<IConvertible> ValidTestCases = new()
     {
-        yield return new object[] { true }; // because bool can be converted to number (0, 1)
-        yield return new object[] { sbyte.MaxValue };
-        yield return new object[] { byte.MaxValue };
-        yield return new object[] { short.MaxValue };
-        yield return new object[] { ushort.MaxValue };
-        yield return new object[] { int.MaxValue };
-        yield return new object[] { uint.MaxValue };
-        yield return new object[] { long.MaxValue };
-        yield return new object[] { ulong.MaxValue };
-        yield return new object[] { float.MaxValue };
-        yield return new object[] { double.MaxValue };
-        yield return new object[] { decimal.MaxValue };
-    }
+        true,
+        sbyte.MaxValue,
+        byte.MaxValue,
+        short.MaxValue,
+        ushort.MaxValue,
+        int.MaxValue,
+        uint.MaxValue,
+        long.MaxValue,
+        ulong.MaxValue,
+        float.MaxValue,
+        double.MaxValue,
+        decimal.MaxValue
+    };
 
-    public static IEnumerable<object[]> GetInvalidTestCases()
+    public static readonly TheoryData<IConvertible> InvalidTestCases = new()
     {
-        yield return new object[] { '\0' };
-        yield return new object[] { DateTime.MaxValue };
-    }
+        '\0',
+        DateTime.MaxValue
+    };
 }
