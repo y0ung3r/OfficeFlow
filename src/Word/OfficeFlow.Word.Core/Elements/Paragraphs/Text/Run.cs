@@ -14,8 +14,9 @@ namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text
                     child is LineBreak || child is TextHolder || child is HorizontalTabulation));
 
         public bool HasLineBreaks 
-            => this.Any(child => 
-                child is LineBreak { Type: LineBreakType.TextWrapping });
+            => this
+                .OfType<LineBreak>()
+                .Any(child => child.Type is LineBreakType.TextWrapping);
 
         public bool IsLastOnPage
             => this.Any(child =>

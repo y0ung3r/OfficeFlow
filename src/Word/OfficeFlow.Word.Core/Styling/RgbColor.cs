@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 
 namespace OfficeFlow.Word.Core.Styling
 {
@@ -23,7 +24,7 @@ namespace OfficeFlow.Word.Core.Styling
             return new RgbColor((uint)red << RedShift | (uint)green << GreenShift | (uint)blue << BlueShift);
         }
 
-        public static RgbColor FromHex(string? hex)
+        public static RgbColor FromHex([CanBeNull] string hex)
         {
             if (hex is null || hex.Length is 0)
             {
@@ -74,7 +75,7 @@ namespace OfficeFlow.Word.Core.Styling
         public bool Equals(RgbColor other)
             => _value == other._value;
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
             => obj is RgbColor other && Equals(other);
 
         public override int GetHashCode()

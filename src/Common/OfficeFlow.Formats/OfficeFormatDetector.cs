@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using OfficeFlow.Formats.Exceptions;
 using OfficeFlow.Formats.Interfaces;
 
@@ -22,15 +23,15 @@ namespace OfficeFlow.Formats
         public static IOfficeFormat Detect(Stream stream)
         {
             ThrowIfUnableToDetermineFileFormat(stream);
-            
-            using var binaryReader = 
-                new BinaryReader(stream);
 
-            var hexdump = binaryReader.ReadBytes(MaxHexdumpLength);
+            using (var binaryReader = new BinaryReader(stream))
+            {
+                var hexdump = binaryReader.ReadBytes(MaxHexdumpLength);
 
-            return Formats.FirstOrDefault(format => 
-                format.Hexdumps.Any(hexdump.SequenceEqual))
-                    ?? throw new UnableToDetermineFileFormatException();
+                return Formats.FirstOrDefault(format =>
+                    format.Hexdumps.Any(hexdump.SequenceEqual))
+                       ?? throw new UnableToDetermineFileFormatException();
+            }
         }
 
         public static IOfficeFormat Detect(string filePath)
@@ -43,14 +44,12 @@ namespace OfficeFlow.Formats
 
             if (officeFormat != null)
                 return officeFormat;
-        
-            using var stream = 
-                File.OpenRead(filePath);
-        
-            return Detect(stream);
+
+            using (var stream = File.OpenRead(filePath))
+                return Detect(stream);
         }
         
-        private static void ThrowIfUnableToDetermineFileFormat(Stream? stream)
+        private static void ThrowIfUnableToDetermineFileFormat([CanBeNull] Stream stream)
         {
             if (stream is null)
             {
@@ -71,7 +70,7 @@ namespace OfficeFlow.Formats
             }
         }
     
-        private static void ThrowIfUnableToDetermineFileFormat(string? filePath)
+        private static void ThrowIfUnableToDetermineFileFormat([CanBeNull] string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {

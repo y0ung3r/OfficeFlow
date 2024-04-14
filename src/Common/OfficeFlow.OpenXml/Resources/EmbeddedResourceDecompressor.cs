@@ -32,11 +32,10 @@ namespace OfficeFlow.OpenXml.Resources
 
         public XDocument Decompress(string resourceName)
         {
-            using var stream = GetResourceStream(resourceName);
-            using var zip = new GZipStream(stream, CompressionMode.Decompress);
-            using var reader = new StreamReader(zip);
-		
-            return XDocument.Load(reader);
+            using (var stream = GetResourceStream(resourceName))
+                using (var zip = new GZipStream(stream, CompressionMode.Decompress))
+                    using (var reader = new StreamReader(zip))
+                        return XDocument.Load(reader);
         }
     }
 }

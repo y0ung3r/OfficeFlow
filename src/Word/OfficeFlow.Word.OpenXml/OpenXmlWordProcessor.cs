@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Packaging;
+using JetBrains.Annotations;
 using OfficeFlow.OpenXml.Packaging;
 using OfficeFlow.OpenXml.Resources;
 using OfficeFlow.OpenXml.Resources.Interfaces;
@@ -16,7 +17,9 @@ namespace OfficeFlow.Word.OpenXml
         private readonly OpenXmlPackage _package;
         private readonly OpenXmlWordDocumentType _documentType;
         private readonly IResourceDecompressor _resourceDecompressor;
-        private Body? _body;
+        
+        [CanBeNull] 
+        private Body _body;
 
         public OpenXmlWordProcessor(
             OpenXmlPackage package,

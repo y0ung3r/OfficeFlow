@@ -20,15 +20,23 @@ namespace OfficeFlow.Word.OpenXml
 
             foreach (var child in body)
             {
-                var childXml = child switch
-                {
-                    Section section => new XElement(OpenXmlNamespaces.Word + "sectPr"),
-                    Paragraph paragraph => new XElement(OpenXmlNamespaces.Word + "p"),
-                    _ => default(XElement)
-                };
+                XName childName = null;
                 
-                if (childXml is null)
-                    return;
+                switch (child)
+                {
+                    case Section _:
+                        childName = OpenXmlNamespaces.Word + "sectPr";
+                        break;
+                    
+                    case Paragraph _:
+                        childName = OpenXmlNamespaces.Word + "p";
+                        break;
+                }
+
+                if (childName is null)
+                    continue;
+
+                var childXml = new XElement(childName);
                 
                 if (child is IVisitable visitable)
                     visitable.Accept(

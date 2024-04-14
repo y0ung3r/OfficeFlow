@@ -31,14 +31,14 @@ namespace OfficeFlow.OpenXml.Packaging
         public static OpenXmlPackage Open(string filePath)
         {
             var flushStrategy = new FlushUsingFilePath(filePath);
-            
-            using var fileStream = 
-                new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            
-            var internalStream = new MemoryStream();
-            fileStream.CopyTo(internalStream);
-            
-            return Load(flushStrategy, internalStream, FileMode.Open);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                var internalStream = new MemoryStream();
+                fileStream.CopyTo(internalStream);
+
+                return Load(flushStrategy, internalStream, FileMode.Open);
+            }
         }
 
         private static OpenXmlPackage Load(
@@ -78,7 +78,7 @@ namespace OfficeFlow.OpenXml.Packaging
 
         public bool TryGetPart(Uri uri, out OpenXmlPackagePart packagePart)
         {
-            packagePart = null!;
+            packagePart = null;
             
             if (!_source.PartExists(uri))
             {
@@ -127,11 +127,9 @@ namespace OfficeFlow.OpenXml.Packaging
             foreach (var packagePart in EnumerateParts())
             {
                 var packageSource = _source.GetPart(packagePart.Uri);
-                
-                using var contentStream = 
-                    packageSource.GetStream(FileMode.Create, FileAccess.Write);
-                
-                packagePart.FlushTo(contentStream);
+
+                using (var contentStream = packageSource.GetStream(FileMode.Create, FileAccess.Write))
+                    packagePart.FlushTo(contentStream);
             }
 
             Flush();
@@ -209,11 +207,10 @@ namespace OfficeFlow.OpenXml.Packaging
         
         private OpenXmlPackagePart OpenPart(PackagePart source)
         {
-            using var contentStream =
-                source.GetStream(FileMode.Open, FileAccess.Read);
-            
-            return _pendingParts.FirstOrDefault(part => part.Uri == source.Uri)
-                ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption, contentStream);
+            using (var contentStream = source.GetStream(FileMode.Open, FileAccess.Read))
+                return _pendingParts.FirstOrDefault(part => part.Uri == source.Uri)
+                    ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption,
+                        contentStream);
         }
 
         /// <remarks>https://github.com/dotnet/runtime/issues/24149</remarks>

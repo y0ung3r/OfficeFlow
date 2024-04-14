@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using OfficeFlow.DocumentObjectModel.Exceptions;
 
 namespace OfficeFlow.DocumentObjectModel
 {
-    public abstract class CompositeElement : Element, IEnumerable<Element?>
+    public abstract class CompositeElement : Element, IEnumerable<Element>
     {
         private readonly ElementCollection _children;
 
-        public Element? FirstChild
+        [CanBeNull]
+        public Element FirstChild
             => _children.Head;
 
-        public Element? LastChild
+        [CanBeNull]
+        public Element LastChild
             => _children.Tail;
 
         protected CompositeElement()
@@ -41,7 +44,7 @@ namespace OfficeFlow.DocumentObjectModel
         public IEnumerable<TElement> GetDescendants<TElement>()
             where TElement : Element
         {
-            var descedants = new Stack<Element?>(_children);
+            var descedants = new Stack<Element>(_children);
             
             while (descedants.Any())
             {
@@ -69,7 +72,7 @@ namespace OfficeFlow.DocumentObjectModel
         public void RemoveChildren()
             => _children.Clear();
 
-        public IEnumerator<Element?> GetEnumerator()
+        public IEnumerator<Element> GetEnumerator()
             => _children.GetEnumerator();
 
         [ExcludeFromCodeCoverage]

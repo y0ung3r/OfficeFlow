@@ -2,21 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using OfficeFlow.DocumentObjectModel.Exceptions;
 
 namespace OfficeFlow.DocumentObjectModel
 {
-    public class ElementCollection : IEnumerable<Element?>
+    public class ElementCollection : IEnumerable<Element>
     {
         private int _generation;
 
-        private readonly CompositeElement? _parent;
+        [CanBeNull] 
+        private readonly CompositeElement _parent;
 
         public int Count { get; private set; }
 
-        public Element? Head { get; private set; }
+        [CanBeNull]
+        public Element Head { get; private set; }
 
-        public Element? Tail { get; private set; }
+        [CanBeNull] 
+        public Element Tail { get; private set; }
 
         public ElementCollection()
         { }
@@ -24,7 +28,8 @@ namespace OfficeFlow.DocumentObjectModel
         public ElementCollection(CompositeElement parent)
             => _parent = parent;
         
-        public Element? this[int index]
+        [CanBeNull] 
+        public Element this[int index]
         {
             get
             {
@@ -206,7 +211,7 @@ namespace OfficeFlow.DocumentObjectModel
             Count = 0;
         }
 
-        public IEnumerator<Element?> GetEnumerator()
+        public IEnumerator<Element> GetEnumerator()
             => new ElementIterator(this);
 
         [ExcludeFromCodeCoverage]
@@ -249,7 +254,7 @@ namespace OfficeFlow.DocumentObjectModel
             Tail = element;
         }
 
-        private void InsertAfter(Element? existsElement, Element element)
+        private void InsertAfter([CanBeNull] Element existsElement, Element element)
         {
             element.NextSibling = existsElement;
             element.PreviousSibling = existsElement?.PreviousSibling;
@@ -270,19 +275,21 @@ namespace OfficeFlow.DocumentObjectModel
             }
         }
 
-        private sealed class ElementIterator : IEnumerator<Element?>
+        private sealed class ElementIterator : IEnumerator<Element>
         {
             private readonly ElementCollection _elements;
             
             private readonly int _generation;
             
-            private Element? _next;
+            [CanBeNull] 
+            private Element _next;
             
-            private Element? _current;
+            [CanBeNull] 
+            private Element _current;
             
             private int _index;
 
-            public Element? Current
+            public Element Current
             {
                 get
                 {
@@ -297,7 +304,7 @@ namespace OfficeFlow.DocumentObjectModel
             }
 
             [ExcludeFromCodeCoverage]
-            object? IEnumerator.Current
+            object IEnumerator.Current
                 => Current;
             
             public ElementIterator(ElementCollection elements)

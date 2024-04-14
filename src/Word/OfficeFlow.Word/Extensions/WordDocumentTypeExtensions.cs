@@ -7,13 +7,24 @@ namespace OfficeFlow.Word.Extensions
     internal static class WordDocumentTypeExtensions
     {
         internal static OpenXmlWordDocumentType ToOpenXmlType(this WordDocumentType documentType)
-            => documentType switch
+        {
+            switch (documentType)
             {
-                WordDocumentType.Docx => OpenXmlWordDocumentType.Document,
-                WordDocumentType.Docm => OpenXmlWordDocumentType.MacroEnabledDocument,
-                WordDocumentType.Dotx => OpenXmlWordDocumentType.Template,
-                WordDocumentType.Dotm => OpenXmlWordDocumentType.MacroEnabledTemplate,
-                _ => throw new NotSupportedException()
-            };
+                case WordDocumentType.Docx:
+                    return OpenXmlWordDocumentType.Document;
+                
+                case WordDocumentType.Docm:
+                    return OpenXmlWordDocumentType.MacroEnabledDocument;
+                
+                case WordDocumentType.Dotx:
+                    return OpenXmlWordDocumentType.Template;
+                
+                case WordDocumentType.Dotm:
+                    return OpenXmlWordDocumentType.MacroEnabledTemplate;
+                
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

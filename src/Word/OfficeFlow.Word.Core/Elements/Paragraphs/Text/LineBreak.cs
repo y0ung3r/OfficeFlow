@@ -11,10 +11,11 @@ namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text
             => Type = type;
         
         public override string ToString()
-            => Type switch
-            {
-                LineBreakType.TextWrapping => "\n",
-                _ => string.Empty
-            };
+        {
+            if (Type == LineBreakType.TextWrapping)
+                return "\n";
+            
+            return string.Empty;
+        }
     }
 }

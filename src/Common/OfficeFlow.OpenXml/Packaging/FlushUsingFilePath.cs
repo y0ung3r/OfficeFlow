@@ -13,8 +13,8 @@ namespace OfficeFlow.OpenXml.Packaging
         /// <inheritdoc />
         public void Flush(MemoryStream internalStream)
         {
-            using var fileStream = new FileStream(_filePath, FileMode.Create, FileAccess.Write);
-            internalStream.WriteTo(fileStream);
+            using (var fileStream = new FileStream(_filePath, FileMode.Create, FileAccess.Write))
+                internalStream.WriteTo(fileStream);
         }
     }
 }

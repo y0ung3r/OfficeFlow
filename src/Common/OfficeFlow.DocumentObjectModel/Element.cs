@@ -1,14 +1,18 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace OfficeFlow.DocumentObjectModel
 {
     public abstract class Element
     {
-        public Element? PreviousSibling { get; internal set; }
+        [CanBeNull] 
+        public Element PreviousSibling { get; internal set; }
         
-        public Element? NextSibling { get; internal set; }
+        [CanBeNull] 
+        public Element NextSibling { get; internal set; }
         
-        public CompositeElement? Parent { get; internal set; }
+        [CanBeNull] 
+        public CompositeElement Parent { get; internal set; }
 
         public IEnumerable<Element> GetAncestors()
             => GetAncestors<Element>();
@@ -29,7 +33,8 @@ namespace OfficeFlow.DocumentObjectModel
             }
         }
 
-        public CompositeElement? GetRootElement()
+        [CanBeNull]
+        public CompositeElement GetRootElement()
         {
             var root = Parent;
 

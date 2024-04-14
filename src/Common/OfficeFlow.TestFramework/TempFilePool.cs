@@ -2,32 +2,30 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace OfficeFlow.TestFramework
+namespace OfficeFlow.TestFramework;
+
+/// <summary>
+/// Clearing temporary files when tests are failed or passed
+/// </summary>
+public sealed class TempFilePool : IDisposable
 {
-    /// <summary>
-    /// Clearing temporary files when tests are failed or passed
-    /// </summary>
-    public sealed class TempFilePool : IDisposable
+    private readonly List<string> _filePaths = [];
+
+    public string GetTempFilePath()
     {
-        private readonly List<string> _filePaths 
-            = new List<string>();
+        var filePath = Path.GetTempFileName();
 
-        public string GetTempFilePath()
-        {
-            var filePath = Path.GetTempFileName();
-
-            _filePaths.Add(filePath);
+        _filePaths.Add(filePath);
             
-            return filePath;
-        }
+        return filePath;
+    }
 
-        /// <inheritdoc />
-        public void Dispose()
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        foreach (var filePath in _filePaths)
         {
-            foreach (var filePath in _filePaths)
-            {
-                File.Delete(filePath);
-            }
+            File.Delete(filePath);
         }
     }
 }

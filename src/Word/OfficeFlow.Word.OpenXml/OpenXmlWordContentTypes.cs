@@ -42,25 +42,45 @@ namespace OfficeFlow.Word.OpenXml
             = "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml";
 
         internal static string GetContentType(OpenXmlWordDocumentType documentType)
-            => documentType switch
+        {
+            switch (documentType)
             {
-                OpenXmlWordDocumentType.Document => Document,
-                OpenXmlWordDocumentType.Template => Template,
-                OpenXmlWordDocumentType.MacroEnabledDocument => MacroEnabledDocument,
-                OpenXmlWordDocumentType.MacroEnabledTemplate => MacroEnabledTemplate,
-                _ => throw new NotSupportedException(
-                    $"Specified document type \"{documentType}\" is not supported")
-            };
+                case OpenXmlWordDocumentType.Document:
+                    return Document;
+                
+                case OpenXmlWordDocumentType.Template:
+                    return Template;
+                
+                case OpenXmlWordDocumentType.MacroEnabledDocument:
+                    return MacroEnabledDocument;
+                
+                case OpenXmlWordDocumentType.MacroEnabledTemplate:
+                    return MacroEnabledTemplate;
+                
+                default:
+                    throw new NotSupportedException($"Specified document type \"{documentType}\" is not supported");
+            }
+        }
 
         internal static OpenXmlWordDocumentType GetDocumentType(string contentType)
-            => contentType switch
+        {
+            switch (contentType)
             {
-                Document => OpenXmlWordDocumentType.Document,
-                Template => OpenXmlWordDocumentType.Template,
-                MacroEnabledDocument => OpenXmlWordDocumentType.MacroEnabledDocument,
-                MacroEnabledTemplate => OpenXmlWordDocumentType.MacroEnabledTemplate,
-                _ => throw new NotSupportedException(
-                    $"Specified content type \"{contentType}\" is not supported")
-            };
+                case Document:
+                    return OpenXmlWordDocumentType.Document;
+                
+                case Template:
+                    return OpenXmlWordDocumentType.Template;
+                
+                case MacroEnabledDocument:
+                    return OpenXmlWordDocumentType.MacroEnabledDocument;
+                
+                case MacroEnabledTemplate:
+                    return OpenXmlWordDocumentType.MacroEnabledTemplate;
+                
+                default:
+                    throw new NotSupportedException($"Specified content type \"{contentType}\" is not supported");
+            }
+        }
     }
 }

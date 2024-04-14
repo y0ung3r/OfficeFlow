@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Packaging;
 using System.Xml.Linq;
+using JetBrains.Annotations;
 
 namespace OfficeFlow.OpenXml.Packaging
 {
@@ -44,9 +45,11 @@ namespace OfficeFlow.OpenXml.Packaging
         
         public CompressionOption CompressionMode { get; }
         
-        public string? RelationshipType { get; }
+        [CanBeNull] 
+        public string RelationshipType { get; }
         
-        public OpenXmlPackagePart? Parent { get; private set; }
+        [CanBeNull] 
+        public OpenXmlPackagePart Parent { get; private set; }
 
         public XElement Root
             => _xml.Root 
@@ -56,7 +59,7 @@ namespace OfficeFlow.OpenXml.Packaging
             Uri uri, 
             string contentType, 
             CompressionOption compressionMode, 
-            string? relationshipType, 
+            [CanBeNull] string relationshipType, 
             XDocument xml)
         {
             Uri = uri;
@@ -74,13 +77,12 @@ namespace OfficeFlow.OpenXml.Packaging
         
         public void FlushTo(Stream contentStream)
         {
-            var synchronizedStream = 
-                Stream.Synchronized(contentStream);
-            
-            using var contentWriter = 
-                new StreamWriter(synchronizedStream, leaveOpen: true);
+            var synchronizedStream = Stream.Synchronized(contentStream);
+            var contentWriter = new StreamWriter(synchronizedStream);
             
             _xml.Save(contentWriter, SaveOptions.None);
+            
+            contentWriter.Flush();
         }
     }
 }

@@ -24,12 +24,22 @@ namespace OfficeFlow.Word.OpenXml
             
             foreach (var bodyChild in bodyXml.Elements())
             {
-                var element = bodyChild.Name.LocalName switch
+                Element element;
+                
+                switch (bodyChild.Name.LocalName)
                 {
-                    "sectPr" => new Section(),
-                    "p" => new Paragraph(),
-                    _ => (Element)new UnknownElement()
-                };
+                    case "sectPr":
+                        element = new Section();
+                        break;
+                    
+                    case "p":
+                        element = new Paragraph();
+                        break;
+                    
+                    default:
+                        element = new UnknownElement();
+                        break;
+                }
 
                 if (element is IVisitable visitable)
                     visitable.Accept(

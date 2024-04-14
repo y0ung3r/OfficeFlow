@@ -1,5 +1,8 @@
 <Project>
     <ItemGroup>
+        <!-- Analyzers -->
+        <PackageReference Update="JetBrains.Annotations" Version="2023.3.0" />
+        
         <!-- OpenXml -->
         <PackageReference Update="System.IO.Packaging" Version="8.0.0" />
         

@@ -1,4 +1,6 @@
-﻿namespace OfficeFlow.OpenXml.Extensions
+﻿using JetBrains.Annotations;
+
+namespace OfficeFlow.OpenXml.Extensions
 {
     internal static class StringExtensions
     {
@@ -18,7 +20,8 @@
             '\x009B', '\x009C', '\x009D', '\x009E', '\x009F'
         };
     
-        internal static string? RemoveRestrictedXmlCharacters(this string? text)
+        [CanBeNull]
+        internal static string RemoveRestrictedXmlCharacters([CanBeNull] this string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {

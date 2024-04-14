@@ -18,16 +18,21 @@ namespace OfficeFlow.Word
         /// <inheritdoc cref="AllowAutoSaving"/>
         private bool _allowAutoSaving;
 
+        
         /// <summary>
         /// Document access mode
         /// </summary>
         internal FileAccess AccessMode
-            => IsReadOnly switch
+        {
+            get
             {
-                true => FileAccess.Read,
-                false => FileAccess.ReadWrite
-            };
-        
+                if (IsReadOnly)
+                    return FileAccess.Read;
+                
+                return FileAccess.ReadWrite;
+            }
+        }
+
         /// <summary>
         /// Open a document in read-only mode
         /// </summary>
