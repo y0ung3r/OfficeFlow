@@ -23,11 +23,13 @@ public static class OfficeFormatDetector
     {
         ThrowIfUnableToDetermineFileFormat(stream);
 
-        using var binaryReader = new BinaryReader(stream);
+        using var binaryReader = 
+            new BinaryReader(stream);
+        
         var hexdump = binaryReader.ReadBytes(MaxHexdumpLength);
 
         return Formats.FirstOrDefault(format =>
-                   format.Hexdumps.Any(hexdump.SequenceEqual))
+            format.Hexdumps.Any(hexdump.SequenceEqual))
                ?? throw new UnableToDetermineFileFormatException();
     }
 
@@ -42,7 +44,9 @@ public static class OfficeFormatDetector
         if (officeFormat != null)
             return officeFormat;
 
-        using var stream = File.OpenRead(filePath);
+        using var stream = 
+            File.OpenRead(filePath);
+        
         return Detect(stream);
     }
 

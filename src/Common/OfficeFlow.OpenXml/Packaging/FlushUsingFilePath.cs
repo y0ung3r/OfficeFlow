@@ -8,7 +8,9 @@ internal sealed class FlushUsingFilePath(string filePath) : IPackageFlushStrateg
     /// <inheritdoc />
     public void Flush(MemoryStream internalStream)
     {
-        using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        using var fileStream = 
+            new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        
         internalStream.WriteTo(fileStream);
     }
 }

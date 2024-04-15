@@ -32,7 +32,8 @@ public sealed class OpenXmlPackage : IDisposable
     {
         var flushStrategy = new FlushUsingFilePath(filePath);
 
-        using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        using var fileStream = 
+            new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
         var internalStream = new MemoryStream();
         fileStream.CopyTo(internalStream);
@@ -212,7 +213,7 @@ public sealed class OpenXmlPackage : IDisposable
             source.GetStream(FileMode.Open, FileAccess.Read);
         
         return _pendingParts.FirstOrDefault(part => part.Uri == source.Uri)
-               ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption, contentStream);
+            ?? OpenXmlPackagePart.Open(source.Uri, source.ContentType, source.CompressionOption, contentStream);
     }
 
     /// <remarks>https://github.com/dotnet/runtime/issues/24149</remarks>
