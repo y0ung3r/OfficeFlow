@@ -18,7 +18,7 @@ public sealed class CompositeElementTests : DocumentObjectModelTestsBase
     {
         // Arrange
         var sut = new FakeCompositeElement();
-            
+
         // Act
         sut.AppendChild(_head);
         sut.AppendChild(_tail);
@@ -27,7 +27,7 @@ public sealed class CompositeElementTests : DocumentObjectModelTestsBase
         sut.FirstChild
             .Should()
             .Be(_head);
-            
+
         sut.LastChild
             .Should()
             .Be(_tail);
@@ -103,7 +103,7 @@ public sealed class CompositeElementTests : DocumentObjectModelTestsBase
         // Assert
         VerifyExistenceInOrder(_head, _second, _third, _tail);
     }
-        
+
     [Fact]
     public void Should_throws_exception_while_insert_child_before_existing_element_if_not_exists()
         => new FakeCompositeElement()
@@ -119,10 +119,10 @@ public sealed class CompositeElementTests : DocumentObjectModelTestsBase
         var firstChild = new FakeCompositeElement(sut);
         var secondChild = new FakeCompositeElement(firstChild);
         var lastChild = new FakeElement(secondChild);
-            
+
         // Act
         var descendants = sut.GetDescendants();
-            
+
         // Assert
         descendants
             .Should()
@@ -140,12 +140,12 @@ public sealed class CompositeElementTests : DocumentObjectModelTestsBase
         var firstChild = new FakeCustomElement(sut);
         var secondChild = new FakeCompositeElement(firstChild);
         var lastChild = new FakeCustomElement(secondChild);
-            
+
         // Act
         var ancestors = sut
             .GetDescendants<FakeCustomElement>()
             .ToArray();
-            
+
         // Assert
         ancestors
             .Should()

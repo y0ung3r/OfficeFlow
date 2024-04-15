@@ -1,15 +1,10 @@
 ﻿using System;
 
-namespace OfficeFlow.Formats.Exceptions
-{
-    public sealed class UnableToDetermineFileFormatException : Exception
-    {
-        public UnableToDetermineFileFormatException()
-            : this("Unable to determine file format")
-        { }
+namespace OfficeFlow.Formats.Exceptions;
 
-        public UnableToDetermineFileFormatException(string message)
-            : base(message)
-        { }
-    }
+public sealed class UnableToDetermineFileFormatException(string message) : Exception(message)
+{
+    public UnableToDetermineFileFormatException()
+        : this("Unable to determine file format")
+    { }
 }

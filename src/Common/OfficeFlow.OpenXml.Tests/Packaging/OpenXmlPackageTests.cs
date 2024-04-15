@@ -15,10 +15,10 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     {
         // Arrange
         var sut = OpenXmlPackage.Create();
-            
+
         // Act
         sut.Dispose();
-            
+
         // Assert
         var testCases = new Action[]
         {
@@ -27,10 +27,10 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             () => sut.SaveTo(remoteStream: new MemoryStream()),
             () => sut.SaveTo(filePath: nameof(OpenXmlPackage))
         };
-            
+
         testCases
             .Should()
-            .AllSatisfy(testCase => 
+            .AllSatisfy(testCase =>
                 testCase
                     .Should()
                     .Throw<ObjectDisposedException>());
@@ -46,23 +46,23 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     public void Should_open_package_using_stream_properly()
         => new Action(() =>
         {
-            using var originalStream = 
+            using var originalStream =
                 PrepareTestPackageStream();
-                
+
             OpenXmlPackage.Open(originalStream);
         })
         .Should()
         .NotThrow();
-        
+
     [Fact]
     public void Should_open_package_using_file_path_properly()
     {
         // Arrange
-        using var originalStream = 
+        using var originalStream =
             PrepareTestPackageStream();
 
         var filePath = tempFilePool.GetTempFilePath();
-            
+
         using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
             originalStream.CopyTo(fileStream);
 
@@ -76,15 +76,15 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     public void Package_parts_should_be_empty_for_new_package()
     {
         // Arrange
-        using var sut = 
+        using var sut =
             OpenXmlPackage.Create();
-            
+
         // Act & Assert
         sut.EnumerateParts()
             .Should()
             .BeEmpty();
     }
-        
+
     [Fact]
     public void Should_enumerate_pending_parts_properly()
     {
@@ -92,17 +92,17 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
-        using var sut = 
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
-            
+
         sut.AddPart(expectedPart);
-            
+
         // Act & Assert
         sut.EnumerateParts()
             .Should()
-            .Contain(actualPart => 
+            .Contain(actualPart =>
                 expectedPart.Uri == actualPart.Uri);
     }
 
@@ -112,18 +112,18 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         // Arrange
         using var originalStream =
             PrepareTestPackageStream();
-            
+
         var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
-            
+
         using (var sut = OpenXmlPackage.Open(originalStream))
             sut.AddPart(expectedPart);
-            
+
         // Act & Assert
         OpenXmlPackage
             .Open(originalStream)
             .EnumerateParts()
             .Should()
-            .Contain(actualPart => 
+            .Contain(actualPart =>
                 expectedPart.Uri == actualPart.Uri);
     }
 
@@ -134,16 +134,16 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         var parentPart = TestOpenXmlPackagePartFactory.Create(uri: "/parent");
         var childPart = TestOpenXmlPackagePartFactory.Create(uri: "/child");
         parentPart.AddChild(childPart);
-            
+
         // Act
         new Action(() =>
         {
-            using var originalStream =
+            using var originalStream = 
                 PrepareTestPackageStream();
-                
-            using var sut = 
+
+            using var sut =
                 OpenXmlPackage.Open(originalStream);
-                
+
             sut.AddPart(childPart);
         })
         .Should()
@@ -157,27 +157,27 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
-        var expectedPart = 
+        var expectedPart =
             TestOpenXmlPackagePartFactory.Create(uri: "/part");
 
-        using var sut = 
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         sut.AddPart(expectedPart);
-            
+
         // Act
         var isExists = sut.TryGetPart(expectedPart.Uri, out var actualPart);
-            
+
         // Assert
         isExists
             .Should()
             .BeTrue();
-            
+
         actualPart
             .ContentType
             .Should()
             .Be(expectedPart.ContentType);
-            
+
         actualPart
             .CompressionMode
             .Should()
@@ -192,13 +192,13 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             PrepareTestPackageStream();
 
         var uri = new Uri("/part", UriKind.Relative);
-            
-        using var sut = 
+
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         // Act
         var isExists = sut.TryGetPart(uri, out _);
-            
+
         // Assert
         isExists
             .Should()
@@ -213,13 +213,13 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             PrepareTestPackageStream();
 
         var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
-            
+
         // Act
         using (var sut = OpenXmlPackage.Open(originalStream))
             sut.AddPart(expectedPart);
-            
+
         // Assert
-        using var packageSource = 
+        using var packageSource =
             Package.Open(originalStream);
 
         var partSource = packageSource.GetPart(expectedPart.Uri);
@@ -228,7 +228,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             .ContentType
             .Should()
             .Be(expectedPart.ContentType);
-            
+
         partSource
             .CompressionOption
             .Should()
@@ -237,10 +237,10 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         packageSource
             .GetRelationships()
             .Should()
-            .OnlyContain(relationship => 
+            .OnlyContain(relationship =>
                 relationship.RelationshipType == expectedPart.RelationshipType);
     }
-        
+
     [Fact]
     public void Should_add_package_part_and_create_relationship_with_another_part()
     {
@@ -251,7 +251,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         var parentPart = TestOpenXmlPackagePartFactory.Create(uri: "/parent");
         var childPart = TestOpenXmlPackagePartFactory.Create(uri: "/child");
         parentPart.AddChild(childPart);
-            
+
         // Act
         using (var sut = OpenXmlPackage.Open(originalStream))
         {
@@ -260,7 +260,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         }
 
         // Assert
-        using var packageSource = 
+        using var packageSource =
             Package.Open(originalStream);
 
         var parentSource = packageSource.GetPart(parentPart.Uri);
@@ -268,10 +268,10 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         parentSource
             .GetRelationships()
             .Should()
-            .OnlyContain(relationship => 
+            .OnlyContain(relationship =>
                 relationship.RelationshipType == childPart.RelationshipType);
     }
-        
+
     [Fact]
     public void Should_save_package_using_stream_properly()
     {
@@ -279,12 +279,12 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
-        using var sut = 
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         // Act
         sut.Save();
-            
+
         // Assert
         originalStream
             .Length
@@ -296,19 +296,19 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     public void Should_save_package_using_file_path_properly()
     {
         // Arrange
-        using var originalStream = 
+        using var originalStream =
             PrepareTestPackageStream();
 
         var filePath = tempFilePool.GetTempFilePath();
         using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
             originalStream.CopyTo(fileStream);
 
-        using var sut = 
+        using var sut =
             OpenXmlPackage.Open(filePath);
-            
+
         // Act
         sut.Save();
-            
+
         // Assert
         File.ReadAllBytes(filePath)
             .Length
@@ -320,40 +320,40 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     public void Should_save_package_to_stream_properly()
     {
         // Arrange
-        using var originalStream = 
+        using var originalStream =
             PrepareTestPackageStream();
 
-        using var destinationStream = 
+        using var destinationStream =
             new MemoryStream();
-            
-        using var sut = 
+
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         // Act
         sut.SaveTo(destinationStream);
-            
+
         // Assert
         destinationStream
             .Length
             .Should()
             .BePositive();
     }
-        
+
     [Fact]
     public void Should_save_package_to_file_properly()
     {
         // Arrange
-        using var originalStream = 
+        using var originalStream =
             PrepareTestPackageStream();
 
         var filePath = tempFilePool.GetTempFilePath();
-            
-        using var sut = 
+
+        using var sut =
             OpenXmlPackage.Open(originalStream);
-            
+
         // Act
         sut.SaveTo(filePath);
-            
+
         // Assert
         File.ReadAllBytes(filePath)
             .Length
@@ -370,7 +370,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             .Close();
 
         originalStream.Seek(offset: 0, SeekOrigin.Begin);
-            
+
         return originalStream;
     }
 }

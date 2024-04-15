@@ -1,11 +1,6 @@
 using System;
 
-namespace OfficeFlow.DocumentObjectModel.Exceptions
-{
-    public sealed class ElementAlreadyExistsException : Exception
-    {
-        public ElementAlreadyExistsException(string message)
-            : base(message)
-        { }
-    }
-}
+namespace OfficeFlow.DocumentObjectModel.Exceptions;
+
+public sealed class ElementAlreadyExistsException(string message) 
+    : Exception(message);

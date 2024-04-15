@@ -1,49 +1,43 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
-namespace OfficeFlow.DocumentObjectModel
+namespace OfficeFlow.DocumentObjectModel;
+
+public abstract class Element
 {
-    public abstract class Element
+    public Element? PreviousSibling { get; internal set; }
+
+    public Element? NextSibling { get; internal set; }
+
+    public CompositeElement? Parent { get; internal set; }
+
+    public IEnumerable<Element> GetAncestors()
+        => GetAncestors<Element>();
+
+    public IEnumerable<TElement> GetAncestors<TElement>()
+        where TElement : Element
     {
-        [CanBeNull] 
-        public Element PreviousSibling { get; internal set; }
-        
-        [CanBeNull] 
-        public Element NextSibling { get; internal set; }
-        
-        [CanBeNull] 
-        public CompositeElement Parent { get; internal set; }
+        var nextAncestor = Parent;
 
-        public IEnumerable<Element> GetAncestors()
-            => GetAncestors<Element>();
-
-        public IEnumerable<TElement> GetAncestors<TElement>()
-            where TElement : Element
+        while (nextAncestor != null)
         {
-            var nextAncestor = Parent;
-
-            while (nextAncestor != null)
+            if (nextAncestor is TElement element)
             {
-                if (nextAncestor is TElement element)
-                {
-                    yield return element;
-                }
-
-                nextAncestor = nextAncestor.Parent;
-            }
-        }
-
-        [CanBeNull]
-        public CompositeElement GetRootElement()
-        {
-            var root = Parent;
-
-            while (root?.Parent != null)
-            {
-                root = root.Parent;
+                yield return element;
             }
 
-            return root;
+            nextAncestor = nextAncestor.Parent;
         }
+    }
+
+    public CompositeElement? GetRootElement()
+    {
+        var root = Parent;
+
+        while (root?.Parent != null)
+        {
+            root = root.Parent;
+        }
+
+        return root;
     }
 }

@@ -12,7 +12,7 @@ public sealed class DocumentSettingsTests
             .Default
             .Should()
             .NotBeSameAs(DocumentSettings.Default);
-	
+
     [Fact]
     public void Should_enable_read_only_mode()
     {
@@ -21,13 +21,13 @@ public sealed class DocumentSettingsTests
         {
             IsReadOnly = true
         };
-		
+
         // Assert
         sut.AccessMode
             .Should()
             .Be(FileAccess.Read);
     }
-	
+
     [Fact]
     public void Should_disable_read_only_mode()
     {
@@ -36,7 +36,7 @@ public sealed class DocumentSettingsTests
         {
             IsReadOnly = false
         };
-		
+
         // Assert
         sut.AccessMode
             .Should()
@@ -58,7 +58,7 @@ public sealed class DocumentSettingsTests
             .Should()
             .Be(false);
     }
-	
+
     [Fact]
     public void Should_enable_auto_saving()
     {

@@ -12,7 +12,7 @@ public sealed class ElementExtensionsTests : DocumentObjectModelTestsBase
     private readonly FakeElement _second = new();
     private readonly FakeElement _third = new();
     private readonly FakeElement _tail = new();
-        
+
     [Fact]
     public void Should_insert_element_after_self()
     {
@@ -29,7 +29,7 @@ public sealed class ElementExtensionsTests : DocumentObjectModelTestsBase
         // Assert
         VerifyExistenceInOrder(_head, _second, _third, _tail);
     }
-        
+
     [Fact]
     public void Should_throws_exception_while_insert_element_after_self_if_has_no_parent()
         => _third

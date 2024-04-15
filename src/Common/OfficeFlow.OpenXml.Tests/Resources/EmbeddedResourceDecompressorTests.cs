@@ -17,16 +17,16 @@ public sealed class EmbeddedResourceDecompressorTests
             "document",
             new XElement
             (
-                "body", 
+                "body",
                 new XText("Content")
             )
         );
-        
+
         var sut = new EmbeddedResourceDecompressor();
-        
+
         // Act
         var actualXml = sut.Decompress("TestEmbeddedResource.xml.gz");
-        
+
         // Assert
         actualXml
             .Root

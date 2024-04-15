@@ -1,8 +1,7 @@
-﻿namespace OfficeFlow.MeasureUnits.Absolute
+﻿namespace OfficeFlow.MeasureUnits.Absolute;
+
+public sealed class Centimeters : AbsoluteUnits
 {
-	public sealed class Centimeters : AbsoluteUnits
-	{
-		internal override double Ratio
-			=> ConversionRatios.Centimeters;
-	}
+    internal override double Ratio
+        => ConversionRatios.Centimeters;
 }

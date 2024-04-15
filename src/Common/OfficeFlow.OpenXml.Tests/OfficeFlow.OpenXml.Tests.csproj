@@ -7,16 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj" />
-        <ProjectReference Include="..\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj" />
+        <ProjectReference Include="..\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj"/>
+        <ProjectReference Include="..\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\Embedded\TestEmbeddedResource.xml.gz" />
+        <EmbeddedResource Include="Resources\Embedded\TestEmbeddedResource.xml.gz"/>
     </ItemGroup>
 
 </Project>

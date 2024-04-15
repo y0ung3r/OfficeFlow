@@ -1,4 +1,10 @@
 <Project>
+    <PropertyGroup>
+        <LangVersion>12.0</LangVersion>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    </PropertyGroup>
+
     <ItemGroup>
         <!-- OpenXml -->
         <PackageVersion Include="System.IO.Packaging" Version="8.0.0"/>

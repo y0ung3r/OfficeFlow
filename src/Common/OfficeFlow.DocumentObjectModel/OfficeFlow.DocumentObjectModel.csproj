@@ -2,14 +2,11 @@
 
     <PropertyGroup>
         <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <InternalsVisibleTo Include="OfficeFlow.DocumentObjectModel.Tests" />
+        <InternalsVisibleTo Include="OfficeFlow.DocumentObjectModel.Tests"/>
     </ItemGroup>
 
 </Project>

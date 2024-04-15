@@ -15,10 +15,10 @@ public sealed class ConvertibleExtensionsTests
     {
         // Arrange
         var expectedValue = convertible.ToDouble(CultureInfo.InvariantCulture);
-            
+
         // Act
         var value = convertible.As<FakeAbsoluteUnits>();
-            
+
         // Assert
         value.Raw
             .Should()

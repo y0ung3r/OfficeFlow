@@ -1,9 +1,8 @@
-namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums
+namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+
+public enum StrikethroughType
 {
-    public enum StrikethroughType
-    {
-        None,
-        Single,
-        Double
-    }
+    None,
+    Single,
+    Double
 }

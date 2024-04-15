@@ -1,11 +1,10 @@
 using OfficeFlow.DocumentObjectModel;
 
-namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text
+namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text;
+
+public sealed class CarriageReturn : Element
 {
-    public sealed class CarriageReturn : Element
-    {
-        /// <inheritdoc />
-        public override string ToString()
-            => "\r";
-    }
+    /// <inheritdoc />
+    public override string ToString()
+        => "\r";
 }

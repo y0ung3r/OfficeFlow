@@ -2,15 +2,15 @@
 
     <PropertyGroup>
         <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.IO.Packaging" />
-        <PackageReference Include="JetBrains.Annotations" />
+        <PackageReference Include="System.IO.Packaging"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="OfficeFlow.OpenXml.Tests" />
+        <InternalsVisibleTo Include="OfficeFlow.OpenXml.Tests"/>
     </ItemGroup>
 
 </Project>

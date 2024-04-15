@@ -20,18 +20,18 @@ public sealed class OpenXmlElementWriterTests
 
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "document"));
-            
+
         var bodyElement = new Body();
-            
+
         bodyElement.AppendChild(
             new Paragraph());
-            
+
         bodyElement.AppendChild(
             new Section());
 
         // Act
         sut.Visit(bodyElement);
-            
+
         // Assert
         sut.Xml
             .Should()

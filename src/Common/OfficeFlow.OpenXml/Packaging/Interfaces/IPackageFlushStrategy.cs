@@ -1,9 +1,8 @@
 using System.IO;
 
-namespace OfficeFlow.OpenXml.Packaging.Interfaces
+namespace OfficeFlow.OpenXml.Packaging.Interfaces;
+
+internal interface IPackageFlushStrategy
 {
-    internal interface IPackageFlushStrategy
-    {
-        void Flush(MemoryStream internalStream);
-    }
+    void Flush(MemoryStream internalStream);
 }

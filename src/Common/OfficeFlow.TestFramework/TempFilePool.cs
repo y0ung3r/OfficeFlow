@@ -16,7 +16,7 @@ public sealed class TempFilePool : IDisposable
         var filePath = Path.GetTempFileName();
 
         _filePaths.Add(filePath);
-            
+
         return filePath;
     }
 

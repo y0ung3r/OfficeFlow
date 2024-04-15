@@ -1,8 +1,7 @@
-﻿namespace OfficeFlow.MeasureUnits.Absolute
+﻿namespace OfficeFlow.MeasureUnits.Absolute;
+
+public sealed class Picas : AbsoluteUnits
 {
-	public sealed class Picas : AbsoluteUnits
-	{
-		internal override double Ratio
-			=> ConversionRatios.Picas;
-	}
+    internal override double Ratio
+        => ConversionRatios.Picas;
 }

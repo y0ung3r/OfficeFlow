@@ -12,7 +12,7 @@ public sealed class AbsoluteUnitsTests
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Centimeters;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -21,13 +21,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Centimeters);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_points()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Points;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -36,13 +36,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Points);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_inches()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Inches;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -51,13 +51,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Inches);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_picas()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Picas;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -66,13 +66,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Picas);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_millimeters()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Millimeters;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -81,13 +81,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Millimeters);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_emu()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Emu;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -96,13 +96,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Emu);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_half_points()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.HalfPoints;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -111,13 +111,13 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.HalfPoints);
     }
-        
+
     [Fact]
     public void Should_create_instance_of_twips()
     {
         // Arrange & Act
         var sut = AbsoluteUnits.Twips;
-            
+
         // Assert
         sut.Should()
             .NotBeNull();
@@ -126,7 +126,7 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(ConversionRatios.Twips);
     }
-        
+
     [Fact]
     public void Should_convert_an_absolute_value_to_emu()
     {

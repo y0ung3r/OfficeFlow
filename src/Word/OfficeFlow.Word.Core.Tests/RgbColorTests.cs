@@ -24,16 +24,16 @@ public sealed class RgbColorTests
 
         // Act
         var sut = RgbColor.FromRgb(red, green, blue);
-            
+
         // Assert
         sut.Red
             .Should()
             .Be(0xFF);
-            
+
         sut.Green
             .Should()
             .Be(0xFF);
-            
+
         sut.Blue
             .Should()
             .Be(0xFF);
@@ -53,7 +53,7 @@ public sealed class RgbColorTests
     {
         // Arrange
         var systemColor = System.Drawing.Color.FromArgb(red: 255, green: 255, blue: 255);
-            
+
         // Act
         var sut = RgbColor.FromSystemColor(systemColor);
 
@@ -61,16 +61,16 @@ public sealed class RgbColorTests
         sut.Red
             .Should()
             .Be(0xFF);
-            
+
         sut.Green
             .Should()
             .Be(0xFF);
-            
+
         sut.Blue
             .Should()
             .Be(0xFF);
     }
-        
+
     [Theory]
     [InlineData(null, 0x0, 0x0, 0x0)]
     [InlineData("", 0x0, 0x0, 0x0)]
@@ -93,11 +93,11 @@ public sealed class RgbColorTests
         color.Red
             .Should()
             .Be(red);
-            
+
         color.Green
             .Should()
             .Be(green);
-            
+
         color.Blue
             .Should()
             .Be(blue);

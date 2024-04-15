@@ -148,7 +148,7 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
         VerifyRemoving(_second);
         VerifyExistenceInOrder(_head, _tail);
     }
-        
+
     [Fact]
     public void Should_do_nothing_if_removable_element_is_not_presented_in_collection()
     {
@@ -159,12 +159,12 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
 
         // Act
         _sut.Remove(_third);
-            
+
         // Assert
         _sut.Count
             .Should()
             .Be(3);
-            
+
         VerifyExistenceInOrder(_head, _second, _tail);
     }
 
@@ -197,10 +197,10 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
     {
         // Arrange
         _sut.Append(_head);
-        
+
         // Act
         var action = () => _sut.RemoveAt(index);
-            
+
         // Assert
         action
             .Should()
@@ -269,7 +269,7 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
     {
         // Arrange
         _sut.Append(_head);
-        
+
         // Act
         var action = () => _sut.Append(_head);
 
@@ -284,7 +284,7 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
     {
         // Arrange
         _sut.Append(_head);
-        
+
         // Act
         var action = () => _sut.Prepend(_head);
 
@@ -303,7 +303,7 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
     {
         // Arrange
         _sut.Append(_head);
-        
+
         // Act
         var action = () => _sut.Insert(index, _second);
 

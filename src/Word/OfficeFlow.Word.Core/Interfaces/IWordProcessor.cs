@@ -2,16 +2,15 @@
 using System.IO;
 using OfficeFlow.Word.Core.Elements;
 
-namespace OfficeFlow.Word.Core.Interfaces
+namespace OfficeFlow.Word.Core.Interfaces;
+
+public interface IWordProcessor : IDisposable
 {
-    public interface IWordProcessor : IDisposable
-    {
-        Body Body { get; }
-        
-        void Save();
+    Body Body { get; }
 
-        void SaveTo(Stream stream);
+    void Save();
 
-        void SaveTo(string filePath);
-    }
+    void SaveTo(Stream stream);
+
+    void SaveTo(string filePath);
 }

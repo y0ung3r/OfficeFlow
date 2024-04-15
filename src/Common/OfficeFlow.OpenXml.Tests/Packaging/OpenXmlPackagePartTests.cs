@@ -22,10 +22,10 @@ public sealed class OpenXmlPackagePartTests
         // Arrange
         var sut = TestOpenXmlPackagePartFactory.Create(uri: "/child");
         var parent = TestOpenXmlPackagePartFactory.Create(uri: "/parent");
-            
+
         // Act
         parent.AddChild(sut);
-            
+
         // Assert
         sut.Parent
             .Should()
@@ -36,9 +36,9 @@ public sealed class OpenXmlPackagePartTests
     public void Should_flush_to_stream_properly()
     {
         // Arrange
-        using var expectedStream = 
+        using var expectedStream =
             new MemoryStream();
-            
+
         var content = new XDocument(
             new XElement
             (
@@ -49,12 +49,12 @@ public sealed class OpenXmlPackagePartTests
                     new XText("Content")
                 )
             ));
-            
+
         var sut = TestOpenXmlPackagePartFactory.Create(uri: "/part", content);
-            
+
         // Act
         sut.FlushTo(expectedStream);
-            
+
         // Assert
         expectedStream
             .Length

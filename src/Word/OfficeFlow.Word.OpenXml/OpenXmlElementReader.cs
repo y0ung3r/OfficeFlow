@@ -5,96 +5,66 @@ using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Interfaces;
 
-namespace OfficeFlow.Word.OpenXml
+namespace OfficeFlow.Word.OpenXml;
+
+internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
 {
-    internal sealed class OpenXmlElementReader : IWordVisitor
+    public XElement Xml { get; } = xml;
+
+    /// <inheritdoc />
+    public void Visit(Body body)
     {
-        public XElement Xml { get; }
-        
-        public OpenXmlElementReader(XElement xml)
-            => Xml = xml;
-        
-        /// <inheritdoc />
-        public void Visit(Body body)
-        {
-            var bodyXml = Xml.Element(OpenXmlNamespaces.Word + "body");
+        var bodyXml = Xml.Element(OpenXmlNamespaces.Word + "body");
 
-            if (bodyXml is null)
-                return;
-            
-            foreach (var bodyChild in bodyXml.Elements())
+        if (bodyXml is null)
+            return;
+
+        foreach (var bodyChild in bodyXml.Elements())
+        {
+            var element = bodyChild.Name.LocalName switch
             {
-                Element element;
-                
-                switch (bodyChild.Name.LocalName)
-                {
-                    case "sectPr":
-                        element = new Section();
-                        break;
-                    
-                    case "p":
-                        element = new Paragraph();
-                        break;
-                    
-                    default:
-                        element = new UnknownElement();
-                        break;
-                }
+                "sectPr" => new Section(),
+                "p" => new Paragraph(),
+                _ => (Element)new UnknownElement()
+            };
 
-                if (element is IVisitable visitable)
-                    visitable.Accept(
-                        new OpenXmlElementReader(bodyChild));
-                
-                body.AppendChild(element);
-            }
-        }
+            if (element is IVisitable visitable)
+                visitable.Accept(
+                    new OpenXmlElementReader(bodyChild));
 
-        /// <inheritdoc />
-        public void Visit(Section section)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(Paragraph paragraph)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(Run run)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(LineBreak @break)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(HorizontalTabulation tabulation)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(VerticalTabulation tabulation)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(TextHolder text)
-        {
-            
-        }
-
-        /// <inheritdoc />
-        public void Visit(LastRenderedPageBreak lastRenderedPageBreak)
-        {
-            
+            body.AppendChild(element);
         }
     }
+
+    /// <inheritdoc />
+    public void Visit(Section section)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(Paragraph paragraph)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(Run run)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(LineBreak @break)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(HorizontalTabulation tabulation)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(VerticalTabulation tabulation)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(TextHolder text)
+    { }
+
+    /// <inheritdoc />
+    public void Visit(LastRenderedPageBreak lastRenderedPageBreak)
+    { }
 }

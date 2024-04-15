@@ -1,9 +1,8 @@
-﻿namespace OfficeFlow.MeasureUnits.Absolute
+﻿namespace OfficeFlow.MeasureUnits.Absolute;
+
+public sealed class Twips : AbsoluteUnits
 {
-	public sealed class Twips : AbsoluteUnits
-	{
-		/// <inheritdoc />
-		internal override double Ratio
-			=> ConversionRatios.Twips;
-	}
+    /// <inheritdoc />
+    internal override double Ratio
+        => ConversionRatios.Twips;
 }

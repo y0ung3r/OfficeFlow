@@ -14,7 +14,7 @@ public sealed class ElementTests
         var firstParent = new FakeCompositeElement();
         var secondParent = new FakeCompositeElement();
         var sut = new FakeElement(firstParent);
-            
+
         // Act
         secondParent.AppendChild(sut);
 
@@ -27,13 +27,13 @@ public sealed class ElementTests
             .Should()
             .Contain(sut);
     }
-        
+
     [Fact]
     public void Should_add_element_to_parent_from_constructor()
     {
         // Arrange
         var parent = new FakeCompositeElement();
-            
+
         // Act
         var sut = new FakeElement(parent);
 
@@ -42,7 +42,7 @@ public sealed class ElementTests
             .Should()
             .Contain(sut);
     }
-        
+
     [Fact]
     public void Should_returns_root_element_if_exists()
     {
@@ -83,10 +83,10 @@ public sealed class ElementTests
         var rootChild = new FakeCompositeElement(root);
         var parent = new FakeCompositeElement(rootChild);
         var sut = new FakeElement(parent);
-            
+
         // Act
         var ancestors = sut.GetAncestors();
-            
+
         // Assert
         ancestors
             .Should()
@@ -105,12 +105,12 @@ public sealed class ElementTests
         var secondRootChild = new FakeCustomElement(firstRootChild);
         var parent = new FakeCustomElement(secondRootChild);
         var sut = new FakeElement(parent);
-            
+
         // Act
         var ancestors = sut
             .GetAncestors<FakeCustomElement>()
             .ToArray();
-            
+
         // Assert
         ancestors
             .Should()

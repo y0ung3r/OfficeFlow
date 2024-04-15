@@ -2,14 +2,11 @@
 
 namespace OfficeFlow.MeasureUnits.Tests.Fakes;
 
-internal sealed class FakeAbsoluteUnits : AbsoluteUnits
+internal sealed class FakeAbsoluteUnits(double ratio) : AbsoluteUnits
 {
-	internal override double Ratio { get; }
-		
-	public FakeAbsoluteUnits()
-		: this(1.0)
-	{ }
+    internal override double Ratio { get; } = ratio;
 
-	public FakeAbsoluteUnits(double ratio)
-		=> Ratio = ratio;
+    public FakeAbsoluteUnits()
+        : this(1.0)
+    { }
 }

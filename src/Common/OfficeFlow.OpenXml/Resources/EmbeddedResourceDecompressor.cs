@@ -6,36 +6,36 @@ using System.Xml.Linq;
 using OfficeFlow.OpenXml.Resources.Exceptions;
 using OfficeFlow.OpenXml.Resources.Interfaces;
 
-namespace OfficeFlow.OpenXml.Resources
+namespace OfficeFlow.OpenXml.Resources;
+
+public sealed class EmbeddedResourceDecompressor(Assembly assembly) : IResourceDecompressor
 {
-    public sealed class EmbeddedResourceDecompressor : IResourceDecompressor
+    public EmbeddedResourceDecompressor()
+        : this(Assembly.GetCallingAssembly())
+    { }
+
+    private Stream GetResourceStream(string resourceName)
     {
-        private readonly Assembly _assembly;
+        var resourcePath = assembly
+            .GetManifestResourceNames()
+            .FirstOrDefault(name => name.EndsWith(resourceName))
+                ?? throw new ResourceNotFoundException(resourceName);
 
-        public EmbeddedResourceDecompressor()
-            : this(Assembly.GetCallingAssembly())
-        { }
+        return assembly.GetManifestResourceStream(resourcePath)
+            ?? throw new ResourceNotLoadedException(resourceName);
+    }
 
-        public EmbeddedResourceDecompressor(Assembly assembly)
-            => _assembly = assembly;
+    public XDocument Decompress(string resourceName)
+    {
+        using var stream = 
+            GetResourceStream(resourceName);
+        
+        using var zip = 
+            new GZipStream(stream, CompressionMode.Decompress);
+        
+        using var reader = 
+            new StreamReader(zip);
 
-        private Stream GetResourceStream(string resourceName)
-        {
-            var resourcePath = _assembly
-                .GetManifestResourceNames()
-                .FirstOrDefault(name => name.EndsWith(resourceName))    
-                    ?? throw new ResourceNotFoundException(resourceName);
-
-            return _assembly.GetManifestResourceStream(resourcePath)
-                ?? throw new ResourceNotLoadedException(resourceName);
-        }
-
-        public XDocument Decompress(string resourceName)
-        {
-            using (var stream = GetResourceStream(resourceName))
-                using (var zip = new GZipStream(stream, CompressionMode.Decompress))
-                    using (var reader = new StreamReader(zip))
-                        return XDocument.Load(reader);
-        }
+        return XDocument.Load(reader);
     }
 }

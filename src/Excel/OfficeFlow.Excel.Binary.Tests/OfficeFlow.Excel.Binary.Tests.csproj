@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Common\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj" />
-        <ProjectReference Include="..\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj" />
+        <ProjectReference Include="..\..\Common\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj"/>
+        <ProjectReference Include="..\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj"/>
     </ItemGroup>
 
 </Project>

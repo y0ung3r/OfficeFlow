@@ -95,8 +95,8 @@ public sealed class OfficeFormatDetectorTests(TempFilePool tempFilePool) : IClas
     {
         // Arrange
         var hexdump = new byte[] { 0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1 };
-            
-        using var stream = 
+
+        using var stream =
             new MemoryStream(hexdump);
 
         // Act
@@ -114,7 +114,7 @@ public sealed class OfficeFormatDetectorTests(TempFilePool tempFilePool) : IClas
     public void Should_detect_open_xml_format_from_stream(byte[] hexdump)
     {
         // Arrange
-        using var stream = 
+        using var stream =
             new MemoryStream(hexdump);
 
         // Act
@@ -130,14 +130,14 @@ public sealed class OfficeFormatDetectorTests(TempFilePool tempFilePool) : IClas
     public void Should_throw_exception_if_format_is_undefined()
         => new Action(() =>
         {
-            using var stream = 
+            using var stream =
                 new MemoryStream(new byte[] { 0xD0 });
-                
+
             OfficeFormatDetector.Detect(stream);
         })
         .Should()
         .Throw<UnableToDetermineFileFormatException>();
-        
+
     [Fact]
     public void Should_throw_exception_if_stream_is_null()
         => new Action(() => OfficeFormatDetector.Detect(default(Stream)!))
@@ -148,11 +148,11 @@ public sealed class OfficeFormatDetectorTests(TempFilePool tempFilePool) : IClas
     public void Should_throw_exception_if_stream_is_unreadable()
         => new Action(() =>
         {
-            using var stream = 
+            using var stream =
                 new MemoryStream(new byte[] { 0xD0 });
-                
+
             stream.Close();
-                
+
             OfficeFormatDetector.Detect(stream);
         })
         .Should()
@@ -162,9 +162,9 @@ public sealed class OfficeFormatDetectorTests(TempFilePool tempFilePool) : IClas
     public void Should_throw_exception_if_stream_is_empty()
         => new Action(() =>
         {
-            using var stream = 
+            using var stream =
                 new MemoryStream(Array.Empty<byte>());
-                    
+
             OfficeFormatDetector.Detect(stream);
         })
         .Should()

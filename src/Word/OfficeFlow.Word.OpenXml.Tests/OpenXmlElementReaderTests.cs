@@ -18,13 +18,13 @@ public sealed class OpenXmlElementReaderTests
                 new XElement(OpenXmlNamespaces.Word + "body",
                     new XElement(OpenXmlNamespaces.Word + "p"),
                     new XElement(OpenXmlNamespaces.Word + "sectPr"))));
-            
+
         var bodyElement = new Body();
         var sut = new OpenXmlElementReader(xml);
-        
+
         // Act
         sut.Visit(bodyElement);
-        
+
         // Assert
         bodyElement
             .Select(child => child?.GetType())

@@ -1,9 +1,8 @@
 ﻿using System.Xml.Linq;
 
-namespace OfficeFlow.OpenXml.Resources.Interfaces
+namespace OfficeFlow.OpenXml.Resources.Interfaces;
+
+public interface IResourceDecompressor
 {
-    public interface IResourceDecompressor
-    {
-        XDocument Decompress(string resourceName);
-    }
+    XDocument Decompress(string resourceName);
 }

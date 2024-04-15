@@ -2,20 +2,17 @@
 
     <PropertyGroup>
         <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" />
+        <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj"/>
+        <ProjectReference Include="..\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj"/>
+        <ProjectReference Include="..\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj" />
-      <ProjectReference Include="..\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj" />
-      <ProjectReference Include="..\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <InternalsVisibleTo Include="OfficeFlow.Word.Tests" />
+        <InternalsVisibleTo Include="OfficeFlow.Word.Tests"/>
     </ItemGroup>
 
 </Project>

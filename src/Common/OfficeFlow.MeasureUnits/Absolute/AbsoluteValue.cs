@@ -1,59 +1,58 @@
 ﻿using System;
 using System.Globalization;
 
-namespace OfficeFlow.MeasureUnits.Absolute
+namespace OfficeFlow.MeasureUnits.Absolute;
+
+public class AbsoluteValue
 {
-	public class AbsoluteValue
-	{
-		public static AbsoluteValue From(double value, AbsoluteUnits units)
-			=> new AbsoluteValue(value, units);
-		
-		public double Raw { get; }
+    public static AbsoluteValue From(double value, AbsoluteUnits units) 
+        => new(value, units);
 
-		public AbsoluteUnits Units { get; }
+    public double Raw { get; }
 
-		protected AbsoluteValue(double value, AbsoluteUnits units)
-		{
-			if (value < 0)
-			{
-				throw new ArgumentException(
-					$"The value \"{nameof(value)}\" cannot be less than zero");
-			}
+    public AbsoluteUnits Units { get; }
 
-			Units = units;
-			Raw = value;
-		}
+    protected AbsoluteValue(double value, AbsoluteUnits units)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentException(
+                $"The value \"{nameof(value)}\" cannot be less than zero");
+        }
 
-		public AbsoluteValue<TTargetUnits> To<TTargetUnits>()
-			where TTargetUnits : AbsoluteUnits, new()
-		{
-			if (Units is TTargetUnits)
-			{
-				return AbsoluteValue<TTargetUnits>.From(Raw);
-			}
+        Units = units;
+        Raw = value;
+    }
 
-			var emu = Units.ToEmu(Raw);
-			var targetUnits = new TTargetUnits();
-			var convertedValue = targetUnits.FromEmu(emu);
+    public AbsoluteValue<TTargetUnits> To<TTargetUnits>()
+        where TTargetUnits : AbsoluteUnits, new()
+    {
+        if (Units is TTargetUnits)
+        {
+            return AbsoluteValue<TTargetUnits>.From(Raw);
+        }
 
-			return AbsoluteValue<TTargetUnits>.From(convertedValue);
-		}
+        var emu = Units.ToEmu(Raw);
+        var targetUnits = new TTargetUnits();
+        var convertedValue = targetUnits.FromEmu(emu);
 
-		public override string ToString()
-			=> Raw.ToString(CultureInfo.InvariantCulture);
-	}
+        return AbsoluteValue<TTargetUnits>.From(convertedValue);
+    }
 
-	public class AbsoluteValue<TUnits> : AbsoluteValue
-		where TUnits : AbsoluteUnits, new()
-	{
-		public static AbsoluteValue<TUnits> Zero
-			=> new AbsoluteValue<TUnits>(0.0);
-		
-		public static AbsoluteValue<TUnits> From(double value)
-			=> new AbsoluteValue<TUnits>(value);
-		
-		private AbsoluteValue(double value)
-			: base(value, new TUnits())
-		{ }
-	}
+    public override string ToString()
+        => Raw.ToString(CultureInfo.InvariantCulture);
+}
+
+public class AbsoluteValue<TUnits> : AbsoluteValue
+    where TUnits : AbsoluteUnits, new()
+{
+    public static AbsoluteValue<TUnits> Zero
+        => new(0.0);
+
+    public static AbsoluteValue<TUnits> From(double value)
+        => new(value);
+
+    private AbsoluteValue(double value)
+        : base(value, new TUnits())
+    { }
 }

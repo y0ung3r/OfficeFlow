@@ -1,8 +1,7 @@
-﻿namespace OfficeFlow.MeasureUnits.Absolute
+﻿namespace OfficeFlow.MeasureUnits.Absolute;
+
+public sealed class HalfPoints : AbsoluteUnits
 {
-	public sealed class HalfPoints : AbsoluteUnits
-	{
-		internal override double Ratio
-			=> ConversionRatios.HalfPoints;
-	}
+    internal override double Ratio
+        => ConversionRatios.HalfPoints;
 }
