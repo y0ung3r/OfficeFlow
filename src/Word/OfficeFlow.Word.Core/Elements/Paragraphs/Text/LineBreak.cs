@@ -1,20 +1,25 @@
 using OfficeFlow.DocumentObjectModel;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 
-public sealed class LineBreak : Element
+public sealed class LineBreak(LineBreakType type) : Element, IVisitable
 {
-    public LineBreakType Type { get; set; }
-
-    public LineBreak(LineBreakType type)
-        => Type = type;
+    public LineBreakType Type { get; set; } = type;
+    
+    public LineBreak()
+        : this(LineBreakType.TextWrapping)
+    { }
 
     public override string ToString()
-    {
-        if (Type == LineBreakType.TextWrapping)
-            return "\n";
+        => Type switch
+        {
+            LineBreakType.TextWrapping => "\n",
+            _ => string.Empty
+        };
 
-        return string.Empty;
-    }
+    /// <inheritdoc />
+    public void Accept(IWordVisitor visitor)
+        => visitor.Visit(this);
 }
