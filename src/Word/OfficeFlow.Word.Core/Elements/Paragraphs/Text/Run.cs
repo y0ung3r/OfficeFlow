@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using OfficeFlow.DocumentObjectModel;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 
-public sealed class Run : CompositeElement
+public sealed class Run(RunFormat format) : CompositeElement, IVisitable
 {
-    public RunFormat Format { get; }
+    public RunFormat Format { get; } = format;
 
     public string Text
         => string.Concat(
@@ -25,24 +26,26 @@ public sealed class Run : CompositeElement
         : this(RunFormat.Default)
     { }
 
-    public Run(RunFormat format)
-        => Format = format;
-
     public void AppendTabulation()
-        => AppendChild(new HorizontalTabulation());
+        => AppendChild(
+            new HorizontalTabulation());
 
     public void AppendLineBreak()
-        => AppendChild(new LineBreak(LineBreakType.TextWrapping));
+        => AppendChild(
+            new LineBreak(LineBreakType.TextWrapping));
 
-    public void AppendText(string value)
+    public void AppendText(string text)
     {
-        if (string.IsNullOrEmpty(value))
-        {
+        if (string.IsNullOrEmpty(text))
             return;
-        }
 
-        AppendChild(new TextHolder(value));
+        AppendChild(
+            new TextHolder(text));
     }
+
+    /// <inheritdoc />
+    public void Accept(IWordVisitor visitor)
+        => visitor.Visit(this);
 
     public override string ToString()
         => Text;
