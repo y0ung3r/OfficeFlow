@@ -25,10 +25,22 @@ public interface IWordVisitor
     void Visit(Paragraph paragraph);
 
     /// <summary>
+    /// Visit <see cref="ParagraphFormat"/>
+    /// </summary>
+    /// <param name="paragraphFormat">Instance of <see cref="ParagraphFormat"/></param>
+    void Visit(ParagraphFormat paragraphFormat);
+
+    /// <summary>
     /// Visit <see cref="Run"/>
     /// </summary>
     /// <param name="run">Instance of <see cref="Run"/></param>
     void Visit(Run run);
+
+    /// <summary>
+    /// Visit <see cref="RunFormat"/>
+    /// </summary>
+    /// <param name="runFormat">Instance of <see cref="RunFormat"/></param>
+    void Visit(RunFormat runFormat);
 
     /// <summary>
     /// Visit <see cref="LineBreak"/>
@@ -37,26 +49,8 @@ public interface IWordVisitor
     void Visit(LineBreak @break);
 
     /// <summary>
-    /// Visit <see cref="HorizontalTabulation"/>
-    /// </summary>
-    /// <param name="tabulation">Instance of <see cref="HorizontalTabulation"/></param>
-    void Visit(HorizontalTabulation tabulation);
-
-    /// <summary>
-    /// Visit <see cref="VerticalTabulation"/>
-    /// </summary>
-    /// <param name="tabulation">Instance of <see cref="VerticalTabulation"/></param>
-    void Visit(VerticalTabulation tabulation);
-
-    /// <summary>
     /// Visit <see cref="TextHolder"/>
     /// </summary>
     /// <param name="text">Instance of <see cref="TextHolder"/></param>
     void Visit(TextHolder text);
-
-    /// <summary>
-    /// Visit <see cref="LastRenderedPageBreak"/>
-    /// </summary>
-    /// <param name="lastRenderedPageBreak">Instance of <see cref="LastRenderedPageBreak"/></param>
-    void Visit(LastRenderedPageBreak lastRenderedPageBreak);
 }

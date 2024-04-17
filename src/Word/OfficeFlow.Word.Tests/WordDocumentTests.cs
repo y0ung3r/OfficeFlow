@@ -13,8 +13,7 @@ public sealed class WordDocumentTests
     [InlineData(WordDocumentType.Dotx)]
     [InlineData(WordDocumentType.Dotm)]
     public void Should_create_word_document_properly(WordDocumentType documentType)
-        // ReSharper disable once ObjectCreationAsStatement
-        => new Action(() => new WordDocument(documentType))
+        => new Action(() => _ = new WordDocument(documentType))
             .Should()
             .NotThrow();
 }
