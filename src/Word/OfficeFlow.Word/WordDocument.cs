@@ -47,17 +47,10 @@ public sealed class WordDocument : CompositeElement, IDisposable
     }
 
     public Section LastSection
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-    }
+        => _processor.Body.LastSection;
 
-    public Section AddSection()
-    {
-        throw new NotImplementedException();
-    }
+    public Section AppendSection()
+        => _processor.Body.AppendSection();
 
     public void Save()
         => _processor.Save();
