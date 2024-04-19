@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using OfficeFlow.DocumentObjectModel;
 using OfficeFlow.Formats;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Enums;
@@ -10,7 +9,7 @@ using OfficeFlow.Word.OpenXml;
 
 namespace OfficeFlow.Word;
 
-public sealed class WordDocument : CompositeElement, IDisposable
+public sealed class WordDocument : IDisposable
 {
     private bool _isDisposed;
     private readonly DocumentSettings _settings;
