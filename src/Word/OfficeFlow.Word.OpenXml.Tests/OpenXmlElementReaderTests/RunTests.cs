@@ -29,7 +29,7 @@ public sealed class RunTests
         run.Should()
             .HaveCount(expected: 4);
 
-        run.Select(child => child?.GetType())
+        run.Select(child => child.GetType())
             .Should()
             .ContainInOrder(
                 typeof(TextHolder),

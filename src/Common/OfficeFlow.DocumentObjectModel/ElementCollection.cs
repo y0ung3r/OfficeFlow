@@ -6,7 +6,7 @@ using OfficeFlow.DocumentObjectModel.Exceptions;
 
 namespace OfficeFlow.DocumentObjectModel;
 
-public class ElementCollection : IEnumerable<Element?>
+public class ElementCollection : IEnumerable<Element>
 {
     private int _generation;
 
@@ -24,16 +24,16 @@ public class ElementCollection : IEnumerable<Element?>
     public ElementCollection(CompositeElement parent)
         => _parent = parent;
 
-    public Element? this[int index]
+    public Element this[int index]
     {
         get
         {
-            if (index == 0)
+            if (index == 0 && Head is not null)
             {
                 return Head;
             }
 
-            if (index == Count - 1)
+            if (index == Count - 1 && Tail is not null)
             {
                 return Tail;
             }
@@ -55,7 +55,8 @@ public class ElementCollection : IEnumerable<Element?>
                 skip++;
             }
 
-            return null;
+            throw new ElementNotFoundException(
+                "The element is not present in the current collection");
         }
     }
 
@@ -154,12 +155,6 @@ public class ElementCollection : IEnumerable<Element?>
     {
         var element = this[index];
 
-        if (element is null)
-        {
-            throw new ElementNotFoundException(
-                "The element is not present in the current collection");
-        }
-
         if (element.PreviousSibling != null)
         {
             element.PreviousSibling.NextSibling = element.NextSibling;
@@ -195,7 +190,9 @@ public class ElementCollection : IEnumerable<Element?>
         while (root != null)
         {
             var next = root.NextSibling;
+            
             Remove(root);
+            
             root = next;
         }
 
@@ -206,7 +203,7 @@ public class ElementCollection : IEnumerable<Element?>
         Count = 0;
     }
 
-    public IEnumerator<Element?> GetEnumerator()
+    public IEnumerator<Element> GetEnumerator()
         => new ElementIterator(this);
 
     [ExcludeFromCodeCoverage]
@@ -249,29 +246,28 @@ public class ElementCollection : IEnumerable<Element?>
         Tail = element;
     }
 
-    private void InsertAfter(Element? existsElement, Element element)
+    private void InsertAfter(Element existsElement, Element element)
     {
         element.NextSibling = existsElement;
-        element.PreviousSibling = existsElement?.PreviousSibling;
+        element.PreviousSibling = existsElement.PreviousSibling;
 
-        if (existsElement?.PreviousSibling != null)
+        if (existsElement.PreviousSibling != null)
         {
             existsElement.PreviousSibling.NextSibling = element;
         }
 
-        if (existsElement?.NextSibling != null)
+        if (existsElement.NextSibling != null)
         {
             existsElement.NextSibling.PreviousSibling = existsElement;
         }
 
-        if (existsElement != null)
-        {
-            existsElement.PreviousSibling = element;
-        }
+        existsElement.PreviousSibling = element;
     }
 
-    private sealed class ElementIterator : IEnumerator<Element?>
+    private sealed class ElementIterator : IEnumerator<Element>
     {
+        private bool _isDisposed;
+        
         private readonly ElementCollection _elements;
 
         private readonly int _generation;
@@ -282,7 +278,7 @@ public class ElementCollection : IEnumerable<Element?>
 
         private int _index;
 
-        public Element? Current
+        public Element Current
         {
             get
             {
@@ -292,12 +288,14 @@ public class ElementCollection : IEnumerable<Element?>
                         "Index was outside the bounds of the collection");
                 }
 
-                return _current;
+                return _current
+                    ?? throw new InvalidOperationException(
+                        "Do not call Current before invoking MoveNext");
             }
         }
 
         [ExcludeFromCodeCoverage]
-        object? IEnumerator.Current
+        object IEnumerator.Current
             => Current;
 
         public ElementIterator(ElementCollection elements)
@@ -311,9 +309,10 @@ public class ElementCollection : IEnumerable<Element?>
 
         public bool MoveNext()
         {
+            ThrowIfDisposed();
             ThrowIfCollectionWasModified();
 
-            if (_next == null)
+            if (_next is null)
             {
                 _index = _elements.Count + 1;
 
@@ -335,6 +334,7 @@ public class ElementCollection : IEnumerable<Element?>
 
         public void Reset()
         {
+            ThrowIfDisposed();
             ThrowIfCollectionWasModified();
 
             _current = null;
@@ -344,9 +344,23 @@ public class ElementCollection : IEnumerable<Element?>
 
         public void Dispose()
         {
-            // Method intentionally left empty
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
         }
 
+        private void ThrowIfDisposed()
+        {
+            if (!_isDisposed)
+                return;
+
+            throw new ObjectDisposedException(
+                nameof(ElementIterator));
+        }
+        
         private void ThrowIfCollectionWasModified()
         {
             if (_generation != _elements._generation)

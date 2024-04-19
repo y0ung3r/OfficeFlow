@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using OfficeFlow.DocumentObjectModel.Exceptions;
 
 namespace OfficeFlow.DocumentObjectModel;
 
-public abstract class CompositeElement : Element, IEnumerable<Element?>
+public abstract class CompositeElement : Element, IEnumerable<Element>
 {
     private readonly ElementCollection _children;
 
@@ -52,13 +51,14 @@ public abstract class CompositeElement : Element, IEnumerable<Element?>
                 yield return element;
             }
 
-            // ReSharper disable once InvertIf
-            if (nextDescedant is CompositeElement composite)
+            if (nextDescedant is not CompositeElement composite)
             {
-                foreach (var child in composite)
-                {
-                    descedants.Push(child);
-                }
+                continue;
+            }
+
+            foreach (var child in composite)
+            {
+                descedants.Push(child);
             }
         }
     }
@@ -69,7 +69,7 @@ public abstract class CompositeElement : Element, IEnumerable<Element?>
     public void RemoveChildren()
         => _children.Clear();
 
-    public IEnumerator<Element?> GetEnumerator()
+    public IEnumerator<Element> GetEnumerator()
         => _children.GetEnumerator();
 
     [ExcludeFromCodeCoverage]
@@ -83,7 +83,7 @@ public abstract class CompositeElement : Element, IEnumerable<Element?>
         if (index is -1)
         {
             throw new ElementNotFoundException(
-                $"The specified element {element.GetType().Name} is not part of the current composite element {GetType().Name}");
+                $"The specified element \"{element.GetType().Name}\" is not part of the current composite element \"{GetType().Name}\"");
         }
 
         return index;

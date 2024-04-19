@@ -73,10 +73,10 @@ public sealed class ElementCollectionTests : DocumentObjectModelTestsBase
     }
 
     [Fact]
-    public void Should_returns_null_if_element_is_not_presented_in_collection()
-        => _sut[-5]
+    public void Should_throw_exception_if_element_is_not_presented_in_collection()
+        => new Action(() => _ = _sut[-5])
             .Should()
-            .BeNull();
+            .Throw<ElementNotFoundException>();
 
     [Fact]
     public void Should_append_element_properly()
