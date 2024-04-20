@@ -40,4 +40,11 @@ public sealed class EmbeddedResourceDecompressorTests
             .Invoking(decompressor => decompressor.Decompress("NotExistsResource.xml.gz"))
             .Should()
             .Throw<ResourceNotFoundException>();
+    
+    [Fact]
+    public void Should_throws_exception_if_resource_not_loaded_from_assembly()
+        => new EmbeddedResourceDecompressor(new FakeAssembly("TestEmbeddedResource.xml.gz"))
+            .Invoking(decompressor => decompressor.Decompress("TestEmbeddedResource.xml.gz"))
+            .Should()
+            .Throw<ResourceNotLoadedException>();
 }
