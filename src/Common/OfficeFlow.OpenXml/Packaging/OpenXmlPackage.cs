@@ -98,7 +98,7 @@ public sealed class OpenXmlPackage : IDisposable
             return;
         }
 
-        if (packagePart.RelationshipType is null)
+        if (string.IsNullOrWhiteSpace(packagePart.RelationshipType))
         {
             throw new InvalidOperationException(
                 "Relationship type should be specified");
