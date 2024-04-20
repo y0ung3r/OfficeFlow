@@ -1,8 +1,8 @@
 ﻿namespace OfficeFlow.OpenXml.Extensions;
 
-internal static class StringExtensions
+public static class StringExtensions
 {
-    private static readonly char[] RestrictedXmlCharacters =
+    internal static readonly char[] RestrictedXmlCharacters =
     {
         '\a', '\b', '\v', '\f',
         '\x0001', '\x0002', '\x0003', '\x0004', '\x0005',
@@ -18,9 +18,9 @@ internal static class StringExtensions
         '\x009B', '\x009C', '\x009D', '\x009E', '\x009F'
     };
 
-    internal static string? RemoveRestrictedXmlCharacters(this string? text)
+    public static string? RemoveRestrictedXmlCharacters(this string? text)
     {
-        if (text is null)
+        if (string.IsNullOrWhiteSpace(text))
             return text;
 
         return string.Join(
