@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using OfficeFlow.Formats;
 using OfficeFlow.Word.Core.Elements;
@@ -44,6 +45,9 @@ public sealed class WordDocument : IDisposable
         _processor = processor;
         _settings = settings;
     }
+
+    public IEnumerable<Section> Sections
+        => _processor.Body.Sections;
 
     public Section LastSection
         => _processor.Body.LastSection;

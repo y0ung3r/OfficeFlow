@@ -9,6 +9,9 @@ namespace OfficeFlow.Word.Core.Elements.Paragraphs;
 
 public sealed class Paragraph(ParagraphFormat format) : CompositeElement, IVisitable
 {
+    private static readonly char[] ControlCharacters
+        = { '\t', '\n' };
+    
     public ParagraphFormat Format { get; } = format;
 
     public string Text
@@ -20,31 +23,30 @@ public sealed class Paragraph(ParagraphFormat format) : CompositeElement, IVisit
     { }
 
     public void AppendText()
-        => AppendText("\n");
+        => AppendText(text: "\n");
 
     public void AppendText(string text)
     {
         var runs = new List<Run>();
         var stringBuilder = new StringBuilder();
-        var delimeters = new[] { '\t', '\n', '\r' };
 		
         for (var index = 0; index < text.Length; index++)
         {
-            var symbol = text[index];
-            var builderHasText = stringBuilder.Length > 0;
-            var isLastSymbol = index == text.Length - 1;
-            var isDelimeterSymbol = delimeters.Contains(symbol);
+            var character = text[index];
+            var isLastCharacter = index == text.Length - 1;
+            var isControlCharacter = ControlCharacters.Contains(character);
 
-            if (!isDelimeterSymbol)
+            if (!isControlCharacter)
             {
-                stringBuilder.Append(symbol);
+                stringBuilder.Append(character);
             }
 			
-            if (builderHasText && (isDelimeterSymbol || isLastSymbol))
+            if (stringBuilder.Length > 0 && (isControlCharacter || isLastCharacter))
             {
                 var run = new Run();
                 
                 var line = stringBuilder.ToString();
+                
                 run.AppendText(line);
                 
                 runs.Add(run);
@@ -52,27 +54,27 @@ public sealed class Paragraph(ParagraphFormat format) : CompositeElement, IVisit
                 stringBuilder.Clear();
             }
 
-            if (isDelimeterSymbol)
+            if (!isControlCharacter)
             {
-                var previousRun = runs.LastOrDefault();
-                var delimeterRun = new Run();
+                continue;
+            }
 
-                switch (symbol)
-                {
-                    case '\t':
-                        delimeterRun.AppendTabulation();
-                        runs.Add(delimeterRun);
-                        break;
-					
-                    case '\r':
-                    case '\n':
-                        if (previousRun is not null && !previousRun.HasLineBreaks)
-                        {
-                            delimeterRun.AppendLineBreak();
-                            runs.Add(delimeterRun);
-                        }
-                        break;
-                }
+            var controlCharacterRun = new Run();
+
+            switch (character)
+            {
+                case '\t':
+                    controlCharacterRun.AppendTabulation();
+                    break;
+
+                case '\n':
+                    controlCharacterRun.AppendLineBreak();
+                    break;
+            }
+
+            if (controlCharacterRun.Count > 0)
+            {
+                runs.Add(controlCharacterRun);
             }
         }
 
