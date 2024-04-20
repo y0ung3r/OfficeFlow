@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using OfficeFlow.DocumentObjectModel.Exceptions;
 
@@ -282,15 +283,19 @@ public class ElementCollection : IEnumerable<Element>
         {
             get
             {
+                ThrowIfDisposed();
+                
                 if (_index is 0 || _index == _elements.Count + 1)
                 {
                     throw new InvalidOperationException(
                         "Index was outside the bounds of the collection");
                 }
 
-                return _current
-                    ?? throw new InvalidOperationException(
-                        "Do not call Current before invoking MoveNext");
+                Debug.Assert(
+                    _current != null, 
+                    $"{nameof(ElementIterator)}: Do not call {nameof(Current)} before invoking {nameof(MoveNext)}");
+                
+                return _current;
             }
         }
 
@@ -321,11 +326,6 @@ public class ElementCollection : IEnumerable<Element>
 
             _current = _next;
             _next = _next.NextSibling;
-
-            if (_next == _elements.Head)
-            {
-                _next = null;
-            }
 
             _index++;
 
