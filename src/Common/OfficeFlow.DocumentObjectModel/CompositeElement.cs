@@ -9,6 +9,9 @@ public abstract class CompositeElement : Element, IEnumerable<Element>
 {
     private readonly ElementCollection _children;
 
+    public int Count
+        => _children.Count;
+    
     public Element? FirstChild
         => _children.Head;
 
