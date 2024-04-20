@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using OfficeFlow.OpenXml.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
@@ -211,9 +212,17 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
     /// <inheritdoc />
     public void Visit(TextHolder text)
     {
-        if (string.IsNullOrEmpty(text.Value))
+        var value = text
+            .Value
+            .RemoveRestrictedXmlCharacters();
+        
+        if (string.IsNullOrEmpty(value))
             return;
         
-        Xml.Value = text.Value;
+        if (value.Any(char.IsWhiteSpace))
+            Xml.Add(
+                new XAttribute(XNamespace.Xml + "space", "preserve"));
+        
+        Xml.Value = value;
     }
 }

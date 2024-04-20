@@ -11,15 +11,41 @@ public sealed class TextHolderTests
     public void Should_write_text_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t")
-        {
-            Value = "Text"
-        };
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t", "Text");
         
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "t"));
 
         var textHolder = new TextHolder("Text");
+        
+        // Act
+        sut.Visit(textHolder);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
+
+    
+    [Theory]
+    [InlineData("    Text")]
+    [InlineData(" Text")]     
+    [InlineData("Text ")]
+    [InlineData("Text    ")]
+    [InlineData("Te xt")]
+    [InlineData("Te     xt")]
+    public void Should_preserve_spaces(string text)
+    {
+        // Assert
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t",
+            new XAttribute(XNamespace.Xml + "space", "preserve"),
+            text);
+        
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "t"));
+
+        var textHolder = new TextHolder(text);
         
         // Act
         sut.Visit(textHolder);
