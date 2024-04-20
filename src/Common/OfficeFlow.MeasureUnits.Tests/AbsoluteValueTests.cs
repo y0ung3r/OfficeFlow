@@ -9,6 +9,18 @@ namespace OfficeFlow.MeasureUnits.Tests;
 public sealed class AbsoluteValueTests
 {
     [Fact]
+    public void Should_create_zero_value()
+    {
+        // Arrange & Act
+        var sut = AbsoluteValue<FakeAbsoluteUnits>.Zero;
+        
+        // Assert
+        sut.Raw
+            .Should()
+            .Be(0.0);
+    }
+
+    [Fact]
     public void Should_create_an_absolute_value()
     {
         // Arrange
@@ -33,7 +45,13 @@ public sealed class AbsoluteValueTests
     }
 
     [Fact]
-    public void Should_throws_exception_if_value_is_less_than_zero()
+    public void Should_throw_exception_if_value_is_less_than_zero()
+        => new Action(() => AbsoluteValue.From(-10.0, new FakeAbsoluteUnits()))
+            .Should()
+            .Throw<ArgumentException>();
+    
+    [Fact]
+    public void Should_throw_exception_if_typed_value_is_less_than_zero()
         => new Action(() => AbsoluteValue<FakeAbsoluteUnits>.From(-10.0))
             .Should()
             .Throw<ArgumentException>();
