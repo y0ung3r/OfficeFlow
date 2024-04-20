@@ -37,6 +37,20 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
     }
 
     [Fact]
+    public void Should_do_nothing_if_package_is_disposed()
+    {
+        // Arrange
+        var sut = OpenXmlPackage.Create();
+        
+        sut.Dispose();
+        
+        // Act & Assert
+        sut.Invoking(package => package.Dispose())
+            .Should()
+            .NotThrow();
+    }
+
+    [Fact]
     public void Should_create_new_package_properly()
         => new Action(() => OpenXmlPackage.Create())
             .Should()
@@ -126,7 +140,48 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
             .Contain(actualPart =>
                 expectedPart.Uri == actualPart.Uri);
     }
+    
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void Should_throw_exception_if_relationship_type_is_not_specified(string? relationshipType)
+    {
+        // Arrange
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part", relationshipType!);
+        
+        // Act & Assert
+        new Action(() =>
+        {
+            using var sut =
+                OpenXmlPackage.Create();
+                
+            sut.AddPart(expectedPart);
+        })
+        .Should()
+        .Throw<InvalidOperationException>();
+    }
+    
+    [Fact]
+    public void Should_do_nothing_if_package_already_exists()
+    {
+        // Arrange
+        using var sut =
+            OpenXmlPackage.Create();
 
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+
+        sut.AddPart(expectedPart);
+        
+        // Act
+        sut.AddPart(expectedPart);
+        
+        // Arrange
+        sut.EnumerateParts()
+            .Should()
+            .ContainSingle(actualPart =>
+                expectedPart.Uri == actualPart.Uri);
+    }
+    
     [Fact]
     public void Should_throw_exception_if_parent_package_part_is_not_added_to_package()
     {
@@ -279,8 +334,14 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
+        var originalLength = originalStream.Length;
+        
         using var sut =
             OpenXmlPackage.Open(originalStream);
+        
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+        
+        sut.AddPart(expectedPart);
 
         // Act
         sut.Save();
@@ -289,7 +350,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         originalStream
             .Length
             .Should()
-            .BePositive();
+            .BeGreaterThan(originalLength);
     }
 
     [Fact]
@@ -299,12 +360,18 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
+        var originalLength = (int)originalStream.Length;
+
         var filePath = tempFilePool.GetTempFilePath();
         using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
             originalStream.CopyTo(fileStream);
 
         using var sut =
             OpenXmlPackage.Open(filePath);
+        
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+        
+        sut.AddPart(expectedPart);
 
         // Act
         sut.Save();
@@ -313,7 +380,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         File.ReadAllBytes(filePath)
             .Length
             .Should()
-            .BePositive();
+            .BeGreaterThan(originalLength);
     }
 
     [Fact]
@@ -323,11 +390,17 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         using var originalStream =
             PrepareTestPackageStream();
 
+        var originalLength = originalStream.Length;
+        
         using var destinationStream =
             new MemoryStream();
 
         using var sut =
             OpenXmlPackage.Open(originalStream);
+        
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+        
+        sut.AddPart(expectedPart);
 
         // Act
         sut.SaveTo(destinationStream);
@@ -336,7 +409,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         destinationStream
             .Length
             .Should()
-            .BePositive();
+            .BeGreaterThan(originalLength);
     }
 
     [Fact]
@@ -345,11 +418,17 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         // Arrange
         using var originalStream =
             PrepareTestPackageStream();
+        
+        var originalLength = (int)originalStream.Length;
 
         var filePath = tempFilePool.GetTempFilePath();
 
         using var sut =
             OpenXmlPackage.Open(originalStream);
+        
+        var expectedPart = TestOpenXmlPackagePartFactory.Create(uri: "/part");
+        
+        sut.AddPart(expectedPart);
 
         // Act
         sut.SaveTo(filePath);
@@ -358,7 +437,7 @@ public sealed class OpenXmlPackageTests(TempFilePool tempFilePool) : IClassFixtu
         File.ReadAllBytes(filePath)
             .Length
             .Should()
-            .BePositive();
+            .BeGreaterThan(originalLength);
     }
 
     private static MemoryStream PrepareTestPackageStream()

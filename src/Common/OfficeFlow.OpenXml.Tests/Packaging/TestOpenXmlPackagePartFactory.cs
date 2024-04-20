@@ -7,9 +7,8 @@ namespace OfficeFlow.OpenXml.Tests.Packaging;
 
 public static class TestOpenXmlPackagePartFactory
 {
-    public static OpenXmlPackagePart Create(string uri, XDocument? content = null)
-    {
-        var defaultContent = new XDocument(
+    private static readonly XDocument DefaultContent
+        = new(
             new XElement
             (
                 "document",
@@ -19,12 +18,18 @@ public static class TestOpenXmlPackagePartFactory
                     new XText("Content")
                 )
             ));
-        
-        return OpenXmlPackagePart.Create(
+
+    public static OpenXmlPackagePart Create(string uri, XDocument? content = null)
+        => Create(
+            uri, 
+            relationshipType: nameof(OpenXmlPackagePart.RelationshipType),
+            content);
+    
+    public static OpenXmlPackagePart Create(string uri, string relationshipType, XDocument? content = null)
+        => OpenXmlPackagePart.Create(
             uri: new Uri(uri, UriKind.Relative),
             contentType: "content/type",
             compressionMode: CompressionOption.Normal,
-            relationshipType: nameof(OpenXmlPackagePart.RelationshipType),
-            content: content ?? defaultContent);
-    }
+            relationshipType: relationshipType,
+            content: content ?? DefaultContent);
 }
