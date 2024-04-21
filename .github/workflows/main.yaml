@@ -45,12 +45,16 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Test
-        run: dotnet test --no-restore --no-build --nologo --collect:"XPlat Code Coverage" \
-          dotnet tool install --global dotnet-reportgenerator-globaltool \
-          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
         
-      - name: Create Test Coverage Badge
+      - name: Test
+        run: dotnet test --no-restore --no-build --nologo --collect:"XPlat Code Coverage"
+        
+      - name: Generate Test Coverage Report
+        run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
+        
+      - name: Update Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
         with:
