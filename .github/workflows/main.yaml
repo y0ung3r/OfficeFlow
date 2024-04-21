@@ -51,16 +51,8 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --no-build --nologo --collect:"XPlat Code Coverage"
         
-      - name: Generate Test Coverage Report
-        run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
-        
-      - name: Update Test Coverage Badge
-        uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-        id: create_coverage_badge
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
         with:
-          label: Unit Test Coverage
-          color: brightgreen
-          path: TestResults/Cobertura.xml
-          gist-filename: code-coverage.yml
-          gist-id: 8b14e9b23304ea36b28821ee794a66a1
-          gist-auth-token: ${{ secrets.Gist }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: y0ung3r/OfficeFlow
