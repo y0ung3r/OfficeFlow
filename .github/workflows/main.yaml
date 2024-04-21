@@ -45,16 +45,16 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Install ReportGenerator
+      - name: Install ReportGenerator tool
         run: dotnet tool install --global dotnet-reportgenerator-globaltool
         
       - name: Test
         run: dotnet test --no-restore --no-build --nologo --collect:"XPlat Code Coverage"
         
-      - name: Generate Test Coverage Report
+      - name: Generate coverage report
         run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
         
-      - name: Upload coverage reports to Codecov
+      - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
           files: TestResults/Cobertura.xml
