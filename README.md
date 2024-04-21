@@ -54,7 +54,7 @@ Implementation Dashboard
 [badges.license]: https://img.shields.io/github/license/y0ung3r/OfficeFlow
 [badges.status.umbra]: https://img.shields.io/badge/status-umbra-red.svg
 [badges.build]: https://img.shields.io/github/actions/workflow/status/y0ung3r/OfficeFlow/main.yaml
-[badges.code-coverage]: https://codecov.io/github/y0ung3r/OfficeFlow/graph/badge.svg?token=GEHBFGNYLT
+[badges.code-coverage]: https://img.shields.io/codecov/c/github/y0ung3r/OfficeFlow?token=GEHBFGNYLT&label=code%20coverage
 [links.license]: https://github.com/y0ung3r/OfficeFlow/blob/main/LICENSE.md
 [links.workflows]: https://github.com/y0ung3r/OfficeFlow/actions
 [links.office]: https://en.wikipedia.org/wiki/Microsoft_Office
