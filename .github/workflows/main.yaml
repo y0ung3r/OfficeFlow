@@ -46,4 +46,17 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Test
-        run: dotnet test --no-restore --no-build --nologo
+        run: dotnet test --no-restore --no-build --nologo --collect:"XPlat Code Coverage" \
+          dotnet tool install --global dotnet-reportgenerator-globaltool \
+          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
+        
+      - name: Create Test Coverage Badge
+        uses: simon-k/dotnet-code-coverage-badge@v2.0.0
+        id: create_coverage_badge
+        with:
+          label: Unit Test Coverage
+          color: brightgreen
+          path: TestResults/Cobertura.xml
+          gist-filename: code-coverage.yml
+          gist-id: 8b14e9b23304ea36b28821ee794a66a1
+          gist-auth-token: ${{ secrets.Gist }}

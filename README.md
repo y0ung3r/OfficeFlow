@@ -1,4 +1,4 @@
-OfficeFlow [![License][badges.license]][links.license] [![Implementation Status][badges.status.umbra]][links.andivionian-status-classifier] [![GitHub Actions Workflow Status][badges.build]][links.workflows]
+OfficeFlow [![License][badges.license]][links.license] [![Implementation Status][badges.status.umbra]][links.andivionian-status-classifier] [![GitHub Actions Workflow Status][badges.build]][links.workflows] ![Code Coverage][badges.code-coverage]
 =
 OfficeFlow is a completely free and open source library for reading, creating and editing [Word][links.word], [Excel][links.excel] and [PowerPoint][links.power-point] documents.
 
@@ -54,6 +54,7 @@ Implementation Dashboard
 [badges.license]: https://img.shields.io/github/license/y0ung3r/OfficeFlow
 [badges.status.umbra]: https://img.shields.io/badge/status-umbra-red.svg
 [badges.build]: https://img.shields.io/github/actions/workflow/status/y0ung3r/OfficeFlow/main.yaml
+[badges.code-coverage]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/y0ung3r/8b14e9b23304ea36b28821ee794a66a1/raw/code-coverage.yml
 [links.license]: https://github.com/y0ung3r/OfficeFlow/blob/main/LICENSE.md
 [links.workflows]: https://github.com/y0ung3r/OfficeFlow/actions
 [links.office]: https://en.wikipedia.org/wiki/Microsoft_Office
