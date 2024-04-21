@@ -51,7 +51,7 @@ jobs:
           reportgenerator -reports:**/coverage.cobertura.xml -targetdir:TestResults/ -reporttypes:Cobertura
         
       - name: Create Test Coverage Badge
-        uses: simon-k/dotnet-code-coverage-badge@v2.0.0
+        uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
         with:
           label: Unit Test Coverage
