@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using OfficeFlow.DocumentObjectModel;
+using OfficeFlow.MeasureUnits.Absolute;
+using OfficeFlow.MeasureUnits.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
 using OfficeFlow.Word.Core.Interfaces;
@@ -98,12 +103,17 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
     /// <inheritdoc />
     public void Visit(ParagraphFormat paragraphFormat)
     {
-        var horizontalAlignment =
-            xml.Element(OpenXmlNamespaces.Word + "jc")?
-                .Attribute(OpenXmlNamespaces.Word + "val")?
-                .Value;
+        VisitHorizontalAlignment(paragraphFormat);
+        VisitSpacing(paragraphFormat);
+    }
 
-        paragraphFormat.HorizontalAlignment = horizontalAlignment switch
+    private void VisitHorizontalAlignment(ParagraphFormat paragraphFormat)
+    {
+        var alignmentXml = xml.Element(OpenXmlNamespaces.Word + "jc")?
+            .Attribute(OpenXmlNamespaces.Word + "val")?
+            .Value;
+
+        var horizontalAlignment = alignmentXml switch
         {
             // TODO: Add support for different versions of the Open XML
             "start" or "left" => HorizontalAlignment.Left,
@@ -111,8 +121,50 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
             "center" => HorizontalAlignment.Center,
             "both" => HorizontalAlignment.Both,
             "distribute" => HorizontalAlignment.Distribute,
-            _ => ParagraphFormat.Default.HorizontalAlignment
+            _ => default(HorizontalAlignment?)
         };
+        
+        if (horizontalAlignment is null)
+            return;
+
+        paragraphFormat.HorizontalAlignment = horizontalAlignment.Value;
+    }
+
+    private void VisitSpacing(ParagraphFormat paragraphFormat)
+    {
+        var spacingProperties = new Dictionary<string, Func<IParagraphSpacing, IParagraphSpacing>>
+        {
+            { "before", value => paragraphFormat.SpacingBefore = value },
+            { "after", value => paragraphFormat.SpacingAfter = value }
+        };
+        
+        var spacingXml = xml.Element(OpenXmlNamespaces.Word + "spacing");
+        
+        if (spacingXml is null)
+            return;
+
+        foreach (var spacingProperty in spacingProperties)
+        {
+            var autospacingXml = spacingXml
+                .Attribute(OpenXmlNamespaces.Word + spacingProperty.Key + "Autospacing");
+
+            if (autospacingXml is { Value: "1" or "true" })
+            {
+                spacingProperty.Value.Invoke(ParagraphSpacing.Auto);
+            
+                continue;
+            }
+
+            var exactSpacingXml = spacingXml
+                .Attribute(OpenXmlNamespaces.Word + spacingProperty.Key);
+
+            if (exactSpacingXml is null)
+                continue;
+
+            spacingProperty.Value.Invoke(
+                ParagraphSpacing.Exactly(
+                    exactSpacingXml.Value.As<Twips>()));
+        }
     }
 
     /// <inheritdoc />

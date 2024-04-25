@@ -1,7 +1,9 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
 using Xunit;
 
 namespace OfficeFlow.Word.OpenXml.Tests.OpenXmlElementReaderTests;
@@ -37,6 +39,129 @@ public sealed class ParagraphFormatTests
     }
 
     [Fact]
+    public void Should_read_paragraph_spacing_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "before", "240"),
+                new XAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", "true"),
+                new XAttribute(OpenXmlNamespaces.Word + "after", "240"),
+                new XAttribute(OpenXmlNamespaces.Word + "afterAutospacing", "false")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBefore
+            .Should()
+            .BeOfType<AutoSpacing>();
+        
+        paragraphFormat
+            .SpacingAfter
+            .Should()
+            .BeOfType<ExactSpacing>()
+            .And
+            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+    }
+
+    [Theory]
+    [InlineData("1")]
+    [InlineData("true")]
+    public void Spacing_after_should_be_calculated_automatically(string value)
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "afterAutospacing", value)));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingAfter
+            .Should()
+            .BeOfType<AutoSpacing>();
+    }
+    
+    [Theory]
+    [InlineData("1")]
+    [InlineData("true")]
+    public void Spacing_before_should_be_calculated_automatically(string value)
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", value)));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBefore
+            .Should()
+            .BeOfType<AutoSpacing>();
+    }
+
+    [Fact]
+    public void Should_read_exact_value_of_spacing_after_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "after", "240")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingAfter
+            .Should()
+            .BeOfType<ExactSpacing>()
+            .And
+            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+    }
+    
+    [Fact]
+    public void Should_read_exact_value_of_spacing_before_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "before", "240")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBefore
+            .Should()
+            .BeOfType<ExactSpacing>()
+            .And
+            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+    }
+
+    [Fact]
     public void Should_read_empty_paragraph_format_properly()
     {
         // Arrange
@@ -53,5 +178,15 @@ public sealed class ParagraphFormatTests
             .HorizontalAlignment
             .Should()
             .Be(ParagraphFormat.Default.HorizontalAlignment);
+
+        paragraphFormat
+            .SpacingBefore
+            .Should()
+            .Be(ParagraphFormat.Default.SpacingBefore);
+        
+        paragraphFormat
+            .SpacingAfter
+            .Should()
+            .Be(ParagraphFormat.Default.SpacingAfter);
     }
 }

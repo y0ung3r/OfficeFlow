@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.OpenXml.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
 using OfficeFlow.Word.Core.Interfaces;
@@ -98,6 +102,12 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
     /// <inheritdoc />
     public void Visit(ParagraphFormat paragraphFormat)
     {
+        VisitHorizontalAlignment(paragraphFormat);
+        VisitSpacing(paragraphFormat);
+    }
+
+    private void VisitHorizontalAlignment(ParagraphFormat paragraphFormat)
+    {
         if (paragraphFormat.HorizontalAlignment is HorizontalAlignment.Left)
             return;
 
@@ -119,6 +129,43 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
             new XAttribute(OpenXmlNamespaces.Word + "val", value));
             
         Xml.Add(horizontalAlignmentXml);
+    }
+
+    private void VisitSpacing(ParagraphFormat paragraphFormat)
+    {
+        var spacingProperties = new Dictionary<string, Func<IParagraphSpacing>>
+        {
+            { "before", () => paragraphFormat.SpacingBefore },
+            { "after", () => paragraphFormat.SpacingAfter }
+        };
+        
+        var spacingXml = new XElement(OpenXmlNamespaces.Word + "spacing");
+
+        foreach (var spacingProperty in spacingProperties)
+        {
+            var valueXml = spacingProperty.Value.Invoke() switch
+            {
+                AutoSpacing => new XAttribute(
+                    OpenXmlNamespaces.Word + spacingProperty.Key + "Autospacing", 
+                    value: "true"),
+                
+                ExactSpacing exactSpacing => new XAttribute(
+                    OpenXmlNamespaces.Word + spacingProperty.Key, 
+                    exactSpacing.Value.To<Twips>().Raw),
+                
+                _ => null
+            };
+            
+            if (valueXml is null)
+                continue;
+            
+            spacingXml.Add(valueXml);
+        }
+        
+        if (spacingXml.IsEmpty)
+            return;
+        
+        Xml.Add(spacingXml);
     }
 
     /// <inheritdoc />
