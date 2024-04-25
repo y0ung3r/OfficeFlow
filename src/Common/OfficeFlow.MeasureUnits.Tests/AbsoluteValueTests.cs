@@ -51,7 +51,7 @@ public sealed class AbsoluteValueTests
             .Throw<ArgumentException>();
     
     [Fact]
-    public void Should_throw_exception_if_typed_value_is_less_than_zero()
+    public void Should_throw_exception_if_generic_value_is_less_than_zero()
         => new Action(() => AbsoluteValue<FakeAbsoluteUnits>.From(-10.0))
             .Should()
             .Throw<ArgumentException>();
@@ -85,7 +85,58 @@ public sealed class AbsoluteValueTests
         value.Should()
             .BeOfType<AbsoluteValue<Emu>>();
     }
+    
+    [Fact]
+    public void Should_be_equal_to_itself()
+    {
+        // Arrange
+        var sut = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
+        
+        // Act & Assert
+        sut.Equals(sut)
+            .Should()
+            .BeTrue();
+    }
 
+    [Fact]
+    public void Two_same_values_should_be_equal()
+    {
+        // Arrange
+        var left = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
+        var right = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
+        
+        // Act && Assert
+        left.Equals(right)
+            .Should()
+            .BeTrue();
+    }
+    
+    [Fact]
+    public void Two_different_values_should_not_be_equal()
+    {
+        // Arrange
+        var left = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
+        var right = AbsoluteValue.From(40.0, new FakeAbsoluteUnits());
+        
+        // Act && Assert
+        left.Equals(right)
+            .Should()
+            .BeFalse();
+    }
+    
+    [Fact]
+    public void Two_same_values_with_different_units_should_not_be_equal()
+    {
+        // Arrange
+        var left = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
+        var right = AbsoluteValue.From(20.0, new Emu());
+        
+        // Act && Assert
+        left.Equals(right)
+            .Should()
+            .BeFalse();
+    }
+    
     [Fact]
     public void Should_returns_string_representation_of_value()
     {

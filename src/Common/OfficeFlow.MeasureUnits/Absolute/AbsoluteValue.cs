@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace OfficeFlow.MeasureUnits.Absolute;
 
-public class AbsoluteValue
+public class AbsoluteValue : IEquatable<AbsoluteValue>
 {
     public static AbsoluteValue From(double value, AbsoluteUnits units) 
         => new(value, units);
@@ -37,6 +37,57 @@ public class AbsoluteValue
         var convertedValue = targetUnits.FromEmu(emu);
 
         return AbsoluteValue<TTargetUnits>.From(convertedValue);
+    }
+
+    /// <inheritdoc />
+    public bool Equals(AbsoluteValue? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Raw.Equals(other.Raw) && Units.Equals(other.Units);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+
+        return Equals((AbsoluteValue)other);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = (int) 2166136261;
+
+            hashCode = hashCode * 16777619 ^ Raw.GetHashCode();
+            hashCode = hashCode * 16777619 ^ Units.GetHashCode();
+            
+            return hashCode;
+        }
     }
 
     public override string ToString()
