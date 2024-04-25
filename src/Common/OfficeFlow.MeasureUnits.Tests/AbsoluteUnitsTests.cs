@@ -157,4 +157,55 @@ public sealed class AbsoluteUnitsTests
             .Should()
             .Be(10.0);
     }
+
+    [Fact]
+    public void Should_be_equal_to_itself()
+    {
+        // Arrange
+        var sut = new FakeAbsoluteUnits(2.0);
+        
+        // Act & Assert
+        sut.Equals(sut)
+            .Should()
+            .BeTrue();
+    }
+
+    [Fact]
+    public void Two_same_units_should_be_equal()
+    {
+        // Arrange
+        var left = new FakeAbsoluteUnits(2.0);
+        var right = new FakeAbsoluteUnits(2.0);
+        
+        // Act & Assert
+        left.Equals(right)
+            .Should()
+            .BeTrue();
+    }
+    
+    [Fact]
+    public void Two_same_units_with_different_ratio_should_not_be_equal()
+    {
+        // Arrange
+        var left = new FakeAbsoluteUnits(2.0);
+        var right = new FakeAbsoluteUnits(4.0);
+        
+        // Act & Assert
+        left.Equals(right)
+            .Should()
+            .BeFalse();
+    }
+    
+    [Fact]
+    public void Two_different_units_should_be_equal()
+    {
+        // Arrange
+        var left = new FakeAbsoluteUnits(2.0);
+        var right = new Emu();
+        
+        // Act & Assert
+        left.Equals(right)
+            .Should()
+            .BeFalse();
+    }
 }

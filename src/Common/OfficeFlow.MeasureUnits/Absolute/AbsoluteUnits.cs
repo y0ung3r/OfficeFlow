@@ -1,6 +1,8 @@
-﻿namespace OfficeFlow.MeasureUnits.Absolute;
+﻿using System;
 
-public abstract class AbsoluteUnits
+namespace OfficeFlow.MeasureUnits.Absolute;
+
+public abstract class AbsoluteUnits : IEquatable<AbsoluteUnits>
 {
     public static Centimeters Centimeters => new();
 
@@ -25,4 +27,50 @@ public abstract class AbsoluteUnits
 
     internal double FromEmu(AbsoluteValue<Emu> emu)
         => emu.Raw / Ratio;
+
+    /// <inheritdoc />
+    public bool Equals(AbsoluteUnits? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+        
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+
+        return Ratio.Equals(other.Ratio);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+
+        return Equals((AbsoluteUnits)other);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+        => Ratio.GetHashCode();
 }
