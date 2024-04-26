@@ -37,6 +37,32 @@ public sealed class ParagraphFormatTests
             .Should()
             .Be(expectedValue);
     }
+    
+    [Theory]
+    [InlineData("auto", TextAlignment.Auto)]
+    [InlineData("baseline", TextAlignment.Baseline)]
+    [InlineData("bottom", TextAlignment.Bottom)]
+    [InlineData("center", TextAlignment.Center)]
+    [InlineData("top", TextAlignment.Top)]
+    public void Should_read_text_alignment_properly(string actualValue, TextAlignment expectedValue)
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "textAlignment", 
+                new XAttribute(OpenXmlNamespaces.Word + "val", actualValue)));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .TextAlignment
+            .Should()
+            .Be(expectedValue);
+    }
 
     [Fact]
     public void Should_read_paragraph_spacing_properly()
@@ -219,6 +245,11 @@ public sealed class ParagraphFormatTests
             .Should()
             .Be(ParagraphFormat.Default.HorizontalAlignment);
 
+        paragraphFormat
+            .TextAlignment
+            .Should()
+            .Be(ParagraphFormat.Default.TextAlignment);
+        
         paragraphFormat
             .SpacingBefore
             .Should()

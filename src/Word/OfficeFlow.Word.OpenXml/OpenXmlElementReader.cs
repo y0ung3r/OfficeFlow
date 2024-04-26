@@ -104,6 +104,7 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
     public void Visit(ParagraphFormat paragraphFormat)
     {
         VisitHorizontalAlignment(paragraphFormat);
+        VisitTextAlignment(paragraphFormat);
         VisitSpacing(paragraphFormat);
         VisitKeepLines(paragraphFormat);
         VisitKeepNext(paragraphFormat);
@@ -130,6 +131,28 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
             return;
 
         paragraphFormat.HorizontalAlignment = horizontalAlignment.Value;
+    }
+
+    private void VisitTextAlignment(ParagraphFormat paragraphFormat)
+    {
+        var alignmentXml = xml.Element(OpenXmlNamespaces.Word + "textAlignment")?
+            .Attribute(OpenXmlNamespaces.Word + "val")?
+            .Value;
+        
+        var textAlignment = alignmentXml switch
+        {
+            "auto" => TextAlignment.Auto,
+            "baseline" => TextAlignment.Baseline,
+            "bottom" => TextAlignment.Bottom,
+            "center" => TextAlignment.Center,
+            "top" => TextAlignment.Top,
+            _ => default(TextAlignment?)
+        };
+        
+        if (textAlignment is null)
+            return;
+
+        paragraphFormat.TextAlignment = textAlignment.Value;
     }
 
     private void VisitSpacing(ParagraphFormat paragraphFormat)

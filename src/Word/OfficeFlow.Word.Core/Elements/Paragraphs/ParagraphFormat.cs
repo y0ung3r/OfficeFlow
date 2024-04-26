@@ -14,6 +14,9 @@ public sealed class ParagraphFormat : IVisitable
     public HorizontalAlignment HorizontalAlignment { get; set; } 
         = HorizontalAlignment.Left;
 
+    public TextAlignment TextAlignment { get; set; }
+        = TextAlignment.Auto;
+    
     public IParagraphSpacing SpacingBefore { get; set; } 
         = ParagraphSpacing.Exactly<Points>(0.0);
 

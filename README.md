@@ -54,9 +54,9 @@ Implementation Dashboard
         - [x] Keep lines
         - [x] Keep next
         - [ ] Frame
-        - [ ] Alignment
+        - [x] Alignment
           - [x] Horizontal 
-          - [ ] Vertical (Text alignment)
+          - [x] Vertical (Text alignment)
         - [ ] Spacing 
           - [x] Before paragraph
           - [x] After paragraph

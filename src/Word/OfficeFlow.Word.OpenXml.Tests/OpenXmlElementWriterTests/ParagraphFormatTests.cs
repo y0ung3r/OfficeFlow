@@ -41,6 +41,90 @@ public sealed class ParagraphFormatTests
             .Should()
             .Be(expectedXml);
     }
+    
+    [Fact]
+    public void Default_value_of_horizontal_alignment_should_not_be_written()
+    {
+        // Arrange
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
+                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
+        
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
+    
+    [Theory]
+    [InlineData("baseline", TextAlignment.Baseline)]
+    [InlineData("bottom", TextAlignment.Bottom)]
+    [InlineData("center", TextAlignment.Center)]
+    [InlineData("top", TextAlignment.Top)]
+    public void Should_write_text_alignment_properly(string expectedValue, TextAlignment actualValue)
+    {
+        // Arrange
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "textAlignment", 
+                new XAttribute(OpenXmlNamespaces.Word + "val", expectedValue)),
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
+                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
+
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            TextAlignment = actualValue
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
+    
+    [Fact]
+    public void Default_value_of_text_alignment_should_not_be_written()
+    {
+        // Arrange
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
+                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
+        
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            TextAlignment = TextAlignment.Auto
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
 
     [Fact]
     public void Should_write_paragraph_spacing_properly()
@@ -268,32 +352,6 @@ public sealed class ParagraphFormatTests
         var paragraphFormat = new ParagraphFormat
         {
             KeepNext = false
-        };
-        
-        // Act
-        sut.Visit(paragraphFormat);
-        
-        // Assert
-        sut.Xml
-            .Should()
-            .Be(expectedXml);
-    }
-
-    [Fact]
-    public void Default_value_of_horizontal_alignment_should_not_be_written()
-    {
-        // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
-        var sut = new OpenXmlElementWriter(
-            new XElement(OpenXmlNamespaces.Word + "pPr"));
-
-        var paragraphFormat = new ParagraphFormat
-        {
-            HorizontalAlignment = HorizontalAlignment.Left
         };
         
         // Act
