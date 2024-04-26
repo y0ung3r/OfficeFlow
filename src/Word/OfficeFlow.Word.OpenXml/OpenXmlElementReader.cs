@@ -254,6 +254,10 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
                     runFormat.IsBold = true;
                     break;
                 
+                case "vanish":
+                    runFormat.IsHidden = true;
+                    break;
+                
                 case "u":
                     // TODO: Add underline support
                     break;

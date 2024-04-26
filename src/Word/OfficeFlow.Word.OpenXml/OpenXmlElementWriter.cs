@@ -264,6 +264,13 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
             Xml.Add(boldXml);
         }
 
+        if (runFormat.IsHidden)
+        {
+            var vanishXml = new XElement(OpenXmlNamespaces.Word + "vanish");
+            
+            Xml.Add(vanishXml);
+        }
+        
         if (runFormat.StrikethroughType != StrikethroughType.None)
         {
             var strikethroughName = runFormat.StrikethroughType switch

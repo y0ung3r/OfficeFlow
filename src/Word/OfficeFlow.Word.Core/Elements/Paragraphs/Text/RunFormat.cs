@@ -6,18 +6,16 @@ namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 public sealed class RunFormat : IVisitable
 {
     public static RunFormat Default
-        => new()
-        {
-            IsItalic = false,
-            IsBold = false,
-            StrikethroughType = StrikethroughType.None
-        };
+        => new();
 
     public bool IsItalic { get; set; }
 
     public bool IsBold { get; set; }
+    
+    public bool IsHidden { get; set; }
 
     public StrikethroughType StrikethroughType { get; set; }
+        = StrikethroughType.None;
 
     /// <inheritdoc />
     public void Accept(IWordVisitor visitor)

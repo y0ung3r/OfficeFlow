@@ -48,6 +48,26 @@ public sealed class RunFormatTests
             .BeTrue();
     }
     
+    [Fact]
+    public void Should_read_hidden_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "rPr",
+            new XElement(OpenXmlNamespaces.Word + "vanish"));
+        
+        var runFormat = new RunFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(runFormat);
+
+        // Assert
+        runFormat
+            .IsHidden
+            .Should()
+            .BeTrue();
+    }
+    
     [Theory]
     [InlineData("strike", StrikethroughType.Single)]
     [InlineData("dstrike", StrikethroughType.Double)]
@@ -92,6 +112,11 @@ public sealed class RunFormatTests
             .IsBold
             .Should()
             .Be(RunFormat.Default.IsBold);
+
+        runFormat
+            .IsHidden
+            .Should()
+            .BeFalse();
         
         runFormat
             .StrikethroughType

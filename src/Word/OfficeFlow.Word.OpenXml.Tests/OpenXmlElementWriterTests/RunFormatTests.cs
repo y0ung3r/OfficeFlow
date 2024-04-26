@@ -101,6 +101,53 @@ public sealed class RunFormatTests
             .Should()
             .Be(expectedXml);
     }
+    
+    [Fact]
+    public void Should_write_hidden_properly()
+    {
+        // Assert
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr",
+            new XElement(OpenXmlNamespaces.Word + "vanish"));
+        
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "rPr"));
+
+        var runFormat = new RunFormat
+        {
+            IsHidden = true
+        };
+        
+        // Act
+        sut.Visit(runFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
+
+    [Fact]
+    public void Default_value_of_hidden_should_not_be_written()
+    {
+        // Assert
+        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr");
+        
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "rPr"));
+
+        var runFormat = new RunFormat
+        {
+            IsHidden = false
+        };
+        
+        // Act
+        sut.Visit(runFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .Be(expectedXml);
+    }
 
     [Theory]
     [InlineData("strike", StrikethroughType.Single)]

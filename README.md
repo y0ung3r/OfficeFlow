@@ -49,7 +49,6 @@ Implementation Dashboard
         - [ ] Borders
         - [ ] Background Color
         - [ ] Shading
-        - [ ] Outline
         - [ ] Styles
         - [x] Keep lines
         - [x] Keep next
@@ -76,7 +75,7 @@ Implementation Dashboard
           - [x] Bold
           - [ ] Outline
           - [x] Strikethrough
-          - [ ] Hidden
+          - [x] Hidden
           - [ ] Background color
           - [ ] Text color
           - [ ] Borders
