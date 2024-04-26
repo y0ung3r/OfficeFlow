@@ -32,13 +32,56 @@ Implementation Dashboard
   - [x] Abstractions ([Element][links.dashboard.element], [CompositeElement][links.dashboard.composite-element], [ElementCollection][links.dashboard.element-collection])
   - [ ] Measure units
     - [x] Absolute units 
+      - [x] Emu
+      - [x] Twips
+      - [x] Points
+      - [x] Picas
+      - [x] HalfPoints
+      - [x] Millimeters
+      - [x] Centimeters
+      - [x] Inches
     - [ ] Relative units
+      - [ ] Percentages
   - [ ] Elements
     - [ ] Paragraph
-      - [ ] Text Formatting (partially implemented)
-    - [ ] Section
-      - [ ] Page settings
-    - [ ] Table
+      - [ ] Format
+        - [ ] Tabs
+        - [ ] Borders
+        - [ ] Background Color
+        - [ ] Shading
+        - [ ] Outline
+        - [ ] Styles
+        - [ ] Keep lines
+        - [ ] Keep next
+        - [ ] Frame
+        - [ ] Alignment
+          - [x] Horizontal 
+          - [ ] Vertical (Text alignment)
+        - [ ] Spacing 
+          - [x] Before paragraph
+          - [x] After paragraph
+          - [ ] Between lines
+        - [ ] Indentation
+          - [ ] From left
+          - [ ] From right
+          - [ ] Hanging
+          - [ ] For first line
+      - [ ] Run (Text Range)
+        - [x] Line break
+        - [x] Text
+        - [x] Vertical tabulation
+        - [x] Horizontal tabulation
+        - [ ] Format
+          - [x] Italic
+          - [x] Bold
+          - [ ] Outline
+          - [x] Strikethrough
+          - [ ] Hidden
+          - [ ] Background color
+          - [ ] Text color
+          - [ ] Borders
+          - [ ] Fonts
+          - [ ] Spacing 
 - [ ] Open XML Format support
   - [ ] Word
   - [ ] Excel
