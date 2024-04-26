@@ -19,6 +19,10 @@ public sealed class ParagraphFormat : IVisitable
 
     public IParagraphSpacing SpacingAfter { get; set; } 
         = ParagraphSpacing.Exactly<Points>(8.0);
+    
+    public bool KeepLines { get; set; }
+    
+    public bool KeepNext { get; set; }
 
     /// <inheritdoc />
     public void Accept(IWordVisitor visitor)

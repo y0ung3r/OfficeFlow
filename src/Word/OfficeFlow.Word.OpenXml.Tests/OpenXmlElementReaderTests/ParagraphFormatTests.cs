@@ -162,6 +162,46 @@ public sealed class ParagraphFormatTests
     }
 
     [Fact]
+    public void Should_read_keep_lines_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "keepLines"));
+        
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .KeepLines
+            .Should()
+            .BeTrue();
+    }
+    
+    [Fact]
+    public void Should_read_keep_next_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "keepNext"));
+        
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .KeepNext
+            .Should()
+            .BeTrue();
+    }
+
+    [Fact]
     public void Should_read_empty_paragraph_format_properly()
     {
         // Arrange
@@ -188,5 +228,15 @@ public sealed class ParagraphFormatTests
             .SpacingAfter
             .Should()
             .Be(ParagraphFormat.Default.SpacingAfter);
+
+        paragraphFormat
+            .KeepLines
+            .Should()
+            .BeFalse();
+        
+        paragraphFormat
+            .KeepNext
+            .Should()
+            .BeFalse();
     }
 }

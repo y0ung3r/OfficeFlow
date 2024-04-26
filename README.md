@@ -51,8 +51,8 @@ Implementation Dashboard
         - [ ] Shading
         - [ ] Outline
         - [ ] Styles
-        - [ ] Keep lines
-        - [ ] Keep next
+        - [x] Keep lines
+        - [x] Keep next
         - [ ] Frame
         - [ ] Alignment
           - [x] Horizontal 

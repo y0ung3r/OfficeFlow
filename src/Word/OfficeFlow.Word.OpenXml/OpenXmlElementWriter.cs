@@ -104,6 +104,8 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
     {
         VisitHorizontalAlignment(paragraphFormat);
         VisitSpacing(paragraphFormat);
+        VisitKeepLines(paragraphFormat);
+        VisitKeepNext(paragraphFormat);
     }
 
     private void VisitHorizontalAlignment(ParagraphFormat paragraphFormat)
@@ -168,6 +170,24 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
         Xml.Add(spacingXml);
     }
 
+    private void VisitKeepLines(ParagraphFormat paragraphFormat)
+    {
+        if (!paragraphFormat.KeepLines)
+            return;
+        
+        Xml.Add(
+            new XElement(OpenXmlNamespaces.Word + "keepLines"));
+    }
+
+    private void VisitKeepNext(ParagraphFormat paragraphFormat)
+    {
+        if (!paragraphFormat.KeepNext)
+            return;
+        
+        Xml.Add(
+            new XElement(OpenXmlNamespaces.Word + "keepNext"));
+    }
+    
     /// <inheritdoc />
     public void Visit(Run run)
     {
