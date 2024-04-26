@@ -13,7 +13,10 @@ public sealed class ParagraphTests
     {
         // Assert
         var expectedXml = new XElement(OpenXmlNamespaces.Word + "p",
-            new XElement(OpenXmlNamespaces.Word + "pPr"));
+            new XElement(OpenXmlNamespaces.Word + "pPr",
+                new XElement(OpenXmlNamespaces.Word + "spacing",
+                    new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
+                    new XAttribute(OpenXmlNamespaces.Word + "after", "160"))));
         
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "p"));
@@ -34,7 +37,10 @@ public sealed class ParagraphTests
     {
         // Assert
         var expectedXml = new XElement(OpenXmlNamespaces.Word + "p",
-            new XElement(OpenXmlNamespaces.Word + "pPr"),
+            new XElement(OpenXmlNamespaces.Word + "pPr",
+                new XElement(OpenXmlNamespaces.Word + "spacing",
+                    new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
+                    new XAttribute(OpenXmlNamespaces.Word + "after", "160"))),
             new XElement(OpenXmlNamespaces.Word + "r",
                 new XElement(OpenXmlNamespaces.Word + "rPr")),
             new XElement(OpenXmlNamespaces.Word + "r",

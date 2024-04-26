@@ -162,7 +162,7 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
             spacingXml.Add(valueXml);
         }
         
-        if (spacingXml.IsEmpty)
+        if (!spacingXml.HasAttributes)
             return;
         
         Xml.Add(spacingXml);
