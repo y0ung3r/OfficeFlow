@@ -92,7 +92,7 @@ public sealed class ParagraphFormatTests
             .Should()
             .BeOfType<ExactSpacing>()
             .And
-            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+            .Be(ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points));
     }
 
     [Theory]
@@ -161,7 +161,7 @@ public sealed class ParagraphFormatTests
             .Should()
             .BeOfType<ExactSpacing>()
             .And
-            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+            .Be(ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points));
     }
     
     [Fact]
@@ -184,7 +184,7 @@ public sealed class ParagraphFormatTests
             .Should()
             .BeOfType<ExactSpacing>()
             .And
-            .Be(ParagraphSpacing.Exactly<Points>(12.0));
+            .Be(ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points));
     }
 
     [Fact]

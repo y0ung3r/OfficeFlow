@@ -141,7 +141,7 @@ public sealed class ParagraphFormatTests
         var paragraphFormat = new ParagraphFormat
         {
             SpacingBefore = ParagraphSpacing.Auto,
-            SpacingAfter = ParagraphSpacing.Exactly<Points>(12.0)
+            SpacingAfter = ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points)
         };
         
         // Act
@@ -193,7 +193,7 @@ public sealed class ParagraphFormatTests
         
         var paragraphFormat = new ParagraphFormat
         {
-            SpacingBefore = ParagraphSpacing.Exactly<Points>(12.0)
+            SpacingBefore = ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points)
         };
         
         // Act
@@ -245,7 +245,7 @@ public sealed class ParagraphFormatTests
         
         var paragraphFormat = new ParagraphFormat
         {
-            SpacingAfter = ParagraphSpacing.Exactly<Points>(12.0)
+            SpacingAfter = ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points)
         };
         
         // Act

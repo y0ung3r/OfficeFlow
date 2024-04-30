@@ -3,78 +3,50 @@ using System.Globalization;
 
 namespace OfficeFlow.MeasureUnits.Absolute;
 
-public class AbsoluteValue : IEquatable<AbsoluteValue>
+public static class AbsoluteValue
 {
-    public static AbsoluteValue From(double value, AbsoluteUnits units) 
-        => new(value, units);
+    public static AbsoluteValue<TUnits> From<TUnits>(double value, TUnits units) 
+        where TUnits : AbsoluteUnits, new()
+        => AbsoluteValue<TUnits>.From(value, units);
+}
 
+public sealed class AbsoluteValue<TUnits> : IEquatable<AbsoluteValue<TUnits>>
+    where TUnits : AbsoluteUnits, new()
+{
+    internal static AbsoluteValue<TUnits> From(double value, TUnits units)
+        => new(value, units);
+    
     public double Raw { get; }
 
     public AbsoluteUnits Units { get; }
 
-    protected AbsoluteValue(double value, AbsoluteUnits units)
+    private AbsoluteValue(double value, TUnits units)
     {
-        if (value < 0)
-        {
-            throw new ArgumentException(
-                $"The value \"{nameof(value)}\" cannot be less than zero");
-        }
-
-        Units = units;
         Raw = value;
+        Units = units;
     }
-
-    public AbsoluteValue<TTargetUnits> To<TTargetUnits>()
+    
+    public AbsoluteValue<TTargetUnits> To<TTargetUnits>(TTargetUnits targetUnits)
         where TTargetUnits : AbsoluteUnits, new()
     {
         if (Units is TTargetUnits)
         {
-            return AbsoluteValue<TTargetUnits>.From(Raw);
+            return AbsoluteValue.From(Raw, targetUnits);
         }
 
         var emu = Units.ToEmu(Raw);
-        var targetUnits = new TTargetUnits();
         var convertedValue = targetUnits.FromEmu(emu);
 
-        return AbsoluteValue<TTargetUnits>.From(convertedValue);
+        return AbsoluteValue.From(convertedValue, targetUnits);
     }
-
+    
     /// <inheritdoc />
-    public bool Equals(AbsoluteValue? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        return Raw.Equals(other.Raw) && Units.Equals(other.Units);
-    }
+    public bool Equals(AbsoluteValue<TUnits>? other)
+        => other is not null && Raw.Equals(other.Raw) && Units.Equals(other.Units);
 
     /// <inheritdoc />
     public override bool Equals(object? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        if (other.GetType() != GetType())
-        {
-            return false;
-        }
-
-        return Equals((AbsoluteValue)other);
-    }
+        => other is AbsoluteValue<TUnits> value && Equals(value);
 
     /// <inheritdoc />
     public override int GetHashCode()
@@ -89,21 +61,7 @@ public class AbsoluteValue : IEquatable<AbsoluteValue>
             return hashCode;
         }
     }
-
+    
     public override string ToString()
         => Raw.ToString(CultureInfo.InvariantCulture);
-}
-
-public class AbsoluteValue<TUnits> : AbsoluteValue
-    where TUnits : AbsoluteUnits, new()
-{
-    public static AbsoluteValue<TUnits> Zero
-        => new(0.0);
-
-    public static AbsoluteValue<TUnits> From(double value)
-        => new(value);
-
-    private AbsoluteValue(double value)
-        : base(value, new TUnits())
-    { }
 }

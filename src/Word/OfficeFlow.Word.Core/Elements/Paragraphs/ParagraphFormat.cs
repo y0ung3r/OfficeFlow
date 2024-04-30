@@ -18,10 +18,10 @@ public sealed class ParagraphFormat : IVisitable
         = TextAlignment.Auto;
     
     public IParagraphSpacing SpacingBefore { get; set; } 
-        = ParagraphSpacing.Exactly<Points>(0.0);
+        = ParagraphSpacing.Exactly(0.0, AbsoluteUnits.Points);
 
     public IParagraphSpacing SpacingAfter { get; set; } 
-        = ParagraphSpacing.Exactly<Points>(8.0);
+        = ParagraphSpacing.Exactly(8.0, AbsoluteUnits.Points);
     
     public bool KeepLines { get; set; }
     

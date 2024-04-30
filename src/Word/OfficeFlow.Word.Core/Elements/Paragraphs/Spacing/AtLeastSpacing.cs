@@ -12,40 +12,11 @@ public sealed class AtLeastSpacing : ILineSpacing, IEquatable<AtLeastSpacing>
         => Value = value;
     
     public bool Equals(AtLeastSpacing? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-        
-        return Value.Equals(other.Value);
-    }
+        => other is not null && Value.Equals(other.Value);
 
     /// <inheritdoc />
     public override bool Equals(object? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-        
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-        
-        if (other.GetType() != GetType())
-        {
-            return false;
-        }
-        
-        return Equals((AtLeastSpacing)other);
-    }
+        => other is AtLeastSpacing spacing && Equals(spacing);
 
     /// <inheritdoc />
     public override int GetHashCode()

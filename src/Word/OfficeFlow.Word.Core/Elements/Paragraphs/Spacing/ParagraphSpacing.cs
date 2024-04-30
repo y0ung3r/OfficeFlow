@@ -8,12 +8,12 @@ public static class ParagraphSpacing
     public static IParagraphSpacing Exactly<TUnits>(AbsoluteValue<TUnits> value)
         where TUnits : AbsoluteUnits, new()
         => new ExactSpacing(
-            value.To<Points>());
+            value.To(AbsoluteUnits.Points));
 
-    public static IParagraphSpacing Exactly<TUnits>(double value)
+    public static IParagraphSpacing Exactly<TUnits>(double value, TUnits units)
         where TUnits : AbsoluteUnits, new()
         => Exactly(
-            AbsoluteValue<TUnits>.From(value));
+            AbsoluteValue.From(value, units));
     
     public static readonly IParagraphSpacing Auto
         = new AutoSpacing();

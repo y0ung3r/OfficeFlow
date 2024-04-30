@@ -4,71 +4,45 @@ namespace OfficeFlow.MeasureUnits.Absolute;
 
 public abstract class AbsoluteUnits : IEquatable<AbsoluteUnits>
 {
-    public static Centimeters Centimeters => new();
+    public static readonly Centimeters Centimeters 
+        = new();
 
-    public static Points Points => new();
+    public static readonly Points Points 
+        = new();
 
-    public static Inches Inches => new();
+    public static readonly Inches Inches 
+        = new();
 
-    public static Picas Picas => new();
+    public static readonly Picas Picas 
+        = new();
 
-    public static Millimeters Millimeters => new();
+    public static readonly Millimeters Millimeters 
+        = new();
 
-    internal static Emu Emu => new();
+    internal static readonly Emu Emu 
+        = new();
 
-    internal static HalfPoints HalfPoints => new();
+    internal static readonly HalfPoints HalfPoints 
+        = new();
 
-    public static Twips Twips => new();
+    public static readonly Twips Twips 
+        = new();
 
     internal abstract double Ratio { get; }
 
     internal AbsoluteValue<Emu> ToEmu(double value)
-        => AbsoluteValue<Emu>.From(value * Ratio);
+        => AbsoluteValue.From(value * Ratio, Emu);
 
     internal double FromEmu(AbsoluteValue<Emu> emu)
         => emu.Raw / Ratio;
 
     /// <inheritdoc />
     public bool Equals(AbsoluteUnits? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-        
-        if (other.GetType() != GetType())
-        {
-            return false;
-        }
-
-        return Ratio.Equals(other.Ratio);
-    }
+        => other is not null && Ratio.Equals(other.Ratio);
 
     /// <inheritdoc />
     public override bool Equals(object? other)
-    {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        if (other.GetType() != GetType())
-        {
-            return false;
-        }
-
-        return Equals((AbsoluteUnits)other);
-    }
+        => other is AbsoluteUnits units && Equals(units);
 
     /// <inheritdoc />
     public override int GetHashCode()

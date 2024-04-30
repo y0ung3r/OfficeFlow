@@ -146,7 +146,7 @@ public sealed class AbsoluteUnitsTests
     public void Should_convert_emu_to_an_absolute_value()
     {
         // Arrange
-        var emu = AbsoluteValue<Emu>.From(20.0);
+        var emu = AbsoluteValue.From(20.0, AbsoluteUnits.Emu);
         var sut = new FakeAbsoluteUnits(2.0);
 
         // Act

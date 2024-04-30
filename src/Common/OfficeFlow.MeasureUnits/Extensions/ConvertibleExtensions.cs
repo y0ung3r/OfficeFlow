@@ -6,19 +6,10 @@ namespace OfficeFlow.MeasureUnits.Extensions;
 
 public static class ConvertibleExtensions
 {
-    public static AbsoluteValue As(this IConvertible convertible, AbsoluteUnits units)
+    public static AbsoluteValue<TUnits> ToUnits<TUnits>(this IConvertible convertible, TUnits units)
+        where TUnits : AbsoluteUnits, new()
     {
         var value = convertible.ToDouble(CultureInfo.InvariantCulture);
         return AbsoluteValue.From(value, units);
-    }
-
-    public static AbsoluteValue<TUnits> As<TUnits>(this IConvertible convertible)
-        where TUnits : AbsoluteUnits, new()
-    {
-        var units = new TUnits();
-
-        return convertible
-            .As(units)
-            .To<TUnits>();
     }
 }

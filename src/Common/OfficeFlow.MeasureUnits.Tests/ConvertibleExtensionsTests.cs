@@ -17,7 +17,7 @@ public sealed class ConvertibleExtensionsTests
         var expectedValue = convertible.ToDouble(CultureInfo.InvariantCulture);
 
         // Act
-        var value = convertible.As<FakeAbsoluteUnits>();
+        var value = convertible.ToUnits(new FakeAbsoluteUnits());
 
         // Assert
         value.Raw
@@ -32,7 +32,7 @@ public sealed class ConvertibleExtensionsTests
     [InlineData("ab0.5")]
     public void Should_throws_exception_while_converting_from_string_with_invalid_format(IConvertible convertible)
         => convertible
-            .Invoking(sut => sut.As<FakeAbsoluteUnits>())
+            .Invoking(sut => sut.ToUnits(new FakeAbsoluteUnits()))
             .Should()
             .Throw<FormatException>();
 
@@ -40,7 +40,7 @@ public sealed class ConvertibleExtensionsTests
     [MemberData(nameof(InvalidTestCases))]
     public void Should_throws_exception_while_converting_from_not_via_number(IConvertible convertible)
         => convertible
-            .Invoking(sut => sut.As<FakeAbsoluteUnits>())
+            .Invoking(sut => sut.ToUnits(new FakeAbsoluteUnits()))
             .Should()
             .Throw<InvalidCastException>();
 

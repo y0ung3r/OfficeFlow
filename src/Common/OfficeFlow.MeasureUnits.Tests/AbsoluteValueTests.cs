@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.MeasureUnits.Tests.Fakes;
 using Xunit;
@@ -8,18 +7,6 @@ namespace OfficeFlow.MeasureUnits.Tests;
 
 public sealed class AbsoluteValueTests
 {
-    [Fact]
-    public void Should_create_zero_value()
-    {
-        // Arrange & Act
-        var sut = AbsoluteValue<FakeAbsoluteUnits>.Zero;
-        
-        // Assert
-        sut.Raw
-            .Should()
-            .Be(0.0);
-    }
-
     [Fact]
     public void Should_create_an_absolute_value()
     {
@@ -45,18 +32,6 @@ public sealed class AbsoluteValueTests
     }
 
     [Fact]
-    public void Should_throw_exception_if_value_is_less_than_zero()
-        => new Action(() => AbsoluteValue.From(-10.0, new FakeAbsoluteUnits()))
-            .Should()
-            .Throw<ArgumentException>();
-    
-    [Fact]
-    public void Should_throw_exception_if_generic_value_is_less_than_zero()
-        => new Action(() => AbsoluteValue<FakeAbsoluteUnits>.From(-10.0))
-            .Should()
-            .Throw<ArgumentException>();
-
-    [Fact]
     public void Should_convert_an_absolute_value_to_emu()
     {
         // Arrange
@@ -64,7 +39,7 @@ public sealed class AbsoluteValueTests
         var sut = AbsoluteValue.From(10.0, units);
 
         // Act
-        var emu = sut.To<Emu>();
+        var emu = sut.To(AbsoluteUnits.Emu);
 
         // Assert
         emu.Raw
@@ -79,7 +54,7 @@ public sealed class AbsoluteValueTests
         var sut = AbsoluteValue.From(20.0, AbsoluteUnits.Emu);
 
         // Act
-        var value = sut.To<Emu>();
+        var value = sut.To(AbsoluteUnits.Emu);
 
         // Assert
         value.Should()
@@ -129,9 +104,10 @@ public sealed class AbsoluteValueTests
     {
         // Arrange
         var left = AbsoluteValue.From(20.0, new FakeAbsoluteUnits());
-        var right = AbsoluteValue.From(20.0, new Emu());
+        var right = AbsoluteValue.From(20.0, AbsoluteUnits.Emu);
         
         // Act && Assert
+        // ReSharper disable once SuspiciousTypeConversion.Global
         left.Equals(right)
             .Should()
             .BeFalse();
@@ -141,7 +117,7 @@ public sealed class AbsoluteValueTests
     public void Should_returns_string_representation_of_value()
     {
         // Arrange
-        var sut = AbsoluteValue<FakeAbsoluteUnits>.From(10.0);
+        var sut = AbsoluteValue.From(10.0, new FakeAbsoluteUnits());
 
         // Act
         var stringRepresentation = sut.ToString();

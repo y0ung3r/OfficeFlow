@@ -178,7 +178,7 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
                 
                 ExactSpacing exactSpacing => new XAttribute(
                     OpenXmlNamespaces.Word + spacingProperty.Key, 
-                    exactSpacing.Value.To<Twips>().Raw),
+                    exactSpacing.Value.To(AbsoluteUnits.Twips).Raw),
                 
                 _ => null
             };

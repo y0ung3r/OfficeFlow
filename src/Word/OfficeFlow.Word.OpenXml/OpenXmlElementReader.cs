@@ -188,7 +188,7 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
 
             spacingProperty.Value.Invoke(
                 ParagraphSpacing.Exactly(
-                    exactSpacingXml.Value.As<Twips>()));
+                    exactSpacingXml.Value.ToUnits(AbsoluteUnits.Twips)));
         }
     }
 
