@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using Xunit;
 

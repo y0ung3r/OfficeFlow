@@ -1,5 +1,5 @@
 using OfficeFlow.DocumentObjectModel;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting.Enums;
 using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word.Core.Elements.Paragraphs.Text;

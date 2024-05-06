@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using OfficeFlow.DocumentObjectModel;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Interfaces;
 

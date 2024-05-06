@@ -1,8 +1,8 @@
 ﻿using System;
 using OfficeFlow.MeasureUnits.Absolute;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing.Interfaces;
 
-namespace OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+namespace OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 
 public sealed class ExactSpacing : IParagraphSpacing, ILineSpacing, IEquatable<ExactSpacing>
 {

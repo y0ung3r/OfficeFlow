@@ -1,9 +1,9 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
 using OfficeFlow.MeasureUnits.Absolute;
-using OfficeFlow.Word.Core.Elements.Paragraphs;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 using Xunit;
 
 namespace OfficeFlow.Word.OpenXml.Tests.OpenXmlElementReaderTests;
@@ -186,6 +186,124 @@ public sealed class ParagraphFormatTests
             .And
             .Be(ParagraphSpacing.Exactly(12.0, AbsoluteUnits.Points));
     }
+    
+    [Fact]
+    public void Line_spacing_should_be_calculated_automatically_if_rule_is_not_specified()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "line", "360")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .BeOfType<MultipleSpacing>()
+            .And
+            .Be(ParagraphFormat.Default.SpacingBetweenLines);
+    }
+    
+    [Fact]
+    public void Line_spacing_should_be_calculated_automatically_if_value_is_not_specified()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "lineRule", "auto")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .BeOfType<MultipleSpacing>()
+            .And
+            .Be(ParagraphFormat.Default.SpacingBetweenLines);
+    }
+
+    [Fact]
+    public void Should_read_exact_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "lineRule", "exactly"),
+                new XAttribute(OpenXmlNamespaces.Word + "line", "360")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .BeOfType<ExactSpacing>()
+            .And
+            .Be(LineSpacing.Exactly(18.0, AbsoluteUnits.Points));
+    }
+    
+    [Fact]
+    public void Should_read_at_least_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "lineRule", "atLeast"),
+                new XAttribute(OpenXmlNamespaces.Word + "line", "360")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .BeOfType<AtLeastSpacing>()
+            .And
+            .Be(LineSpacing.AtLeast(18.0, AbsoluteUnits.Points));
+    }
+    
+    [Fact]
+    public void Should_read_multiple_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var xml = new XElement(OpenXmlNamespaces.Word + "pPr",
+            new XElement(OpenXmlNamespaces.Word + "spacing",
+                new XAttribute(OpenXmlNamespaces.Word + "lineRule", "auto"),
+                new XAttribute(OpenXmlNamespaces.Word + "line", "360")));
+
+        var paragraphFormat = new ParagraphFormat();
+        var sut = new OpenXmlElementReader(xml);
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .BeOfType<MultipleSpacing>()
+            .And
+            .Be(LineSpacing.Multiple(1.5));
+    }
 
     [Fact]
     public void Should_read_keep_lines_properly()
@@ -259,6 +377,11 @@ public sealed class ParagraphFormatTests
             .SpacingAfter
             .Should()
             .Be(ParagraphFormat.Default.SpacingAfter);
+        
+        paragraphFormat
+            .SpacingBetweenLines
+            .Should()
+            .Be(ParagraphFormat.Default.SpacingBetweenLines);
 
         paragraphFormat
             .KeepLines

@@ -6,11 +6,13 @@ using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.OpenXml.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing.Interfaces;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting.Enums;
 using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word.OpenXml;
@@ -187,6 +189,27 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
                 continue;
             
             spacingXml.Add(valueXml);
+        }
+        
+        var lineSpacing = paragraphFormat.SpacingBetweenLines switch
+        {
+            ExactSpacing exactSpacing => ("exactly", exactSpacing.Value.To(AbsoluteUnits.Twips).Raw),
+            AtLeastSpacing atLeastSpacing => ("atLeast", atLeastSpacing.Value.To(AbsoluteUnits.Twips).Raw),
+            MultipleSpacing multipleSpacing => ("auto", multipleSpacing.Factor * 240.0),
+            _ => default((string RuleName, double Twips)?)
+        };
+
+        if (lineSpacing is not null)
+        {
+            var lineRuleXml = new XAttribute(
+                OpenXmlNamespaces.Word + "lineRule",
+                lineSpacing.Value.RuleName);
+        
+            var lineXml = new XAttribute(
+                OpenXmlNamespaces.Word + "line", 
+                lineSpacing.Value.Twips);
+            
+            spacingXml.Add(lineRuleXml, lineXml);
         }
         
         if (!spacingXml.HasAttributes)
