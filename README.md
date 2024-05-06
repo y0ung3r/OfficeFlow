@@ -56,15 +56,16 @@ Implementation Dashboard
         - [x] Alignment
           - [x] Horizontal 
           - [x] Vertical (Text alignment)
-        - [ ] Spacing 
+        - [x] Spacing 
           - [x] Before paragraph
           - [x] After paragraph
-          - [ ] Between lines
+          - [x] Between lines
         - [ ] Indentation
           - [ ] From left
           - [ ] From right
           - [ ] Hanging
           - [ ] For first line
+        - [ ] ...
       - [ ] Run (Text Range)
         - [x] Line break
         - [x] Text
@@ -80,15 +81,12 @@ Implementation Dashboard
           - [ ] Text color
           - [ ] Borders
           - [ ] Fonts
-          - [ ] Spacing 
-- [ ] Open XML Format support
-  - [ ] Word
-  - [ ] Excel
-  - [ ] PowerPoint
-- [ ] Binary Format support
-  - [ ] Word
-  - [ ] Excel
-  - [ ] PowerPoint
+          - [ ] Spacing
+        - [ ] ...
+      - [ ] ...
+    - [ ] ...
+  - [ ] ...
+- [ ] ... 
 - [ ] Other
   - [ ] Conversion to PDF
   - [ ] Documentation
