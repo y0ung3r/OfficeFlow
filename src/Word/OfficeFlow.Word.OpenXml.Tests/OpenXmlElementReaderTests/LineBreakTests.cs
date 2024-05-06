@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting.Enums;
 using Xunit;
 
 namespace OfficeFlow.Word.OpenXml.Tests.OpenXmlElementReaderTests;

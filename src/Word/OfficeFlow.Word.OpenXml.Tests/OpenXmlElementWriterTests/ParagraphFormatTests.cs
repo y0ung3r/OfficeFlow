@@ -2,9 +2,9 @@
 using FluentAssertions;
 using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.TestFramework.Extensions;
-using OfficeFlow.Word.Core.Elements.Paragraphs;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 using Xunit;
 
 namespace OfficeFlow.Word.OpenXml.Tests.OpenXmlElementWriterTests;
@@ -260,7 +260,6 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
             .HaveName(OpenXmlNamespaces.Word + "pPr")
             .And
             .HaveElement(OpenXmlNamespaces.Word + "spacing")
@@ -269,6 +268,90 @@ public sealed class ParagraphFormatTests
             .HaveAttribute(OpenXmlNamespaces.Word + "before", "0")
             .And
             .HaveAttribute(OpenXmlNamespaces.Word + "after", "240");
+    }
+
+    [Fact]
+    public void Should_write_exact_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            SpacingBetweenLines = LineSpacing.Exactly(value: 36, AbsoluteUnits.Points)
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "lineRule", "exactly")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "line", "720");
+    }
+    
+    [Fact]
+    public void Should_write_at_least_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            SpacingBetweenLines = LineSpacing.AtLeast(value: 36, AbsoluteUnits.Points)
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "lineRule", "atLeast")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "line", "720");
+    }
+    
+    [Fact]
+    public void Should_write_multiple_value_of_line_spacing_properly()
+    {
+        // Arrange
+        var sut = new OpenXmlElementWriter(
+            new XElement(OpenXmlNamespaces.Word + "pPr"));
+
+        var paragraphFormat = new ParagraphFormat
+        {
+            SpacingBetweenLines = LineSpacing.Multiple(factor: 3.0)
+        };
+        
+        // Act
+        sut.Visit(paragraphFormat);
+        
+        // Assert
+        sut.Xml
+            .Should()
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "lineRule", "auto")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "line", "720");
     }
 
     [Fact]

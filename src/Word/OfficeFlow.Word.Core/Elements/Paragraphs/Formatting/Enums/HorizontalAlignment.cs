@@ -1,4 +1,4 @@
-﻿namespace OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
+﻿namespace OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Enums;
 
 public enum HorizontalAlignment
 {

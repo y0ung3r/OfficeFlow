@@ -1,10 +1,19 @@
 ﻿using OfficeFlow.MeasureUnits.Absolute;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing.Interfaces;
 
-namespace OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+namespace OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 
 public static class LineSpacing
 {
+    public static readonly ILineSpacing Single
+        = Multiple(factor: 1.0);
+
+    public static readonly ILineSpacing OneAndHalf
+        = Multiple(factor: 1.5);
+    
+    public static readonly ILineSpacing Double
+        = Multiple(factor: 2.0);
+    
     public static ILineSpacing Exactly<TUnits>(AbsoluteValue<TUnits> value)
         where TUnits : AbsoluteUnits, new()
         => new ExactSpacing(
@@ -25,6 +34,7 @@ public static class LineSpacing
         => AtLeast(
             AbsoluteValue.From(value, units));
     
-    public static readonly ILineSpacing Auto
-        = new AutoSpacing();
+    // TODO[#11]: Design relative measurement units
+    public static ILineSpacing Multiple(double factor)
+        => new MultipleSpacing(factor);
 }

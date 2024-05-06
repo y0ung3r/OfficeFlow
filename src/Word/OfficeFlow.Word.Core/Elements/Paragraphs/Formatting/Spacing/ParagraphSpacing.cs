@@ -1,7 +1,7 @@
 ﻿using OfficeFlow.MeasureUnits.Absolute;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing.Interfaces;
 
-namespace OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
+namespace OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 
 public static class ParagraphSpacing
 {

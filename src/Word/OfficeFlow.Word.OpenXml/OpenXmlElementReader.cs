@@ -7,11 +7,13 @@ using OfficeFlow.MeasureUnits.Absolute;
 using OfficeFlow.MeasureUnits.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing.Interfaces;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing.Interfaces;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
-using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting;
+using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Formatting.Enums;
 using OfficeFlow.Word.Core.Interfaces;
 
 namespace OfficeFlow.Word.OpenXml;
@@ -105,7 +107,8 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
     {
         VisitHorizontalAlignment(paragraphFormat);
         VisitTextAlignment(paragraphFormat);
-        VisitSpacing(paragraphFormat);
+        VisitParagraphSpacing(paragraphFormat);
+        VisitLineSpacing(paragraphFormat);
         VisitKeepLines(paragraphFormat);
         VisitKeepNext(paragraphFormat);
     }
@@ -155,7 +158,7 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
         paragraphFormat.TextAlignment = textAlignment.Value;
     }
 
-    private void VisitSpacing(ParagraphFormat paragraphFormat)
+    private void VisitParagraphSpacing(ParagraphFormat paragraphFormat)
     {
         var spacingProperties = new Dictionary<string, Func<IParagraphSpacing, IParagraphSpacing>>
         {
@@ -192,6 +195,40 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
         }
     }
 
+    private void VisitLineSpacing(ParagraphFormat paragraphFormat)
+    {
+        var spacingXml = xml.Element(OpenXmlNamespaces.Word + "spacing");
+        
+        if (spacingXml is null)
+            return;
+        
+        var lineRuleXml = spacingXml
+            .Attribute(OpenXmlNamespaces.Word + "lineRule");
+        
+        var lineXml = spacingXml
+            .Attribute(OpenXmlNamespaces.Word + "line");
+        
+        if (lineRuleXml is null || lineXml is null)
+            return;
+
+        var twips = lineXml
+            .Value
+            .ToUnits(AbsoluteUnits.Twips);
+
+        var spacingBetweenLines = lineRuleXml.Value switch
+        {
+            "auto" => LineSpacing.Multiple(twips.Raw / 240.0),
+            "exactly" => LineSpacing.Exactly(twips.Raw, AbsoluteUnits.Twips),
+            "atLeast" => LineSpacing.AtLeast(twips.Raw, AbsoluteUnits.Twips),
+            _ => null
+        };
+        
+        if (spacingBetweenLines is null)
+            return;
+
+        paragraphFormat.SpacingBetweenLines = spacingBetweenLines;
+    }
+    
     private void VisitKeepLines(ParagraphFormat paragraphFormat)
     {
         var keepLinesXml = 
