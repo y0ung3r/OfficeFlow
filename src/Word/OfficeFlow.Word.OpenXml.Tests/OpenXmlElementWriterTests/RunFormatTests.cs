@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
 using Xunit;
@@ -12,9 +13,6 @@ public sealed class RunFormatTests
     public void Should_write_italic_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr",
-            new XElement(OpenXmlNamespaces.Word + "i"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -29,15 +27,15 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "i");
     }
 
     [Fact]
     public void Default_value_of_italic_should_not_be_written()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -52,16 +50,18 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty();
     }
     
     [Fact]
     public void Should_write_bold_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr",
-            new XElement(OpenXmlNamespaces.Word + "b"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -76,15 +76,15 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "b");
     }
 
     [Fact]
     public void Default_value_of_bold_should_not_be_written()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -99,16 +99,18 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty();
     }
     
     [Fact]
     public void Should_write_hidden_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr",
-            new XElement(OpenXmlNamespaces.Word + "vanish"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -123,15 +125,15 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "vanish");
     }
 
     [Fact]
     public void Default_value_of_hidden_should_not_be_written()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -146,7 +148,12 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty();
     }
 
     [Theory]
@@ -155,9 +162,6 @@ public sealed class RunFormatTests
     public void Should_write_strikethrough_type_properly(string expectedStrikethroughType, StrikethroughType actualStrikethroughType)
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr",
-            new XElement(OpenXmlNamespaces.Word + expectedStrikethroughType));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -172,15 +176,15 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + expectedStrikethroughType);
     }
     
     [Fact]
     public void Default_value_of_strikethrough_type_should_not_be_written()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "rPr");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "rPr"));
 
@@ -195,6 +199,11 @@ public sealed class RunFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "rPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty();
     }
 }

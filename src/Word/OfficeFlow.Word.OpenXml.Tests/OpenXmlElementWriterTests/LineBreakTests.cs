@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text.Enums;
 using Xunit;
@@ -14,9 +15,6 @@ public sealed class LineBreakTests
     public void Should_write_line_break_type_properly(string expectedType, LineBreakType actualType)
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "br",
-            new XAttribute(OpenXmlNamespaces.Word + "type", expectedType));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "br"));
 
@@ -31,15 +29,15 @@ public sealed class LineBreakTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "br")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "type", expectedType);
     }
 
     [Fact]
     public void Default_value_of_break_type_should_not_be_written()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "br");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "br"));
 
@@ -54,6 +52,11 @@ public sealed class LineBreakTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "br")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty();
     }
 }

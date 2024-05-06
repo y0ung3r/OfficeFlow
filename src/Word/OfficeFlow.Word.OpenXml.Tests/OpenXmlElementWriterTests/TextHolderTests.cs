@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using Xunit;
 
@@ -11,8 +12,6 @@ public sealed class TextHolderTests
     public void Should_write_text_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t", "Text");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "t"));
 
@@ -24,7 +23,9 @@ public sealed class TextHolderTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "t")
+            .And
+            .HaveValue("Text");
     }
 
     
@@ -35,17 +36,13 @@ public sealed class TextHolderTests
     [InlineData("Text    ")]
     [InlineData("Te xt")]
     [InlineData("Te     xt")]
-    public void Should_preserve_spaces(string text)
+    public void Should_preserve_spaces(string expectedText)
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t",
-            new XAttribute(XNamespace.Xml + "space", "preserve"),
-            text);
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "t"));
 
-        var textHolder = new TextHolder(text);
+        var textHolder = new TextHolder(expectedText);
         
         // Act
         sut.Visit(textHolder);
@@ -53,21 +50,23 @@ public sealed class TextHolderTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "t")
+            .And
+            .HaveAttribute(XNamespace.Xml + "space", "preserve")
+            .And
+            .HaveValue(expectedText);
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Should_not_write_when_value_is_empty_or_null(string? text)
+    public void Should_not_write_when_value_is_empty_or_null(string? expectedText)
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "t");
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "t"));
 
-        var textHolder = new TextHolder(text!);
+        var textHolder = new TextHolder(expectedText!);
         
         // Act
         sut.Visit(textHolder);
@@ -75,6 +74,16 @@ public sealed class TextHolderTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "t")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .BeEmpty()
+            .And
+            .Subject
+            .Attributes()
+            .Should()
+            .BeEmpty();
     }
 }
