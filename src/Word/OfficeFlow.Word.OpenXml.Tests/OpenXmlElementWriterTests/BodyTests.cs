@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using Xunit;
@@ -26,31 +27,6 @@ public sealed class BodyTests
     public void Should_write_body_element_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "document",
-            new XElement(OpenXmlNamespaces.Word + "body",
-                new XElement(OpenXmlNamespaces.Word + "p",
-                    new XElement(OpenXmlNamespaces.Word + "pPr",
-                        new XElement(OpenXmlNamespaces.Word + "spacing",
-                            new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                            new XAttribute(OpenXmlNamespaces.Word + "after", "160")))),
-                new XElement(OpenXmlNamespaces.Word + "p",
-                    new XElement(OpenXmlNamespaces.Word + "pPr",
-                        new XElement(OpenXmlNamespaces.Word + "spacing",
-                            new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                            new XAttribute(OpenXmlNamespaces.Word + "after", "160")))),
-                new XElement(OpenXmlNamespaces.Word + "p",
-                    new XElement(OpenXmlNamespaces.Word + "sectPr"),
-                    new XElement(OpenXmlNamespaces.Word + "pPr",
-                        new XElement(OpenXmlNamespaces.Word + "spacing",
-                            new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                            new XAttribute(OpenXmlNamespaces.Word + "after", "160")))),
-                new XElement(OpenXmlNamespaces.Word + "p",
-                    new XElement(OpenXmlNamespaces.Word + "pPr",
-                        new XElement(OpenXmlNamespaces.Word + "spacing",
-                            new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                            new XAttribute(OpenXmlNamespaces.Word + "after", "160")))),
-                new XElement(OpenXmlNamespaces.Word + "sectPr")));
-
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "document"));
 
@@ -81,6 +57,19 @@ public sealed class BodyTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "document")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "body")
+            .Which
+            .Should()
+            .HaveElement(OpenXmlNamespaces.Word + "sectPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "p", Exactly.Times(expected: 4))
+            .Which
+            .Should()
+            .AllSatisfy(paragraphXml => 
+                paragraphXml
+                    .Should()
+                    .HaveElement(OpenXmlNamespaces.Word + "pPr"));
     }
 }

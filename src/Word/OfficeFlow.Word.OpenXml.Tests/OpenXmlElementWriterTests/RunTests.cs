@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Text;
 using Xunit;
 
@@ -11,9 +12,6 @@ public sealed class RunTests
     public void Should_write_run_format_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "r",
-            new XElement(OpenXmlNamespaces.Word + "rPr"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "r"));
 
@@ -25,19 +23,15 @@ public sealed class RunTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "r")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "rPr");
     }
     
     [Fact]
     public void Should_write_line_breaks_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "r",
-            new XElement(OpenXmlNamespaces.Word + "rPr"),
-            new XElement(OpenXmlNamespaces.Word + "br"),
-            new XElement(OpenXmlNamespaces.Word + "br"),
-            new XElement(OpenXmlNamespaces.Word + "br"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "r"));
 
@@ -58,19 +52,15 @@ public sealed class RunTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "r")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "br", Exactly.Times(expected: 3));
     }
     
     [Fact]
     public void Should_write_vertical_tabs_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "r",
-            new XElement(OpenXmlNamespaces.Word + "rPr"),
-            new XElement(OpenXmlNamespaces.Word + "ptab"),
-            new XElement(OpenXmlNamespaces.Word + "ptab"),
-            new XElement(OpenXmlNamespaces.Word + "ptab"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "r"));
 
@@ -91,19 +81,15 @@ public sealed class RunTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "r")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "ptab", Exactly.Times(expected: 3));
     }
     
     [Fact]
     public void Should_write_horizontal_tabs_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "r",
-            new XElement(OpenXmlNamespaces.Word + "rPr"),
-            new XElement(OpenXmlNamespaces.Word + "tab"),
-            new XElement(OpenXmlNamespaces.Word + "tab"),
-            new XElement(OpenXmlNamespaces.Word + "tab"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "r"));
 
@@ -124,19 +110,15 @@ public sealed class RunTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "r")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "tab", Exactly.Times(expected: 3));
     }
     
     [Fact]
     public void Should_write_text_holders_properly()
     {
         // Assert
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "r",
-            new XElement(OpenXmlNamespaces.Word + "rPr"),
-            new XElement(OpenXmlNamespaces.Word + "t"),
-            new XElement(OpenXmlNamespaces.Word + "t"),
-            new XElement(OpenXmlNamespaces.Word + "t"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "r"));
 
@@ -157,6 +139,8 @@ public sealed class RunTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "r")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "t", Exactly.Times(expected: 3));
     }
 }

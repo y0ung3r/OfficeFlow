@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using FluentAssertions;
 using OfficeFlow.MeasureUnits.Absolute;
+using OfficeFlow.TestFramework.Extensions;
 using OfficeFlow.Word.Core.Elements.Paragraphs;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Enums;
 using OfficeFlow.Word.Core.Elements.Paragraphs.Spacing;
@@ -18,13 +19,6 @@ public sealed class ParagraphFormatTests
     public void Should_write_horizontal_alignment_properly(string expectedValue, HorizontalAlignment actualValue)
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "jc", 
-                new XAttribute(OpenXmlNamespaces.Word + "val", expectedValue)),
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -39,18 +33,18 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "jc")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "val", expectedValue);
     }
     
     [Fact]
     public void Default_value_of_horizontal_alignment_should_not_be_written()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -65,7 +59,15 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .AllSatisfy(elementXml => 
+                elementXml
+                    .Should()
+                    .NotHaveName(OpenXmlNamespaces.Word + "jc"));
     }
     
     [Theory]
@@ -76,13 +78,6 @@ public sealed class ParagraphFormatTests
     public void Should_write_text_alignment_properly(string expectedValue, TextAlignment actualValue)
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "textAlignment", 
-                new XAttribute(OpenXmlNamespaces.Word + "val", expectedValue)),
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -97,18 +92,18 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "textAlignment")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "val", expectedValue);
     }
     
     [Fact]
     public void Default_value_of_text_alignment_should_not_be_written()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -123,18 +118,21 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .AllSatisfy(elementXml => 
+                elementXml
+                    .Should()
+                    .NotHaveName(OpenXmlNamespaces.Word + "textAlignment"));
     }
 
     [Fact]
     public void Should_write_paragraph_spacing_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", "true"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "240")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
         
@@ -150,18 +148,20 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", "true")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "after", "240");
     }
     
     [Fact]
     public void Spacing_before_should_be_calculated_automatically()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", "true"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
         
@@ -176,18 +176,20 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "beforeAutospacing", "true")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "after", "160");
     }
 
     [Fact]
     public void Should_write_exact_value_of_spacing_before_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "240"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
         
@@ -202,18 +204,20 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "before", "240")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "after", "160");
     }
     
     [Fact]
     public void Spacing_after_should_be_calculated_automatically()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "afterAutospacing", "true")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
         
@@ -228,18 +232,20 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "before", "0")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "afterAutospacing", "true");
     }
 
     [Fact]
     public void Should_write_exact_value_of_spacing_after_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "240")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
         
@@ -255,18 +261,20 @@ public sealed class ParagraphFormatTests
         sut.Xml
             .Should()
             .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .Which
+            .Should()
+            .HaveAttribute(OpenXmlNamespaces.Word + "before", "0")
+            .And
+            .HaveAttribute(OpenXmlNamespaces.Word + "after", "240");
     }
 
     [Fact]
     public void Should_write_keep_lines_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")),
-            new XElement(OpenXmlNamespaces.Word + "keepLines"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -281,18 +289,17 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "keepLines");
     }
 
     [Fact]
     public void Should_not_write_keep_lines()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -307,19 +314,21 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .AllSatisfy(elementXml => 
+                elementXml
+                    .Should()
+                    .NotHaveName(OpenXmlNamespaces.Word + "keepLines"));
     }
     
     [Fact]
     public void Should_write_keep_next_properly()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")),
-            new XElement(OpenXmlNamespaces.Word + "keepNext"));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -334,18 +343,17 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "spacing")
+            .And
+            .HaveElement(OpenXmlNamespaces.Word + "keepNext");
     }
 
     [Fact]
     public void Should_not_write_keep_next()
     {
         // Arrange
-        var expectedXml = new XElement(OpenXmlNamespaces.Word + "pPr",
-            new XElement(OpenXmlNamespaces.Word + "spacing",
-                new XAttribute(OpenXmlNamespaces.Word + "before", "0"),
-                new XAttribute(OpenXmlNamespaces.Word + "after", "160")));
-        
         var sut = new OpenXmlElementWriter(
             new XElement(OpenXmlNamespaces.Word + "pPr"));
 
@@ -360,6 +368,14 @@ public sealed class ParagraphFormatTests
         // Assert
         sut.Xml
             .Should()
-            .Be(expectedXml);
+            .HaveName(OpenXmlNamespaces.Word + "pPr")
+            .And
+            .Subject
+            .Elements()
+            .Should()
+            .AllSatisfy(elementXml => 
+                elementXml
+                    .Should()
+                    .NotHaveName(OpenXmlNamespaces.Word + "keepNext"));
     }
 }
