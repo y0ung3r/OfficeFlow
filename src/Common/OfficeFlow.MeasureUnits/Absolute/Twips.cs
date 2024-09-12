@@ -2,7 +2,7 @@
 
 public sealed class Twips : AbsoluteUnits
 {
-    /// <inheritdoc />
-    internal override double Ratio
-        => ConversionRatios.Twips;
+    internal Twips() 
+        : base(ConversionRatios.Twips)
+    { }
 }

@@ -5,13 +5,13 @@ namespace OfficeFlow.Word.Core.Elements.Paragraphs.Formatting.Spacing;
 
 public static class ParagraphSpacing
 {
-    public static IParagraphSpacing Exactly<TUnits>(AbsoluteValue<TUnits> value)
-        where TUnits : AbsoluteUnits, new()
+    public static IParagraphSpacing Exactly<TUnits>(in AbsoluteValue<TUnits> value)
+        where TUnits : AbsoluteUnits
         => new ExactSpacing(
             value.To(AbsoluteUnits.Points));
 
     public static IParagraphSpacing Exactly<TUnits>(double value, TUnits units)
-        where TUnits : AbsoluteUnits, new()
+        where TUnits : AbsoluteUnits
         => Exactly(
             AbsoluteValue.From(value, units));
     

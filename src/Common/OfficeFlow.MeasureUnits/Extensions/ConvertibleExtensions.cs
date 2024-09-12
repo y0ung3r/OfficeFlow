@@ -7,7 +7,7 @@ namespace OfficeFlow.MeasureUnits.Extensions;
 public static class ConvertibleExtensions
 {
     public static AbsoluteValue<TUnits> ToUnits<TUnits>(this IConvertible convertible, TUnits units)
-        where TUnits : AbsoluteUnits, new()
+        where TUnits : AbsoluteUnits
     {
         var value = convertible.ToDouble(CultureInfo.InvariantCulture);
         return AbsoluteValue.From(value, units);

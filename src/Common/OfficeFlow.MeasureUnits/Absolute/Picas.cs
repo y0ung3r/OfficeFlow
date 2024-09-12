@@ -2,6 +2,7 @@
 
 public sealed class Picas : AbsoluteUnits
 {
-    internal override double Ratio
-        => ConversionRatios.Picas;
+    internal Picas() 
+        : base(ConversionRatios.Picas)
+    { }
 }

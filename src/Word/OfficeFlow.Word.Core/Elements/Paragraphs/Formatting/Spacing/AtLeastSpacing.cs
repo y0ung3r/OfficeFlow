@@ -8,7 +8,7 @@ public sealed class AtLeastSpacing : ILineSpacing, IEquatable<AtLeastSpacing>
 {
     public AbsoluteValue<Points> Value { get; }
     
-    internal AtLeastSpacing(AbsoluteValue<Points> value)
+    internal AtLeastSpacing(in AbsoluteValue<Points> value)
         => Value = value;
     
     public bool Equals(AtLeastSpacing? other)

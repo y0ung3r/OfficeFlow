@@ -2,6 +2,7 @@
 
 public sealed class Inches : AbsoluteUnits
 {
-    internal override double Ratio
-        => ConversionRatios.Inches;
+    internal Inches() 
+        : base(ConversionRatios.Inches)
+    { }
 }

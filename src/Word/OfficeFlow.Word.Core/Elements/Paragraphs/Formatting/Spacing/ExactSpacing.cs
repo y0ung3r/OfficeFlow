@@ -8,7 +8,7 @@ public sealed class ExactSpacing : IParagraphSpacing, ILineSpacing, IEquatable<E
 {
     public AbsoluteValue<Points> Value { get; }
     
-    internal ExactSpacing(AbsoluteValue<Points> value)
+    internal ExactSpacing(in AbsoluteValue<Points> value)
         => Value = value;
 
     public bool Equals(ExactSpacing? other)

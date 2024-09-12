@@ -14,23 +14,23 @@ public static class LineSpacing
     public static readonly ILineSpacing Double
         = Multiple(factor: 2.0);
     
-    public static ILineSpacing Exactly<TUnits>(AbsoluteValue<TUnits> value)
-        where TUnits : AbsoluteUnits, new()
+    public static ILineSpacing Exactly<TUnits>(in AbsoluteValue<TUnits> value)
+        where TUnits : AbsoluteUnits
         => new ExactSpacing(
             value.To(AbsoluteUnits.Points));
 
     public static ILineSpacing Exactly<TUnits>(double value, TUnits units)
-        where TUnits : AbsoluteUnits, new()
+        where TUnits : AbsoluteUnits
         => Exactly(
             AbsoluteValue.From(value, units));
     
-    public static ILineSpacing AtLeast<TUnits>(AbsoluteValue<TUnits> value)
-        where TUnits : AbsoluteUnits, new()
+    public static ILineSpacing AtLeast<TUnits>(in AbsoluteValue<TUnits> value)
+        where TUnits : AbsoluteUnits
         => new AtLeastSpacing(
             value.To(AbsoluteUnits.Points));
 
     public static ILineSpacing AtLeast<TUnits>(double value, TUnits units)
-        where TUnits : AbsoluteUnits, new()
+        where TUnits : AbsoluteUnits
         => AtLeast(
             AbsoluteValue.From(value, units));
     

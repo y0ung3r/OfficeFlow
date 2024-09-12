@@ -6,12 +6,12 @@ namespace OfficeFlow.MeasureUnits.Absolute;
 public static class AbsoluteValue
 {
     public static AbsoluteValue<TUnits> From<TUnits>(double value, TUnits units) 
-        where TUnits : AbsoluteUnits, new()
+        where TUnits : AbsoluteUnits
         => AbsoluteValue<TUnits>.From(value, units);
 }
 
-public sealed class AbsoluteValue<TUnits> : IEquatable<AbsoluteValue<TUnits>>
-    where TUnits : AbsoluteUnits, new()
+public readonly struct AbsoluteValue<TUnits> : IEquatable<AbsoluteValue<TUnits>?>
+    where TUnits : AbsoluteUnits
 {
     internal static AbsoluteValue<TUnits> From(double value, TUnits units)
         => new(value, units);
@@ -27,12 +27,10 @@ public sealed class AbsoluteValue<TUnits> : IEquatable<AbsoluteValue<TUnits>>
     }
     
     public AbsoluteValue<TTargetUnits> To<TTargetUnits>(TTargetUnits targetUnits)
-        where TTargetUnits : AbsoluteUnits, new()
+        where TTargetUnits : AbsoluteUnits
     {
-        if (Units is TTargetUnits)
-        {
-            return AbsoluteValue.From(Raw, targetUnits);
-        }
+        if (this is AbsoluteValue<TTargetUnits> value)
+            return value;
 
         var emu = Units.ToEmu(Raw);
         var convertedValue = targetUnits.FromEmu(emu);
@@ -42,7 +40,7 @@ public sealed class AbsoluteValue<TUnits> : IEquatable<AbsoluteValue<TUnits>>
     
     /// <inheritdoc />
     public bool Equals(AbsoluteValue<TUnits>? other)
-        => other is not null && Raw.Equals(other.Raw) && Units.Equals(other.Units);
+        => other is not null && Raw.Equals(other.Value.Raw) && Units.Equals(other.Value.Units);
 
     /// <inheritdoc />
     public override bool Equals(object? other)

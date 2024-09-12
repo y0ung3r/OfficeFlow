@@ -2,6 +2,7 @@
 
 public sealed class HalfPoints : AbsoluteUnits
 {
-    internal override double Ratio
-        => ConversionRatios.HalfPoints;
+    internal HalfPoints() 
+        : base(ConversionRatios.HalfPoints)
+    { }
 }

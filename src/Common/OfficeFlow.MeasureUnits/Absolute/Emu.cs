@@ -5,6 +5,7 @@
 /// </summary>
 public sealed class Emu : AbsoluteUnits
 {
-    internal override double Ratio
-        => ConversionRatios.Emu;
+    internal Emu() 
+        : base(ConversionRatios.Emu)
+    { }
 }

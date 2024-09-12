@@ -27,13 +27,16 @@ public abstract class AbsoluteUnits : IEquatable<AbsoluteUnits>
 
     public static readonly Twips Twips 
         = new();
+    
+    internal double Ratio { get; }
 
-    internal abstract double Ratio { get; }
+    protected AbsoluteUnits(double ratio)
+        => Ratio = ratio;
 
     internal AbsoluteValue<Emu> ToEmu(double value)
         => AbsoluteValue.From(value * Ratio, Emu);
 
-    internal double FromEmu(AbsoluteValue<Emu> emu)
+    internal double FromEmu(in AbsoluteValue<Emu> emu)
         => emu.Raw / Ratio;
 
     /// <inheritdoc />
