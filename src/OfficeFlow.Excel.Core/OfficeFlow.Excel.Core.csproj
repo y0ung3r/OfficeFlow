@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\OfficeFlow.Formats\OfficeFlow.Formats.csproj"/>
+        <ProjectReference Include="..\..\src\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj"/>
+        <ProjectReference Include="..\..\src\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Excel.Core.Tests"/>
+    </ItemGroup>
+
+</Project>

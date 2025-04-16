@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word", "src\Word\OfficeFlow.Word\OfficeFlow.Word.csproj", "{07930673-F733-4620-A786-98E2426B41D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word", "src\OfficeFlow.Word\OfficeFlow.Word.csproj", "{07930673-F733-4620-A786-98E2426B41D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.OpenXml", "src\Word\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj", "{F526E8F5-73C3-4CF7-87C8-A8938824F306}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.OpenXml", "src\OfficeFlow.Word.OpenXml\OfficeFlow.Word.OpenXml.csproj", "{F526E8F5-73C3-4CF7-87C8-A8938824F306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Binary", "src\Word\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj", "{193952E2-FFAE-4C7C-98AA-31283FB85F55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Binary", "src\OfficeFlow.Word.Binary\OfficeFlow.Word.Binary.csproj", "{193952E2-FFAE-4C7C-98AA-31283FB85F55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.DocumentObjectModel", "src\Common\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj", "{936A1EC6-104C-44BA-88DB-B84E0AB41A89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.DocumentObjectModel", "src\OfficeFlow.DocumentObjectModel\OfficeFlow.DocumentObjectModel.csproj", "{936A1EC6-104C-44BA-88DB-B84E0AB41A89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Word", "Word", "{E91C2EBB-7DAD-4549-B92E-F2F200A6313D}"
 EndProject
@@ -14,19 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0BA7BA7C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{74DC46E5-E750-4767-B6C7-5DD27CD5A916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.DocumentObjectModel.Tests", "src\Common\OfficeFlow.DocumentObjectModel.Tests\OfficeFlow.DocumentObjectModel.Tests.csproj", "{A2B8F4A6-8D2D-4F3C-833A-753F2AD27990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.DocumentObjectModel.Tests", "tests\OfficeFlow.DocumentObjectModel.Tests\OfficeFlow.DocumentObjectModel.Tests.csproj", "{A2B8F4A6-8D2D-4F3C-833A-753F2AD27990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Tests", "src\Word\OfficeFlow.Word.Tests\OfficeFlow.Word.Tests.csproj", "{508299B6-0DCA-4129-B8B5-8EC2C65EEC05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Tests", "tests\OfficeFlow.Word.Tests\OfficeFlow.Word.Tests.csproj", "{508299B6-0DCA-4129-B8B5-8EC2C65EEC05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Binary.Tests", "src\Word\OfficeFlow.Word.Binary.Tests\OfficeFlow.Word.Binary.Tests.csproj", "{B3592DEF-999C-4579-A34C-33ECB2B1C7D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Binary.Tests", "tests\OfficeFlow.Word.Binary.Tests\OfficeFlow.Word.Binary.Tests.csproj", "{B3592DEF-999C-4579-A34C-33ECB2B1C7D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.OpenXml.Tests", "src\Word\OfficeFlow.Word.OpenXml.Tests\OfficeFlow.Word.OpenXml.Tests.csproj", "{1664D379-1268-4DC9-AE86-0C14990F8385}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.OpenXml.Tests", "tests\OfficeFlow.Word.OpenXml.Tests\OfficeFlow.Word.OpenXml.Tests.csproj", "{1664D379-1268-4DC9-AE86-0C14990F8385}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F1255BAA-7968-4ACB-A912-F26ED662E9DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.MeasureUnits", "src\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj", "{108184D3-EE1F-4B6F-8877-DAF16BBD9C94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.MeasureUnits", "src\Common\OfficeFlow.MeasureUnits\OfficeFlow.MeasureUnits.csproj", "{108184D3-EE1F-4B6F-8877-DAF16BBD9C94}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.MeasureUnits.Tests", "src\Common\OfficeFlow.MeasureUnits.Tests\OfficeFlow.MeasureUnits.Tests.csproj", "{6EF0A784-0599-4739-9231-AB2B30AC1BC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.MeasureUnits.Tests", "tests\OfficeFlow.MeasureUnits.Tests\OfficeFlow.MeasureUnits.Tests.csproj", "{6EF0A784-0599-4739-9231-AB2B30AC1BC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{015470CC-5AFB-411C-9B48-95BCE1B0F545}"
 EndProject
@@ -43,63 +41,63 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Formats", "src\Common\OfficeFlow.Formats\OfficeFlow.Formats.csproj", "{C32D693B-4E15-4C9E-BB8B-1C0D110D5A40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Formats", "src\OfficeFlow.Formats\OfficeFlow.Formats.csproj", "{C32D693B-4E15-4C9E-BB8B-1C0D110D5A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.OpenXml", "src\Common\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj", "{2610A1BD-3379-4596-9EEB-F2A49821548A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.OpenXml", "src\OfficeFlow.OpenXml\OfficeFlow.OpenXml.csproj", "{2610A1BD-3379-4596-9EEB-F2A49821548A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.OpenXml.Tests", "src\Common\OfficeFlow.OpenXml.Tests\OfficeFlow.OpenXml.Tests.csproj", "{69D0F3C5-060F-4650-9F09-EE6D208F1000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.OpenXml.Tests", "tests\OfficeFlow.OpenXml.Tests\OfficeFlow.OpenXml.Tests.csproj", "{69D0F3C5-060F-4650-9F09-EE6D208F1000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Core", "src\Word\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj", "{88793A60-E731-4FE0-8207-FDC55909BC2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Core", "src\OfficeFlow.Word.Core\OfficeFlow.Word.Core.csproj", "{88793A60-E731-4FE0-8207-FDC55909BC2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Core.Tests", "src\Word\OfficeFlow.Word.Core.Tests\OfficeFlow.Word.Core.Tests.csproj", "{08257C43-E378-4BD5-BCED-686437188096}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Word.Core.Tests", "tests\OfficeFlow.Word.Core.Tests\OfficeFlow.Word.Core.Tests.csproj", "{08257C43-E378-4BD5-BCED-686437188096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Formats.Tests", "src\Common\OfficeFlow.Formats.Tests\OfficeFlow.Formats.Tests.csproj", "{2D77422F-6045-4660-B986-22FF886704A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Formats.Tests", "tests\OfficeFlow.Formats.Tests\OfficeFlow.Formats.Tests.csproj", "{2D77422F-6045-4660-B986-22FF886704A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.TestFramework", "src\Common\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj", "{47281410-878E-4F8F-9D08-B8DDCFB1E271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.TestFramework", "tests\OfficeFlow.TestFramework\OfficeFlow.TestFramework.csproj", "{47281410-878E-4F8F-9D08-B8DDCFB1E271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Binary", "src\Common\OfficeFlow.Binary\OfficeFlow.Binary.csproj", "{10834D08-DE43-49E2-816A-FD3038E5AD34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Binary", "src\OfficeFlow.Binary\OfficeFlow.Binary.csproj", "{10834D08-DE43-49E2-816A-FD3038E5AD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Binary.Tests", "src\Common\OfficeFlow.Binary.Tests\OfficeFlow.Binary.Tests.csproj", "{BB70AF5E-927D-4916-BDF0-C8343B22E263}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Binary.Tests", "tests\OfficeFlow.Binary.Tests\OfficeFlow.Binary.Tests.csproj", "{BB70AF5E-927D-4916-BDF0-C8343B22E263}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Excel", "Excel", "{76152B59-CC78-49E6-8543-17D7E617FA77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel", "src\Excel\OfficeFlow.Excel\OfficeFlow.Excel.csproj", "{8484AFD8-959A-420D-99E0-5DAAAEA6C1A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel", "src\OfficeFlow.Excel\OfficeFlow.Excel.csproj", "{8484AFD8-959A-420D-99E0-5DAAAEA6C1A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Binary", "src\Excel\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj", "{07B58AEF-2A0B-4592-B861-506C25419112}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Binary", "src\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj", "{07B58AEF-2A0B-4592-B861-506C25419112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.OpenXml", "src\Excel\OfficeFlow.Excel.OpenXml\OfficeFlow.Excel.OpenXml.csproj", "{EDA04BA7-493F-43F4-A860-3E37982EE189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.OpenXml", "src\OfficeFlow.Excel.OpenXml\OfficeFlow.Excel.OpenXml.csproj", "{EDA04BA7-493F-43F4-A860-3E37982EE189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Core", "src\Excel\OfficeFlow.Excel.Core\OfficeFlow.Excel.Core.csproj", "{429301E0-6E71-4F38-A6E2-79621DF789BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Core", "src\OfficeFlow.Excel.Core\OfficeFlow.Excel.Core.csproj", "{429301E0-6E71-4F38-A6E2-79621DF789BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{632A03DC-A7A3-40AD-A18C-DF97AC58CBD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Tests", "src\Excel\OfficeFlow.Excel.Tests\OfficeFlow.Excel.Tests.csproj", "{31E2BDA0-12F8-4F2C-88D7-9A3D5FA2FF2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Tests", "tests\OfficeFlow.Excel.Tests\OfficeFlow.Excel.Tests.csproj", "{31E2BDA0-12F8-4F2C-88D7-9A3D5FA2FF2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Core.Tests", "src\Excel\OfficeFlow.Excel.Core.Tests\OfficeFlow.Excel.Core.Tests.csproj", "{0DE60794-6CDD-4482-B01B-4C74272180F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Core.Tests", "tests\OfficeFlow.Excel.Core.Tests\OfficeFlow.Excel.Core.Tests.csproj", "{0DE60794-6CDD-4482-B01B-4C74272180F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Binary.Tests", "src\Excel\OfficeFlow.Excel.Binary.Tests\OfficeFlow.Excel.Binary.Tests.csproj", "{4E2CAF6B-6D77-44F7-AD15-C2E2288B9233}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.Binary.Tests", "tests\OfficeFlow.Excel.Binary.Tests\OfficeFlow.Excel.Binary.Tests.csproj", "{4E2CAF6B-6D77-44F7-AD15-C2E2288B9233}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.OpenXml.Tests", "src\Excel\OfficeFlow.Excel.OpenXml.Tests\OfficeFlow.Excel.OpenXml.Tests.csproj", "{18C23D1A-BB57-44B9-9FC4-45D41974313B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.Excel.OpenXml.Tests", "tests\OfficeFlow.Excel.OpenXml.Tests\OfficeFlow.Excel.OpenXml.Tests.csproj", "{18C23D1A-BB57-44B9-9FC4-45D41974313B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PowerPoint", "PowerPoint", "{7952E29E-4860-4123-8122-96015EFAE0E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1B339CD1-2D45-40E0-BA2D-233D721A1EA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint", "src\PowerPoint\OfficeFlow.PowerPoint\OfficeFlow.PowerPoint.csproj", "{6B3854C2-2BFC-4395-BAF8-72AF2D54CCFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint", "src\OfficeFlow.PowerPoint\OfficeFlow.PowerPoint.csproj", "{6B3854C2-2BFC-4395-BAF8-72AF2D54CCFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Core", "src\PowerPoint\OfficeFlow.PowerPoint.Core\OfficeFlow.PowerPoint.Core.csproj", "{B0DC3EB8-4CD9-4B73-9DF3-0BEAB8CD24F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Core", "src\OfficeFlow.PowerPoint.Core\OfficeFlow.PowerPoint.Core.csproj", "{B0DC3EB8-4CD9-4B73-9DF3-0BEAB8CD24F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Binary", "src\PowerPoint\OfficeFlow.PowerPoint.Binary\OfficeFlow.PowerPoint.Binary.csproj", "{5FB35F7F-0533-4938-AA1B-2EC607952EC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Binary", "src\OfficeFlow.PowerPoint.Binary\OfficeFlow.PowerPoint.Binary.csproj", "{5FB35F7F-0533-4938-AA1B-2EC607952EC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.OpenXml", "src\PowerPoint\OfficeFlow.PowerPoint.OpenXml\OfficeFlow.PowerPoint.OpenXml.csproj", "{6ED58D74-A4A6-4364-A3E5-5307933B4473}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.OpenXml", "src\OfficeFlow.PowerPoint.OpenXml\OfficeFlow.PowerPoint.OpenXml.csproj", "{6ED58D74-A4A6-4364-A3E5-5307933B4473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Tests", "src\PowerPoint\OfficeFlow.PowerPoint.Tests\OfficeFlow.PowerPoint.Tests.csproj", "{0974869D-7250-4554-9377-FB37E0E91161}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Tests", "tests\OfficeFlow.PowerPoint.Tests\OfficeFlow.PowerPoint.Tests.csproj", "{0974869D-7250-4554-9377-FB37E0E91161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Binary.Tests", "src\PowerPoint\OfficeFlow.PowerPoint.Binary.Tests\OfficeFlow.PowerPoint.Binary.Tests.csproj", "{0C5FF81A-477B-401B-B4B4-9D3D79756382}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Binary.Tests", "tests\OfficeFlow.PowerPoint.Binary.Tests\OfficeFlow.PowerPoint.Binary.Tests.csproj", "{0C5FF81A-477B-401B-B4B4-9D3D79756382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.OpenXml.Tests", "src\PowerPoint\OfficeFlow.PowerPoint.OpenXml.Tests\OfficeFlow.PowerPoint.OpenXml.Tests.csproj", "{73EA86EC-7BD4-4D91-A084-293A5184A26D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.OpenXml.Tests", "tests\OfficeFlow.PowerPoint.OpenXml.Tests\OfficeFlow.PowerPoint.OpenXml.Tests.csproj", "{73EA86EC-7BD4-4D91-A084-293A5184A26D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Core.Tests", "src\PowerPoint\OfficeFlow.PowerPoint.Core.Tests\OfficeFlow.PowerPoint.Core.Tests.csproj", "{C6642E58-5B4B-4ADC-ABBF-BD2C07FBF915}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.PowerPoint.Core.Tests", "tests\OfficeFlow.PowerPoint.Core.Tests\OfficeFlow.PowerPoint.Core.Tests.csproj", "{C6642E58-5B4B-4ADC-ABBF-BD2C07FBF915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -257,19 +255,13 @@ Global
 		{508299B6-0DCA-4129-B8B5-8EC2C65EEC05} = {0BA7BA7C-6042-43CF-9035-367850B75D93}
 		{B3592DEF-999C-4579-A34C-33ECB2B1C7D2} = {0BA7BA7C-6042-43CF-9035-367850B75D93}
 		{1664D379-1268-4DC9-AE86-0C14990F8385} = {0BA7BA7C-6042-43CF-9035-367850B75D93}
-		{74DC46E5-E750-4767-B6C7-5DD27CD5A916} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
-		{936A1EC6-104C-44BA-88DB-B84E0AB41A89} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
-		{108184D3-EE1F-4B6F-8877-DAF16BBD9C94} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
 		{6EF0A784-0599-4739-9231-AB2B30AC1BC3} = {74DC46E5-E750-4767-B6C7-5DD27CD5A916}
 		{57851044-5244-4BE5-ABD5-8F1D618E0FEE} = {015470CC-5AFB-411C-9B48-95BCE1B0F545}
-		{2610A1BD-3379-4596-9EEB-F2A49821548A} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
 		{69D0F3C5-060F-4650-9F09-EE6D208F1000} = {74DC46E5-E750-4767-B6C7-5DD27CD5A916}
-		{C32D693B-4E15-4C9E-BB8B-1C0D110D5A40} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
 		{88793A60-E731-4FE0-8207-FDC55909BC2B} = {E91C2EBB-7DAD-4549-B92E-F2F200A6313D}
 		{08257C43-E378-4BD5-BCED-686437188096} = {0BA7BA7C-6042-43CF-9035-367850B75D93}
 		{2D77422F-6045-4660-B986-22FF886704A9} = {74DC46E5-E750-4767-B6C7-5DD27CD5A916}
 		{47281410-878E-4F8F-9D08-B8DDCFB1E271} = {74DC46E5-E750-4767-B6C7-5DD27CD5A916}
-		{10834D08-DE43-49E2-816A-FD3038E5AD34} = {F1255BAA-7968-4ACB-A912-F26ED662E9DF}
 		{BB70AF5E-927D-4916-BDF0-C8343B22E263} = {74DC46E5-E750-4767-B6C7-5DD27CD5A916}
 		{8484AFD8-959A-420D-99E0-5DAAAEA6C1A4} = {76152B59-CC78-49E6-8543-17D7E617FA77}
 		{07B58AEF-2A0B-4592-B861-506C25419112} = {76152B59-CC78-49E6-8543-17D7E617FA77}
@@ -289,5 +281,6 @@ Global
 		{0C5FF81A-477B-401B-B4B4-9D3D79756382} = {1B339CD1-2D45-40E0-BA2D-233D721A1EA9}
 		{73EA86EC-7BD4-4D91-A084-293A5184A26D} = {1B339CD1-2D45-40E0-BA2D-233D721A1EA9}
 		{C6642E58-5B4B-4ADC-ABBF-BD2C07FBF915} = {1B339CD1-2D45-40E0-BA2D-233D721A1EA9}
+		{015470CC-5AFB-411C-9B48-95BCE1B0F545} = {0BD310E9-73BE-4F3D-8349-2374AA2CC8B6}
 	EndGlobalSection
 EndGlobal

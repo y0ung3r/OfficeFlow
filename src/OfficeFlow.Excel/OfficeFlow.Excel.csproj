@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\OfficeFlow.Excel.Core\OfficeFlow.Excel.Core.csproj"/>
+        <ProjectReference Include="..\..\src\OfficeFlow.Excel.OpenXml\OfficeFlow.Excel.OpenXml.csproj"/>
+        <ProjectReference Include="..\..\src\OfficeFlow.Excel.Binary\OfficeFlow.Excel.Binary.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="OfficeFlow.Excel.Tests"/>
+    </ItemGroup>
+
+</Project>
