@@ -1,0 +1,10 @@
+<Project>
+    
+    <PropertyGroup Label="Build">
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    </PropertyGroup>
+    
+</Project>
