@@ -121,7 +121,7 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
 
         var horizontalAlignment = alignmentXml switch
         {
-            // TODO: Add support for different versions of the Open XML
+            // TODO[#13]: Add support for different versions of the Open XML
             "start" or "left" => HorizontalAlignment.Left,
             "end" or "right" => HorizontalAlignment.Right,
             "center" => HorizontalAlignment.Center,
@@ -296,7 +296,7 @@ internal sealed class OpenXmlElementReader(XElement xml) : IWordVisitor
                     break;
                 
                 case "u":
-                    // TODO: Add underline support
+                    // TODO[#7]: Add underline support
                     break;
                 
                 case "strike":

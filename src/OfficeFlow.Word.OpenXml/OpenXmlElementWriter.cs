@@ -118,7 +118,7 @@ internal sealed class OpenXmlElementWriter : IWordVisitor
 
         var value = paragraphFormat.HorizontalAlignment switch
         {
-            // TODO: Add support for different versions of the Open XML
+            // TODO[#13]: Add support for different versions of the Open XML
             HorizontalAlignment.Right => "end", // or "right"
             HorizontalAlignment.Center => "center",
             HorizontalAlignment.Both => "both",

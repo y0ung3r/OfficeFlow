@@ -34,7 +34,7 @@ public static class LineSpacing
         => AtLeast(
             AbsoluteValue.From(value, units));
     
-    // TODO[#11]: Design relative measurement units
+    // TODO[#8]: Design relative measurement units
     public static ILineSpacing Multiple(double factor)
         => new MultipleSpacing(factor);
 }

@@ -8,7 +8,7 @@ public sealed class MultipleSpacing : ILineSpacing, IEquatable<MultipleSpacing>
     private const double MinValue = 0.0;
     private const double MaxValue = 132.0;
     
-    // TODO[#11]: Design relative measurement units
+    // TODO[#8]: Design relative measurement units
     public double Factor { get; }
     
     internal MultipleSpacing(double factor)
