@@ -27,6 +27,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeFlow.MeasureUnits.Tests", "tests\OfficeFlow.MeasureUnits.Tests\OfficeFlow.MeasureUnits.Tests.csproj", "{6EF0A784-0599-4739-9231-AB2B30AC1BC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{015470CC-5AFB-411C-9B48-95BCE1B0F545}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{57851044-5244-4BE5-ABD5-8F1D618E0FEE}"
 	ProjectSection(SolutionItems) = preProject
